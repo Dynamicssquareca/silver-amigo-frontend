@@ -16,6 +16,7 @@ const FeaturedProduct = ({featureddata}) => {
                     delay: 2500,
                     disableOnInteraction: true,
                   }}
+                  
                   breakpoints={{
                     0:{
                       slidesPerView: 2,
@@ -34,7 +35,7 @@ const FeaturedProduct = ({featureddata}) => {
                       spaceBetween: 10,
                     },
                     1300: {
-                      slidesPerView: 3,
+                      slidesPerView: 4,
                       spaceBetween: 10,
                     },
                     1400: {
@@ -47,7 +48,7 @@ const FeaturedProduct = ({featureddata}) => {
                     prevEl: ".custom_prev_n",
                     nextEl: ".custom_next_n",
                 }}
-                className="custom-class"
+                className="my-swiper-containers"
             >
                     { featureddata && featureddata.map((item,i) =>(
                      <SwiperSlide key={i}>
@@ -59,7 +60,7 @@ const FeaturedProduct = ({featureddata}) => {
           
             </Swiper>
 
-            <div
+            {/* <div
                 className="slider-arrow"
             >
                 <span className="slider-btn slider-prev slick-arrow custom_prev_n">
@@ -68,7 +69,7 @@ const FeaturedProduct = ({featureddata}) => {
                 <span className="slider-btn slider-next slick-arrow custom_next_n">
                 <i className="bi bi-chevron-right"></i>
                 </span>
-            </div>
+            </div> */}
             
         </>
     );

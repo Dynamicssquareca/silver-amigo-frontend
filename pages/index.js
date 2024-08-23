@@ -28,8 +28,8 @@ export default function Home({bannerdata,homecategorydata, featuredproductdata,n
 
       <main>
         <div>
-          <section className="home-slider position-relative mb-30">
-            <div className="container">
+          <section className="home-slider position-relative">
+            <div className="container-fluid g-0">
               <div className="home-slide-cover">
                 {bannerData && bannerData.length >= 0 && (
                   <HomeBannerSlider banner={bannerData} />
@@ -38,8 +38,51 @@ export default function Home({bannerdata,homecategorydata, featuredproductdata,n
             </div>
           </section>
 
+          <section className="bg-gray mb-60">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="stripe-bg">
+                      <ul>
+                        <li>
+                          <div className="stripe-list">
+                            <img src="/img/diamond-pic.png" alt="diamond-pic" />
+                              <p>Splurge in <span>18 Kt</span> <br/>Minimal Jewels</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="stripe-list">
+                            <img src="/img/verified.png" alt="verified" />
+                              <p>Indulge in <b>100 %</b> <br/>Hallmarked Jewels</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="stripe-list">
+                            <img src="/img/sell.png" alt="sell" />
+                              <p>Avail Transparent <br/><span>Fare Pricing</span></p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="stripe-list">
+                            <img src="/img/diamond-pic.png" alt="diamond-pic" />
+                              <p>Splurge in <span>18 Kt</span> <br/>Minimal Jewels</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div className="stripe-list">
+                            <img src="/img/verified.png" alt="verified" />
+                              <p>Indulge in <span>100 %</span> <br/>Hallmarked Jewels</p>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </section>
 
-          <section className="m-top">
+
+          <section className="">
             <div className="container">
               <div className="row">
                 <div className="col-lg-12">
@@ -55,18 +98,18 @@ export default function Home({bannerdata,homecategorydata, featuredproductdata,n
               <div className="section-title">
                 <h2>Featured Products</h2>
               </div>
-              <div className="row">
+              
+            </div>
+            <div className="container-fluid g-0">
 
-                <div className="col-lg-12">
                   <div className='related-products position-relative'>
                     {featuredproductData && featuredproductData.length >= 0 && (
                       <FeaturedProduct featureddata={featuredproductData} />
                     )}
                   </div>
-                </div>
+            
 
               </div>
-            </div>
           </section>
 
           <section className='p-9'>

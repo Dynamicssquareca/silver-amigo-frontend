@@ -2,8 +2,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import AppURL from "../../pages/api/AppUrl";
 import Search from "../ecommerce/Search";
-import Offcanvas from "../ecommerce/Offcanvas";
-import OffcanvasContentTop from "../ecommerce/OffcanvasContentTop";
 const Header = ({ toggleClick, categogry
 }) => {
     const [isToggled, setToggled] = useState(false);
@@ -21,27 +19,13 @@ const Header = ({ toggleClick, categogry
 
     const handleToggle = () => setToggled(!isToggled);
 
-    const [activeId, setActiveId] = useState(null);
-    const closeOffcanvas = () => setActiveId(null);
-
     return (
         <>
-     
-
-
-      <Offcanvas 
-        id="offcanvasTop" 
-        activeId={activeId} 
-        setActiveId={setActiveId} 
-        position="top"
-      >
-        <OffcanvasContentTop closeOffcanvas={closeOffcanvas} />
-      </Offcanvas>
             <header className="header-area jba-header">
                 <div className="Jba-header-top  d-none d-lg-block">
                     <div className="container">
                         <div className="Jba-header-wrap">
-                            {/* <div className="logo jba-logo-width">
+                            <div className="logo jba-logo-width">
                                 <a href="/">
 
                                     <img
@@ -52,14 +36,17 @@ const Header = ({ toggleClick, categogry
                                     />
 
                                 </a>
-                            </div> */}
+                            </div>
                             <div className="jba-header-right">
-                                {/* <div className="jba-search-head">
+                                <div className="jba-search-head">
                                     <Search />
-                                </div> */}
+                                </div>
                                 <div className="jba-header-action-right">
                                     <div className="hotline d-none d-lg-flex">
-
+                                        <img
+                                            src="/img/themepic/icons/icon-headphone.svg"
+                                            alt="hotline"
+                                        />
 
                                         <p>
                                             <a href="tel:+91 8059102341"> +91 805 910 2341</a><span>24/7 Support</span>
@@ -79,7 +66,7 @@ const Header = ({ toggleClick, categogry
                 >
                     <div className="container">
                         <div className="Jba-header-wrap header-space-between position-relative">
-                            <div className="logo jba-logo-width d-block">
+                            <div className="logo jba-logo-width d-block d-lg-none">
                                 <a href="/">
 
                                     <img
@@ -89,134 +76,132 @@ const Header = ({ toggleClick, categogry
 
                                 </a>
                             </div>
+                            <div className="header-nav d-none d-lg-flex">
+                                <div className="jab-menu jab-menu-padding jab-menu-lh-2 d-none d-lg-block  font-heading">
+                                    <nav>
+                                        <ul>
+                                            <li className="position-static">
+                                                <Link href="/">Home</Link>
+                                            </li>
+
+                                            <li className="position-static">
+                                                <Link href="/products/">
+
+                                                    Shop All
 
 
-                            <div className="jba-header-action-right">
-                                <div className="header-nav d-none d-lg-flex">
-                                    <div className="jab-menu jab-menu-padding jab-menu-lh-2 d-none d-lg-block  font-heading">
-                                        <nav>
-                                            <ul>
-                                                <li className="position-static">
-                                                    <Link href="/">Home</Link>
+                                                </Link>
+                                            </li>
+
+                                            {categogry && categogry.map((item, i) => (
+
+                                                <li key={i}>
+
+                                                    <a href={`/category/${item.category_name}`.toLowerCase().split(" ").join("-")}> {item.category_name}    <i className="bi bi-chevron-down"></i></a>
+
+                                                    <ul className="sub-menu">
+
+                                                        {item.sub_categories && item.sub_categories.map((items, j) => (
+
+                                                            <li key={j}> <a href={`/subcategory/${items.subcategory_name}-${item.category_name}`.toLowerCase().split(" ").join("-")}>{items.subcategory_name} </a></li>
+
+                                                        ))}
+
+                                                    </ul>
+
+
+
+
+
                                                 </li>
 
-                                                <li className="position-static">
-                                                    <Link href="/products/">
+                                            ))}
 
-                                                        Shop All
-
-
-                                                    </Link>
-                                                </li>
-
-                                                {categogry && categogry.map((item, i) => (
-
-                                                    <li key={i}>
-
-                                                        <a href={`/category/${item.category_name}`.toLowerCase().split(" ").join("-")}> {item.category_name}    <i className="bi bi-chevron-down"></i></a>
-
-                                                        <ul className="sub-menu">
-
-                                                            {item.sub_categories && item.sub_categories.map((items, j) => (
-
-                                                                <li key={j}> <a href={`/subcategory/${items.subcategory_name}-${item.category_name}`.toLowerCase().split(" ").join("-")}>{items.subcategory_name} </a></li>
-
-                                                            ))}
-
-                                                        </ul>
-
-
-
-
-
-                                                    </li>
-
-                                                ))}
-
-                                            </ul>
-                                        </nav>
-                                    </div>
-                                </div>
-                                <div className="jab-header-pic">
-                                <div className="jba-header-action-icon">
-                                        <a  onClick={() => setActiveId('offcanvasTop')}>
-
-                                            <img
-                                                className="svgInject"
-                                                alt="Evara"
-                                                src="/img/themepic/icons/icon-compare.svg"
-                                            />
-                                          
-                                        </a>
-                                       
-                                    </div>
-                                    <div className="jba-header-action-icon">
-                                        <a>
-
-                                            <img
-                                                className="svgInject"
-                                                alt="Evara"
-                                                src="/img/themepic/icons/icon-compare.svg"
-                                            />
-                                            <span className="pro-count blue">
-                                                2
-                                            </span>
-
-                                        </a>
-                                       
-                                    </div>
-                                    <div className="jba-header-action-icon">
-                                        <a href="/cart/" className="mini-cart-icon">
-                                            <img
-                                                alt="Evara"
-                                                src="/img/themepic/icons/icon-cart.svg"
-                                            />
-                                            <span className="pro-count blue">
-                                                5
-                                            </span>
-                                        </a>
-
-                                       
-                                    </div>
-
-                                    <div className="jba-header-action-icon">
-                                        <a href="/page-account">
-                                            <img
-                                                className="svgInject"
-                                                alt="Nest"
-                                                src="/img/themepic/icons/icon-user.svg"
-                                            />
-                                        </a>
-                                       
-                                        <div className="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
-                                            <ul>
-                                                <li>
-                                                    <a href="/user/dashboard/">
-
-                                                        <i className="fi fi-rs-user mr-10"></i>
-                                                        Dashboard
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/user/login">
-                                                        <i className="fi fi-rs-location-alt mr-10"></i>
-                                                        Login
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="/login/">
-                                                        <i className="fi fi-rs-sign-out mr-10"></i>
-                                                        Sign out
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
 
+                            <div className="jba-header-action-right">
+                                    <div className="jab-header-pic">
+                                        <div className="jba-header-action-icon">
+                                            <a href="/wishlist/">
+                                                
+                                                    <img
+                                                        className="svgInject"
+                                                        alt="Evara"
+                                                        src="/img/themepic/icons/icon-compare.svg"
+                                                    />
+                                                    <span className="pro-count blue">
+                                                      2
+                                                    </span> 
+                                                 
+                                            </a>
+                                            <a href="/wishlist/">
+                                                <span className="lable">
+                                                    Wishlist
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div className="jba-header-action-icon">
+                                            <a href="/cart/" className="mini-cart-icon">
+                                                    <img
+                                                        alt="Evara"
+                                                        src="/img/themepic/icons/icon-cart.svg"
+                                                    />
+                                                    <span className="pro-count blue">
+                                                      5
+                                                    </span> 
+                                                </a>
+                                           
+                                            <a href="/cart/">
+                                                 
+                                                    <span className="lable">
+                                                        Cart
+                                                    </span>
+                                               
+                                            </a>
+                                        </div>
 
-
+                                        <div className="jba-header-action-icon">
+                                            <a href="/page-account"> 
+                                                <img
+                                                    className="svgInject"
+                                                    alt="Nest"
+                                                    src="/img/themepic/icons/icon-user.svg"
+                                                />
+                                            </a> 
+                                            <a href="/user/dashboard/"> 
+                                                <span className="lable">
+                                                    Account
+                                                </span>
+                                            </a> 
+                                            <div className="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                                <ul>
+                                                    <li>
+                                                        <a href="/user/dashboard/">
+                                                            
+                                                                <i className="fi fi-rs-user mr-10"></i>
+                                                                Dashboard
+                                                            </a> 
+                                                    </li>
+                                                    <li>
+                                                        <a href="/user/login">
+                                                        <i className="fi fi-rs-location-alt mr-10"></i>
+                                                        Login
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="/login/"> 
+                                                            <i className="fi fi-rs-sign-out mr-10"></i>
+                                                            Sign out
+                                                        </a> 
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <div className="jba-header-action-right d-block d-lg-none">
                                 <div className="jab-header-pic">
                                     <div className="jba-header-action-icon">

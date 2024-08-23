@@ -32,7 +32,7 @@ const FeaturedProductList = ({productName,productSlug,productprice,sku,frontImg,
           </div>
        
         </div>
-        <div className="jba-action-cart">
+        {/* <div className="jba-action-cart">
           <div className="product-rate-cover">
           <div className="d-flex">
             <div className="ratings">
@@ -50,7 +50,7 @@ const FeaturedProductList = ({productName,productSlug,productprice,sku,frontImg,
               <i className="bi bi-heart-fill"></i>
             </a>
           </div>
-        </div>
+        </div> */}
         <div className="product-content-wrap">
           <div className="product-category">
             <Link href={`/products/${productSlug}`}>
@@ -65,7 +65,7 @@ const FeaturedProductList = ({productName,productSlug,productprice,sku,frontImg,
 
           <div>
            
-            <span className="font-small text-muted">SKU:{sku}</span>
+            {/* <span className="font-small text-muted">SKU:{sku}</span> */}
           </div>
             
           <div className="product-card-bottom">

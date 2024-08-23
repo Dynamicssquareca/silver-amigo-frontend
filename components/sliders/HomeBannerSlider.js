@@ -12,19 +12,19 @@ const HomeBannerSlider = ({banner}) => {
             <Swiper
              autoplay={{
                 delay: 5000,
-                disableOnInteraction: false,
+                disableOnInteraction: true,
               }}
                 slidesPerView={1}
                 spaceBetween={0}
                 
-                pagination={true}
+                pagination={false}
                 navigation={{
                     prevEl: ".custom_prev_i1",
                     nextEl: ".custom_next_i1",
                 }}
                 className="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1"
             >
-                {banner && banner.map((item, i) => (
+                {/* {banner && banner.map((item, i) => (
                 <SwiperSlide key={i}>
                     <div className="single-hero-slider single-animation-wrap">
                         <Link href="/products">
@@ -37,7 +37,31 @@ const HomeBannerSlider = ({banner}) => {
                      </Link>
                     </div>
                 </SwiperSlide>
-                 ))}
+                 ))} */}
+                 <SwiperSlide>
+                 <div className="single-hero-slider single-animation-wrap">
+                        <Link href="/products">
+                        <Image
+                        src="/img/slider/frame-228.jpg"
+                        alt="Jews By Annu |Jewelery"
+                        width={1911}
+                        height={630}
+                      />
+                      </Link>
+                      </div>
+                 </SwiperSlide>
+                 <SwiperSlide>
+                 <div className="single-hero-slider single-animation-wrap">
+                        <Link href="/products">
+                        <Image
+                        src="/img/slider/frame-228.jpg"
+                        alt="Jews By Annu |Jewelery"
+                        width={1911}
+                        height={630}
+                      />
+                      </Link>
+                      </div>
+                 </SwiperSlide>
             </Swiper>
             
             <div className="slider-arrow hero-slider-1-arrow">
