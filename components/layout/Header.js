@@ -83,8 +83,8 @@ const Header = ({ toggleClick, categogry
                                 <a href="/">
 
                                     <img
-                                        src="/img/themepic/jbalogo.png"
-                                        alt="logo"
+                                        src="/img/Silver-amigo-wb-logo.png"
+                                        alt="Silver-amigo-wb-logo"
                                     />
 
                                 </a>

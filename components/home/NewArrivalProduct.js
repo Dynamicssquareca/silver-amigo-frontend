@@ -47,7 +47,7 @@ const NewArrivalProduct = ({newarrivaldata}) => {
                     prevEl: ".custom_prev_n",
                     nextEl: ".custom_next_n",
                 }}
-                className="custom-class"
+                className="my-swiper-containers"
             >
                     { newarrivaldata && newarrivaldata.map((item,i) =>(
                      <SwiperSlide key={i}>
@@ -59,7 +59,7 @@ const NewArrivalProduct = ({newarrivaldata}) => {
           
             </Swiper>
 
-            <div
+            {/* <div
                 className="slider-arrow"
             >
                 <span className="slider-btn slider-prev slick-arrow custom_prev_n">
@@ -68,7 +68,7 @@ const NewArrivalProduct = ({newarrivaldata}) => {
                 <span className="slider-btn slider-next slick-arrow custom_next_n">
                 <i className="bi bi-chevron-right"></i>
                 </span>
-            </div>
+            </div> */}
             
         </>
     );

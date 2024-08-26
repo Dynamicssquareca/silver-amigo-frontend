@@ -4,16 +4,11 @@ import HomeBannerSlider from "../components/sliders/HomeBannerSlider";
 import CategoryHome from '../components/ecommerce/CategoryHome';
 import FeaturedProduct from '../components/home/FeaturedProduct';
 import NewArrivalProduct from '../components/home/NewArrivalProduct';
-import PromoBannerOne from "../components/elements/PromoBannerOne";
-import PromoBannerTwo from '../components/elements/PromoBannerTwo';
-import PromoBannerThree from '../components/elements/PromoBannerThree';
-import PromoBannerFour from '../components/elements/PromoBannerFour';
-import BottomServiceList from '../components/elements/BottomServiceList';
 import AppURL from "./api/AppUrl";
-import CustomerReview from "@/components/elements/CustomerReview";
-
-
-export default function Home({bannerdata,homecategorydata, featuredproductdata,newarrivalproductdata}) {
+import BoxPrmoProduct from "@/components/elements/BoxPrmoProduct";
+import CustomerReview from "@/components/ecommerce/CustomerReview";
+import CustomerCollectMore from "@/components/ecommerce/CustomerCollectMore";
+export default function Home({ bannerdata, homecategorydata, featuredproductdata, newarrivalproductdata }) {
   const [bannerData] = useState(bannerdata);
   const [categoryData] = useState(homecategorydata);
   const [featuredproductData] = useState(featuredproductdata);
@@ -39,45 +34,45 @@ export default function Home({bannerdata,homecategorydata, featuredproductdata,n
           </section>
 
           <section className="bg-gray mb-60">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="stripe-bg">
-                      <ul>
-                        <li>
-                          <div className="stripe-list">
-                            <img src="/img/diamond-pic.png" alt="diamond-pic" />
-                              <p>Splurge in <span>18 Kt</span> <br/>Minimal Jewels</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="stripe-list">
-                            <img src="/img/verified.png" alt="verified" />
-                              <p>Indulge in <b>100 %</b> <br/>Hallmarked Jewels</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="stripe-list">
-                            <img src="/img/sell.png" alt="sell" />
-                              <p>Avail Transparent <br/><span>Fare Pricing</span></p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="stripe-list">
-                            <img src="/img/diamond-pic.png" alt="diamond-pic" />
-                              <p>Splurge in <span>18 Kt</span> <br/>Minimal Jewels</p>
-                          </div>
-                        </li>
-                        <li>
-                          <div className="stripe-list">
-                            <img src="/img/verified.png" alt="verified" />
-                              <p>Indulge in <span>100 %</span> <br/>Hallmarked Jewels</p>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
+            <div className="container">
+              <div className="row">
+                <div className="col-lg-12">
+                  <div className="stripe-bg">
+                    <ul>
+                      <li>
+                        <div className="stripe-list">
+                          <img src="/img/diamond-pic.png" alt="diamond-pic" />
+                          <p>Splurge in <span>18 Kt</span> <br />Minimal Jewels</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="stripe-list">
+                          <img src="/img/verified.png" alt="verified" />
+                          <p>Indulge in <b>100 %</b> <br />Hallmarked Jewels</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="stripe-list">
+                          <img src="/img/sell.png" alt="sell" />
+                          <p>Avail Transparent <br /><span>Fare Pricing</span></p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="stripe-list">
+                          <img src="/img/diamond-pic.png" alt="diamond-pic" />
+                          <p>Splurge in <span>18 Kt</span> <br />Minimal Jewels</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="stripe-list">
+                          <img src="/img/verified.png" alt="verified" />
+                          <p>Indulge in <span>100 %</span> <br />Hallmarked Jewels</p>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
+              </div>
             </div>
           </section>
 
@@ -96,86 +91,88 @@ export default function Home({bannerdata,homecategorydata, featuredproductdata,n
           <section className="mt-20">
             <div className='container'>
               <div className="section-title">
-                <h2>Featured Products</h2>
+                <h2>New Arrivals</h2>
               </div>
-              
+
             </div>
             <div className="container-fluid g-0">
 
-                  <div className='related-products position-relative'>
-                    {featuredproductData && featuredproductData.length >= 0 && (
-                      <FeaturedProduct featureddata={featuredproductData} />
-                    )}
-                  </div>
-            
-
+              <div className='related-products position-relative'>
+                {featuredproductData && featuredproductData.length >= 0 && (
+                  <FeaturedProduct featureddata={featuredproductData} />
+                )}
               </div>
+
+
+            </div>
           </section>
 
           <section className='p-9'>
             <div className='container'>
-
               <div className='row'>
-                <div className='col-lg-12'>
-                  <PromoBannerOne />
-                </div>
-
+                <BoxPrmoProduct />
               </div>
             </div>
           </section>
 
-
-
-          <section>
+          <section className="mt-20">
             <div className='container'>
               <div className="section-title">
-                <h2>New Arrival</h2>
+                <h2>Featured Products</h2>
               </div>
-              <div className='row'>
-                <div className="col-lg-12">
-                  <div className='related-products position-relative'>
-                    {newarrivalproductData && newarrivalproductData.length >= 0 && (
-                      <NewArrivalProduct newarrivaldata={newarrivalproductData} />
-                    )}
 
-                  </div>
-                </div>
+            </div>
+            <div className="container-fluid g-0">
 
+              <div className='related-products position-relative'>
+                {newarrivalproductData && newarrivalproductData.length >= 0 && (
+                  <NewArrivalProduct newarrivaldata={newarrivalproductData} />
+                )}
 
               </div>
+
+
             </div>
           </section>
 
-          <section className='p-9'>
+          <section className="mt-20">
             <div className='container'>
-              <div className='row'>
-                <div className="col-lg-6">
-                  <PromoBannerTwo />
-                </div>
-                <div className="col-lg-6">
-                  <PromoBannerThree />
-                </div>
+              <div className="section-title">
+                <h2>Customers Love</h2>
               </div>
+
+            </div>
+            <div className="container-fluid g-0">
+
+              <div className='related-products position-relative'>
+                <CustomerReview />
+
+              </div>
+
+
             </div>
           </section>
 
-          <section className='p-9'>
+
+          <section className="mt-20">
             <div className='container'>
-              <div className='row bg-color-1'>
-                <div className="col-lg-12">
-                  <PromoBannerFour />
-                </div>
+              <div className="section-title">
+                <h2>Explore our all Collection</h2>
               </div>
+
+            </div>
+            <div className="container-fluid g-0">
+
+              <div className='related-products position-relative'>
+                <CustomerCollectMore />
+
+              </div>
+
+
             </div>
           </section>
 
-          <BottomServiceList />
-
-           <section className="p-9">
-            <div className="container">
-              <CustomerReview />
-            </div>
-           </section>
+          
 
 
         </div>
