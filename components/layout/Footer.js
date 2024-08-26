@@ -4,7 +4,7 @@ import Link from "next/link"
 const Footer = () => {
     return (
         <>
-            <footer className="main" style={{background:'#3e4751',padding:'40px 0px',marginTop:'40px'}}>
+            <footer className="main" style={{background:'#dddddd',padding:'0px 0px',marginTop:'40px'}}>
                 
               
                 <section className="section-padding footer-mid">
@@ -15,7 +15,14 @@ const Footer = () => {
                                     className="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0"
                                     data-wow-delay="0"
                                 >
-                                    <div className="logo  mb-30">
+                                     <h4 className="widget-title">Address</h4>
+                                    
+                                     <p className="font-lg text-heading">
+                                        <span>1116, JMD Megapolis, Sector 48, <br/>Gurugram, Haryana 122018</span>
+                                        <span><b>Tel:</b> +91 123 456 7890</span>
+                                        <span><b>EMail:</b> inf@silveramego.com</span>
+                                          </p>
+                                    {/* <div className="logo  mb-30">
                                         <Link href="/" className="mb-15"> 
                                             <img
                                                 src="/img/themepic/jba-logo-white.png"
@@ -24,10 +31,10 @@ const Footer = () => {
                                             />
                                          
                                         </Link>
-                                        {/* <p className="font-lg text-heading">
+                                        <p className="font-lg text-heading">
                                           
-                                        </p> */}
-                                    </div>
+                                        </p>
+                                    </div> */}
                                     <div className="jab-mobile-social-icon">
                             
                                 <a href="https://www.facebook.com/jewelsbyanu/" target="_blank">
@@ -114,11 +121,11 @@ const Footer = () => {
                                    
                                 </ul>
                             </div>
-                            {/* <div
+                            <div
                                 className="footer-link-widget col-md-3"
                               
                             >
-                                <h4 className="widget-title ">Jewelry Guide</h4>
+                                <h4 className="widget-title ">Catelog</h4>
                                 <ul className="footer-list  mb-sm-5 mb-md-0">
                                     <li>
                                         <a href="#">Buying and Price Guide</a>
@@ -139,39 +146,24 @@ const Footer = () => {
                                         <a href="#">Jewellery Care Guide</a>
                                     </li>
                                 </ul>
-                            </div> */}
-                            <div
-                                className="footer-link-widget col-md-3"
-                              
-                            >
-                                <h4 className="widget-title ">News Letter</h4>
-                               
-                                <form className="jba-subscriber">
-                                            <input
-                                                type="email"
-                                                placeholder="Email ID"
-                                            />
-                                            <button className="btn btm-md" type="submit">
-                                            <i className="bi bi-arrow-up-right"></i>
-                                            </button>
-                                        </form>
                             </div>
+                       
                            
                         </div>
                     </div>
                 </section>
                 <div
-                    className="container pb-30"
+                    className="container pb-10"
                     data-wow-delay="0"
                 >
                     <div className="row align-items-center">
-                        <div className="col-12 mb-30">
+                        <div className="col-12 mb-10">
                             <div className="footer-bottom"></div>
                         </div>
                         <div className="col-xl-4 col-lg-6 col-md-6">
-                            <p className="font-sm mb-0 my-p">
+                            <p className="font-sm mb-0 my-p" style={{color:"#000",fontSize:'13px'}}>
                                 &copy; 2024,{" "}
-                                <strong className="text-brand">Jewels by Anu</strong> - 
+                                <strong className="text-brand">Silver Amego</strong> - 
                                 All rights reserved
                             </p>
                         </div>
