@@ -5481,7 +5481,7 @@ h6.post-title {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
-  background: #f9acac;
+  background: #494949;
   border-radius: 30px;
   line-height: 1;
   -ms-flex-line-pack: center;
@@ -6984,7 +6984,7 @@ footer .hotline img {
 
 .footer-list li a {
   font-size: 14px;
-  color: #fff !important;
+  color: #595959 !important;
   display: block;
 }
 
@@ -6993,7 +6993,7 @@ footer .hotline img {
 }
 
 .footer-bottom {
-  border-top: 1px solid #BCE3C9;
+  border-top: 1px solid #eee;
 }
 
 #scrollUp {
@@ -7023,7 +7023,7 @@ footer .hotline img {
 
 .footer-mid .widget-title {
   margin: 15px 0 20px 0;
-  color:#fff;
+  color:#000000;
   font-size:16px
 }
 
@@ -12291,7 +12291,18 @@ padding:30px;
   color: #3b3b3b;
   font-size: 20px;
 }
-
+.widget-about .text-heading{
+  padding-bottom:30px
+}
+.widget-about .text-heading span{
+  color: #595959;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display:block
+}
+.widget-about .text-heading span b{
+  font-weight:600
+}
 @media (max-width:1440px){
   .stripe-bg ul li .stripe-list p{
 
