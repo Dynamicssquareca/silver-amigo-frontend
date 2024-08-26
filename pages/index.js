@@ -77,7 +77,7 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
           </section>
 
 
-          <section className="">
+          <section className="mb-60">
             <div className="container">
               <div className="row">
                 <div className="col-lg-12">
@@ -88,7 +88,7 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
               </div>
             </div>
           </section>
-          <section className="mt-20">
+          <section className="mt-40">
             <div className='container'>
               <div className="section-title">
                 <h2>New Arrivals</h2>
@@ -107,7 +107,7 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
             </div>
           </section>
 
-          <section className='p-9'>
+          <section className='p-9 mb-60'>
             <div className='container'>
               <div className='row'>
                 <BoxPrmoProduct />
@@ -115,7 +115,7 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
             </div>
           </section>
 
-          <section className="mt-20">
+          <section className=" mb-60">
             <div className='container'>
               <div className="section-title">
                 <h2>Featured Products</h2>
@@ -135,7 +135,7 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
             </div>
           </section>
 
-          <section className="mt-20">
+          <section className="mt-20 mb-60">
             <div className='container'>
               <div className="section-title">
                 <h2>Customers Love</h2>
@@ -154,7 +154,7 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
           </section>
 
 
-          <section className="mt-20">
+          <section className="mt-20 mb-60">
             <div className='container'>
               <div className="section-title">
                 <h2>Explore our all Collection</h2>
