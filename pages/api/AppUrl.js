@@ -1,5 +1,6 @@
 export class AppURL  {
     static BaseURL = "https://api.jewelsbyanu.com/api"
+    static LocalURL = "http://127.0.0.1:8000/api"
     static headermenu = this.BaseURL+"/all/categories";
     static banner = this.BaseURL+"/all/banners";
     static category = this.BaseURL+"/all/categories";
@@ -17,5 +18,6 @@ export class AppURL  {
     static bysubcategory = this.BaseURL+"/subcategory/";
     static megamenu = this.BaseURL+"/megamenu/categories";
     static bytesting = this.BaseURL+"/testing/";
+    static UserRegisteration = this.LocalURL+"/register";
 }
 export default AppURL;
