@@ -24,44 +24,21 @@ const HomeBannerSlider = ({banner}) => {
                 }}
                 className="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1"
             >
-                {/* {banner && banner.map((item, i) => (
+                {banner && banner.map((item, i) => (
                 <SwiperSlide key={i}>
                     <div className="single-hero-slider single-animation-wrap">
-                        <Link href="/products">
-                        <Image
-                        src={item.banner_url}
-                        alt="Jews By Annu |Jewelery"
+                        <Link href={item.link}>
+                        <img
+                        src={item.desktop_image_url}
+                        alt={item.alt_text}
                         width={1600}
                         height={503}
                       />
                      </Link>
                     </div>
                 </SwiperSlide>
-                 ))} */}
-                 <SwiperSlide>
-                 <div className="single-hero-slider single-animation-wrap">
-                        <Link href="/products">
-                        <Image
-                        src="/img/slider/frame-228.jpg"
-                        alt="Jews By Annu |Jewelery"
-                        width={1911}
-                        height={630}
-                      />
-                      </Link>
-                      </div>
-                 </SwiperSlide>
-                 <SwiperSlide>
-                 <div className="single-hero-slider single-animation-wrap">
-                        <Link href="/products">
-                        <Image
-                        src="/img/slider/frame-228.jpg"
-                        alt="Jews By Annu |Jewelery"
-                        width={1911}
-                        height={630}
-                      />
-                      </Link>
-                      </div>
-                 </SwiperSlide>
+                 ))}
+                  
             </Swiper>
             
             <div className="slider-arrow hero-slider-1-arrow">

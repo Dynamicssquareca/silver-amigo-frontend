@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import React from "react";
 import CartItems from "components/ecommerce/CartItems";
 import CartTotal from "components/ecommerce/CartTotal";
@@ -8,8 +8,8 @@ const Cart = () => {
   return (
     <>
          <Head>
-      <title>Cart | JBA</title>
-        <meta name="description" content="Loose Diamond Supplier, Manufacturer & Exporter from India" />
+      <title>Cart | Silver Amigo</title>
+        <meta name="description" content="Silver Amigo dives into the spirit of everyday celebration, reflecting on the ethos of luxury through minimal gold jewelry." />
       </Head>
       <div className="page-header breadcrumb-wrap mt-50 mb-50">
         <div className="container">

@@ -1,23 +1,26 @@
 export class AppURL  {
-    static BaseURL = "https://api.jewelsbyanu.com/api"
-    static LocalURL = "http://127.0.0.1:8000/api"
-    static headermenu = this.BaseURL+"/all/categories";
-    static banner = this.BaseURL+"/all/banners";
-    static category = this.BaseURL+"/all/categories";
-    static featuredproduct = this.BaseURL+"/featured/product";
-    static newarrivalproduct = this.BaseURL+"/newarrival/product";
-    static productbycategory = this.BaseURL+"/category/";
-    static categoryfilterlistproduct = this.BaseURL+"/featured/product";
-    static productlistfilter = this.BaseURL+"/search/product";
-    static searchproduct = this.BaseURL+"/search/product";
-    static productdetails = this.BaseURL+"/product/details/";
-    static allpurity = this.BaseURL+"/all/purity";
-    static allattribute = this.BaseURL+"/all/attribute";
-    static bycategory = this.BaseURL+"/category/";
-    static categorybanner = this.BaseURL+"/category/banner/";
-    static bysubcategory = this.BaseURL+"/subcategory/";
-    static megamenu = this.BaseURL+"/megamenu/categories";
-    static bytesting = this.BaseURL+"/testing/";
-    static UserRegisteration = this.LocalURL+"/register";
+    static baseUrl = "http://127.0.0.1:8000/api"
+  
+
+    static allbanners = this.baseUrl+"/allbanners";
+    static collections = this.baseUrl+"/allcollections";
+    static productbycollection(slug) {
+        return `${this.baseUrl}/productbycollection/${slug}`;
+      }
+    static newarrivalproducts = this.baseUrl+"/newarrivalproducts";
+    static featuredproducts = this.baseUrl+"/featuredproducts";
+    static alltestimonials = this.baseUrl+"/alltestimonials";
+    static productdetails(category_name,slug){
+      return `${this.baseUrl}/productdetails/${category_name}/${slug}`;
+    }
+
+    static UserRegisteration = this.baseUrl+"/register";
+    static UserLogin = this.baseUrl+"/login";
+    static UserDetails = this.baseUrl+"/user-details";
+    static UserUpdateDetails = this.baseUrl+"/user-details-update";
+    static UserLogout = this.baseUrl+"/user-logout";
+
+    static UserAddtoCart = this.baseUrl+"/add-to-cart";
+    static UserCart = this.baseUrl+"/cart";
 }
 export default AppURL;

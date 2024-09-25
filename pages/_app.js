@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps,menuItems }) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     router.events.on('routeChangeStart',()=>{
-      setProgress(4000)                              //top loadingbar
+      setProgress(4000)                           
     })
     
     router.events.on('routeChangeComplete',()=>{
@@ -44,9 +44,9 @@ function MyApp({ Component, pageProps,menuItems }) {
 export default MyApp
 
 MyApp.getInitialProps = async () => {
-  const response = await fetch(AppURL.megamenu);
+  const response = await fetch(AppURL.collections);
   const menuItems = await response.json();
-  console.log(menuItems);
+   
   return {
     menuItems,
   };

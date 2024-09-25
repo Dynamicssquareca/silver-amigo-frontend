@@ -38,7 +38,7 @@ const NewArrivalProduct = ({newarrivaldata}) => {
                       spaceBetween: 10,
                     },
                     1400: {
-                      slidesPerView: 4,
+                      slidesPerView: 5,
                       spaceBetween: 10,
                     },
                   }}
@@ -48,27 +48,26 @@ const NewArrivalProduct = ({newarrivaldata}) => {
                     nextEl: ".custom_next_n",
                 }}
                 className="my-swiper-containers"
-            >
+                  >
                     { newarrivaldata && newarrivaldata.map((item,i) =>(
-                     <SwiperSlide key={i}>
-                     <NewArrivalProductList productName={item.product_name} productSlug={item.product_slug} productprice={item.product_price} sku={item.product_sku_id} frontImg={item.product_front_image_url} backImg={item.product_back_image_url}/>
-                     </SwiperSlide>
+                    <SwiperSlide key={i}>
+                    {item.first_variant.images && (
+                      <NewArrivalProductList
+                        productName={item.name}
+                        productSlug={item.first_variant.slug}
+                        productprice={item.first_variant.sale_price}
+                        sku={item.product_sku_id}
+                         
+                        frontImg={item.first_variant.images.split(',')[0]}   
+                        backImg={item.first_variant.images.split(',')[1]}  
+                        category_name={item.category.slug} 
+                      />
+                    )}
+                  </SwiperSlide>
                     ))}
-                   
-                    
-          
             </Swiper>
 
-            {/* <div
-                className="slider-arrow"
-            >
-                <span className="slider-btn slider-prev slick-arrow custom_prev_n">
-                <i className="bi bi-chevron-left"></i>
-                </span>
-                <span className="slider-btn slider-next slick-arrow custom_next_n">
-                <i className="bi bi-chevron-right"></i>
-                </span>
-            </div> */}
+            
             
         </>
     );

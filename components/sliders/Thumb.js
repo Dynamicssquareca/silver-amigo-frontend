@@ -24,7 +24,7 @@ const ThumbSlider = ({ imageOne,imageTwo,productName }) => {
             >
            
                     <SwiperSlide>
-                    <Image
+                    <img
                     src={imageOne}
                     alt={productName}
                     width={504}
@@ -34,7 +34,7 @@ const ThumbSlider = ({ imageOne,imageTwo,productName }) => {
                     </SwiperSlide>
                     {imageTwo.length >=0 &&  (
                       <SwiperSlide>
-                        <Image
+                        <img
                         src={imageTwo}
                         alt={productName}
                         width={504}

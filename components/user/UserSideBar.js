@@ -1,14 +1,55 @@
 import Link from "next/link";
 import React from "react";
+import AppURL from "@/pages/api/AppUrl";
+import userAuth from "@/pages/hooks/userAuth";
 
 const UserSideBar = () => {
+  const { userData, loading } = userAuth();
+  
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+ 
+  if (!userData) {
+    return <div>No user data found.</div>;  
+  }
+  const handleSignOut = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch(AppURL.UserLogout, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+          },
+      });
+
+      if(response.ok){
+        localStorage.removeItem('authToken');
+        window.location.href = '/user/login';  
+      }
+      
+    } catch (error) {
+      console.error('Sign out failed', error);
+    }
+  };
+  let  name = userData.name; 
+  let firstLetter = name[0].toUpperCase();
+  let lastLetter = name[name.length - 1].toUpperCase();
   return (
+    
     <div className="user-list-account">
       <div className="user-i-name">
-        <div className="usname">AC</div>
+        <div className="usname">{firstLetter}{lastLetter}</div>
         <div className="user-info">
-          Abhinav Chauhan
-          <span>abinv.ds@gmail.com</span>
+           {userData ? (
+            <>
+              <div>{userData.name}</div>
+              <span>{userData.email}</span>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
         <div className="edit-prf">
           
@@ -72,7 +113,7 @@ const UserSideBar = () => {
         </li>
         <li>
             
-            <a href="/">
+            <a href="#" onClick={(e) => { e.preventDefault(); handleSignOut(); }}>
               <img
                 src="/img/login/logout-black.png/"
                 alt="logout-black"

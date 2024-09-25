@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React, { useState, useRef} from "react";
  import Image from "next/image";
-const RelatedProductList = ({productName,productSlug,productprice,sku,frontImg,backImg}) => {  
-    const ref=useRef();  
+const RelatedProductList = ({productName,productSlug,category_name,productPrice,sku,frontImg,backImg}) => {  
+  const imageBaseUrl = "http://127.0.0.1:8000/uploads/products/";  
   return (
     
     <>
@@ -14,17 +14,17 @@ const RelatedProductList = ({productName,productSlug,productprice,sku,frontImg,b
         <div className="product-img-action-wrap">
        
           <div className="product-img product-img-zoom">
-            <a href={`/products/${productSlug}`}>
-            <Image
+          <a href={`/collections/${category_name}/${productSlug}`}>
+            <img
             className="default-img"
-            src={frontImg}
+            src={`${imageBaseUrl}${frontImg}`}
             alt={productName}
             width={365}
             height={365}
             />
-            <Image
+            <img
             className="hover-img"
-            src={backImg}
+            src={`${imageBaseUrl}${backImg}`}
             alt={productName}
             width={365}
             height={365}
@@ -33,51 +33,19 @@ const RelatedProductList = ({productName,productSlug,productprice,sku,frontImg,b
               </div>
        
         </div>
-        <div className="jba-action-cart">
-          <div className="product-rate-cover">
-          <div className="d-flex">
-            <div className="ratings">
-                <i className="bi bi-star-fill"></i>
-                <i className="bi bi-star-fill"></i>
-                <i className="bi bi-star-fill"></i>
-                <i className="bi bi-star-half"></i>
-                <i className="bi bi-star"></i>
-            </div>
-        </div>
-          
-          </div>
-          <div className="jba-product-action">
-             
-            <a aria-label="Add To Wishlist" className="action-btn hover-up">
-              <i className="bi bi-heart-fill"></i>
-            </a>
-            
-          </div>
-        </div>
+         
         <div className="product-content-wrap">
           <div className="product-category">
           </div>
           <h2>
-          <a href={`/products/${productSlug}`}>
-               {productName} 
+          <a href={`/collections/${category_name}/${productSlug}`}>
+          {productName.substring(0,35)} 
             </a>
           </h2>
-
-          <div>
-           
-            <span className="font-small text-muted">SKU:{sku}</span>
-          </div>
-            
           <div className="product-card-bottom">
             <div className="product-price">
-              <span>$ {productprice}</span>
-              
+              <span>₹ {productPrice}</span>
             </div>
-            {/* <div className="add-cart">
-              <a className="add">
-                <i className="bi bi-cart4"></i> Add
-              </a>
-            </div> */}
           </div>
         </div>
       </div>

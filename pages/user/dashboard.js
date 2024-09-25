@@ -3,12 +3,23 @@ import Link from "next/link";
 import React from "react";
 import UserSideBar from "../../components/user/UserSideBar";
 import UserAccOrder from "../../components/user/UserAccOrder";
+import userAuth from "../hooks/userAuth";
 
 const UserAccounts = () => {
+  const { userData, loading } = userAuth();
+ 
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+ 
+  if (!userData) {
+    return <div>No user data found.</div>;  
+  }
   return (
+
     <>
       <Head>
-        <title>Abhinav - Dashboard | JBA</title>
+        <title>{userData.name} - Dashboard | Silver Amigo</title>
         <meta
           name="description"
           content="Loose Diamond Supplier, Manufacturer & Exporter from India"
@@ -35,10 +46,10 @@ const UserAccounts = () => {
                                 </div>
                             </div>
                             <div className="col-xxl-4  col-xl-4 col-lg-5 col-md-4 ">
-                                <UserSideBar />
+                                <UserSideBar userData={userData}/>
                             </div>
                             <div className="col-lg-8  col-md-8">
-                              <UserAccOrder />
+                              <UserAccOrder useData={userData}/>
                             </div>
                         </div>
                     </div>

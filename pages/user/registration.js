@@ -1,113 +1,96 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Breadcrumb from "../../components/layout/Breadcrumb";
 import BottomServiceList from "../../components/elements/BottomServiceList";
 import Head from "next/head";
-import AppURL from "../api/AppUrl";
-
-
-const generateCaptcha = () => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let captcha = '';
-  for (let i = 0; i < 6; i++) {
-    captcha += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return captcha;
-};
-
+import AppURL from '../api/AppUrl';
+ 
 const Registration = () => {
+  const API_URL = AppURL.UserRegisteration;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    mobile: "",
     password: "",
     password_confirmation: "",
-    mobile: "",
-    captcha: "",
   });
+ 
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [captcha, setCaptcha] = useState(generateCaptcha()); 
-  useEffect(() => {
-    
-    setCaptcha(generateCaptcha());
-  }, []);
-
-  const fetchCaptcha = () => {
-    
-    setCaptcha(generateCaptcha());
+  const [loading, setLoading] = useState(false);
+  const [apiError, setapiErrors] = useState('');
+ 
+  const validate = () => {
+    const errors = {};
+if (!formData.name) errors.name = "Name is required";
+if (!formData.email) {
+errors.email = "Email is required";
+} else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+errors.email = "Email address is invalid";
+    }
+    if (!formData.mobile) errors.mobile = "mobile number is required";
+    if (!formData.password) errors.password = "Password is required";
+    if (formData.password !== formData.password_confirmation) {
+      errors.password_confirmation = "Passwords do not match";
+    }
+    return errors;
   };
-
+ 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.mobile) newErrors.mobile = "Mobile number is required";
-    else if (!/^\d{10}$/.test(formData.mobile)) newErrors.mobile = "Mobile number must be 10 digits";
-    if (!formData.password) newErrors.password = "Password is required";
-    if (formData.password !== formData.password_confirmation) newErrors.password_confirmation = "Passwords do not match";
-    if (!formData.captcha) newErrors.captcha = "Captcha is required";
-    else if (formData.captcha !== captcha) newErrors.captcha = "Captcha is incorrect";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const onSubmit = async (e) => {
+ 
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
-    setLoading(true);
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    try {
-       
-      const response = await fetch(AppURL.UserRegisteration, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || "An unexpected error occurred. Please try again.");
-        return;
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
+      setLoading(true);
+      
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          password: formData.password,
+          password_confirmation:formData.password_confirmation,
+          }),
+        });
+ 
+        const data = await response.json();
+        setLoading(false);
+ 
+        if (response.ok) {
+          setSuccessMessage("Registration successful!");
+          localStorage.setItem('authToken', data.data.access_token);
+          window.location.replace('/user/dashboard');
+           
+        } else {
+          setapiErrors(data.message || "Registration failed");
+        }
+      } catch (error) {
+        setLoading(false);
+        setapiErrors({ apiError: "Something went wrong. Please try again." });
       }
-
-      const responseData = await response.json();
-       console.log(responseData);
-       
-      setSuccessMessage("Registration successfully!");
-      
-     
-
-      
-      setFormData({ name: "", email: "", mobile: "", password: "", password_confirmation: "", captcha: "" }); 
-      fetchCaptcha(); 
-    } catch (error) {
-       
-      setErrorMessage("An unexpected error occurred. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
-
+ 
   return (
     <div>
       <Head>
         <title>New Registration | JBA</title>
-        <meta name="description" content="Loose Diamond Supplier, Manufacturer & Exporter from India" />
+        <meta
+          name="description"
+          content="Loose Diamond Supplier, Manufacturer & Exporter from India"
+        />
       </Head>
-      
-      <Breadcrumb />
-      <section className="ptb-60">
+       
+      <section className="pt-30">
         <div className="container">
           <div className="row g-0 bg0">
             <div className="col-lg-6">
@@ -118,15 +101,12 @@ const Registration = () => {
                     <span>
                       {" "}
                       Already have an account?{" "}
-                      <a href="/user/login/">
-                        Log in
-                      </a>
+                      <a href="/user/login/"> Log in </a>
                     </span>
                   </h3>
-                  <p></p>
-                  <form onSubmit={onSubmit}>
+                  <form onSubmit={handleSubmit}>
                     <div className="row">
-                      <div className="col-lg-6">
+                      <div className="col-lg-12">
                         <input
                           type="text"
                           name="name"
@@ -134,9 +114,10 @@ const Registration = () => {
                           value={formData.name}
                           onChange={handleChange}
                         />
-                        {errors.name && <p>{errors.name}</p>}
+                        {errors.name &&
+                        <p className="error-msg">{errors.name}</p>}
                       </div>
-                      <div className="col-lg-6">
+                      <div className="col-lg-12">
                         <input
                           type="email"
                           name="email"
@@ -144,17 +125,21 @@ const Registration = () => {
                           value={formData.email}
                           onChange={handleChange}
                         />
-                        {errors.email && <p>{errors.email}</p>}
+                        {errors.email && (
+                        <p className="error-msg">{errors.email}</p>
+                        )}
                       </div>
-                      <div className="col-lg-6">
+                      <div className="col-lg-12">
                         <input
                           type="text"
                           name="mobile"
-                          placeholder="Mobile Number"
+                          placeholder="Enter mobile no."
                           value={formData.mobile}
                           onChange={handleChange}
                         />
-                        {errors.mobile && <p>{errors.mobile}</p>}
+                        {errors.mobile && (
+                          <p className="error-msg">{errors.mobile}</p>
+                        )}
                       </div>
                       <div className="col-lg-6">
                         <div className="con-pass">
@@ -165,7 +150,9 @@ const Registration = () => {
                             value={formData.password}
                             onChange={handleChange}
                           />
-                          {errors.password && <p>{errors.password}</p>}
+                          {errors.password && (
+                            <p className="error-msg">{errors.password}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-lg-6">
@@ -174,42 +161,19 @@ const Registration = () => {
                             type="password"
                             name="password_confirmation"
                             placeholder="Confirm Password"
+                            className="inner-1"
                             value={formData.password_confirmation}
                             onChange={handleChange}
                           />
-                          {errors.password_confirmation && <p>{errors.password_confirmation}</p>}
+                          {errors.password_confirmation && (
+                            <p className="error-msg">{errors.password_confirmation}</p>
+                          )}
                         </div>
                       </div>
+                      {apiError && <p className='error-msg'>{apiError}</p>}
                     </div>
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <div className="con-pass">
-                          <input
-                            type="text"
-                            name="captcha"
-                            placeholder="Enter Captcha"
-                            value={formData.captcha}
-                            onChange={handleChange}
-                          />
-                          {errors.captcha && <p>{errors.captcha}</p>}
-                        </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="con-pass">
-                          <input
-                            type="text"
-                            className="inner-2"
-                            placeholder={captcha}  
-                            readOnly
-                          />
-                          <button type="button" onClick={fetchCaptcha}>Refresh Captcha</button> {/* Refresh CAPTCHA */}
-                        </div>
-                      </div>
-                    </div>
-                    {errorMessage && <p className="error">{errorMessage}</p>}
-                    {successMessage && <p className="success">{successMessage}</p>}
-                    <button type="submit" className="btn btn-warning" disabled={loading}>
-                      {loading ? "Registering..." : "Signup"}
+                    <button type="submit" className="btn btn-warning">
+                      Signup
                     </button>
                   </form>
                 </div>
@@ -217,7 +181,10 @@ const Registration = () => {
             </div>
             <div className="col-lg-6">
               <div className="jba-login-page-img">
-                <img src="/img/login/login-pic.png" alt="login-img" />
+                <img
+                  src="/img/login/login-pic.png"
+                  alt="login-img"
+                />
               </div>
             </div>
           </div>
@@ -227,5 +194,5 @@ const Registration = () => {
     </div>
   );
 };
-
+ 
 export default Registration;

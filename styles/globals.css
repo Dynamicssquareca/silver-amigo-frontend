@@ -12377,3 +12377,14 @@ padding:30px;
 }
 
 
+/* New Code */
+
+.error-msg{
+  color: #ff0000;
+}
+
+.success-msg{
+  color: 	#008000;
+}
+
+
