@@ -1,5 +1,5 @@
 export class AppURL  {
-    static baseUrl = "http://127.0.0.1:8000/api"
+    static baseUrl = "https://testing.jewelsbyanu.com/silveramigoapi/backend/public/api"
   
 
     static allbanners = this.baseUrl+"/allbanners";
