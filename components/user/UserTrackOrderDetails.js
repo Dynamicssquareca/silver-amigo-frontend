@@ -16,7 +16,7 @@ const UserTrackOrderDetails = ({ items, address ,Subtotal,order}) => {
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     return date.toLocaleDateString('en-GB', options);
   };
-  const imageBaseUrl = "http://127.0.0.1:8000/uploads/products/"; 
+ 
   
   const steps = ['Order Confirmed', 'Shipped', 'Delivered'];
   const getOrderStatus = () => {
@@ -50,7 +50,7 @@ const UserTrackOrderDetails = ({ items, address ,Subtotal,order}) => {
       {items.map((item, index) => (
         <div key={index} className="jba-cart-product jba-cart-product-user">
           <div className="p-pic">
-          <img src={`${imageBaseUrl}${item.product_image.split(',')[0]}`} alt={item.product_name} />
+          <img src={item.product_image} alt={item.product_name} />
           </div>
           <div className="product-dec">
             <h3>{item.product_name || 'Product Name'}</h3>

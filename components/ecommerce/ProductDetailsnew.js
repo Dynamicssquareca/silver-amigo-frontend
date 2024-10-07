@@ -113,7 +113,7 @@ const ProductDetailsnew = ({productData,relatedProducts}) => {
                       </div>
                     </div>
                     <div className="jab-product-sigle-price">
-                      <span className="orginal-price">₹ {productData.sale_price}</span>
+                      <span className="orginal-price">₹ {productData.sale_price.toLocaleString('en-IN')}</span>
                     </div>
                     <div className="add-t-cart">
                       <a href="#">

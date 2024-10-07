@@ -86,21 +86,14 @@ const Footer = () => {
                                 <h4 className="widget-title">Quick Links</h4>
                                 <ul className="footer-list  mb-sm-5 mb-md-0">
                                     <li>
-                                        <a href="/book-a-virtual-appointment">Book An Appointment</a>
-                                    </li>
-                                    <li>
-                                        <a href="/bespoke">Bespoke</a>
-                                    </li>
-                                    <li>
                                         <a href="/about-us">About us</a>
                                     </li>
                                     <li>
-                                        <a href="/policy">Policies</a>
+                                        <a href="/contact-us">Contact Us</a>
                                     </li>
                                     <li>
-                                        <a href="/terms-and-conditions/">Terms & Conditions</a>
+                                        <a href="/track-order">Track Order</a>
                                     </li>
-                                    
                                 </ul>
                             </div>
                             <div
@@ -109,18 +102,19 @@ const Footer = () => {
                             >
                                 <h4 className="widget-title ">Quick Links</h4>
                                 <ul className="footer-list  mb-sm-5 mb-md-0">
-                                    <li>
-                                        <a href="/ring-size">Ring Size Guide</a>
+                                <li>
+                                        <a href="/privacy-policy">Privacy policy</a>
                                     </li>
                                     <li>
-                                        <a href="/bangle-size">Bangle Size Guide</a>
+                                        <a href="/refund-policy">Refund policy</a>
                                     </li>
                                     <li>
-                                        <a href="/contact-us">Contact Us</a>
+                                        <a href="/shipping-policy">Shipping policy</a>
                                     </li>
                                     <li>
-                                        <a href="/track-order">Track Order</a>
+                                        <a href="/terms-and-conditions/">Terms & Conditions</a>
                                     </li>
+                                    
                                 </ul>
                             </div>
                             <div

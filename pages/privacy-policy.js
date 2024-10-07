@@ -3,20 +3,20 @@ import Link from "next/link";
 import AppURL from "./api/AppUrl";
 import { useEffect, useState } from "react";
  
-const TermsAndConditions = () => {
+const PrivacyPolicy = () => {
   const [details, setDetails] = useState(null);
  
   useEffect(() => {
     const fetchTerms = async () => {
       try {
-        const response = await fetch(AppURL.TermsandConditions, {
+        const response = await fetch(AppURL.PrivacyPolicy, {
           method: "GET",
         });
         const data = await response.json();
         setDetails(data.data[0]);  
        
       } catch (error) {
-        console.error("Error fetching Terms and Conditions:", error);
+        console.error("Error fetching Privacy Policy:", error);
       }
     };
  
@@ -26,14 +26,14 @@ const TermsAndConditions = () => {
   return (
     <>
       <Head>
-        <title>Terms and Conditions | Silver Amigo</title>
+        <title>Privacy Policy | Silver Amigo</title>
       </Head>
  
       <div className="page-header breadcrumb-wrap">
         <div className="container">
           <div className="breadcrumb">
             <Link href="/">Home</Link>
-            <span></span>Terms and Conditions
+            <span></span>Privacy Policy
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@ const TermsAndConditions = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <h1 className="new-header">Terms and Conditions</h1>
+              <h1 className="new-header">Privacy Policy</h1>
             </div>
             <div className="col-lg-12">
               <div className="inner-content-defalul">
@@ -65,4 +65,4 @@ const TermsAndConditions = () => {
   );
 };
  
-export default TermsAndConditions;
+export default PrivacyPolicy;

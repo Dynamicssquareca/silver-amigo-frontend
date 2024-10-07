@@ -46,7 +46,7 @@ const FeaturedProductList = ({productName,productSlug,productprice,sku,frontImg,
           </div>
           <div className="product-card-bottom">
             <div className="product-price">
-              <span>₹ {productprice}</span>
+              <span>₹ {productprice.toLocaleString('en-IN')}</span>
             </div>
           </div>
         </div>

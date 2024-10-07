@@ -44,7 +44,7 @@ const NewArrivalProductList = ({productName,productSlug,productprice,sku,frontIm
            
           <div className="product-card-bottom">
             <div className="product-price">
-              <span>₹ {productprice}</span>
+              <span>₹ {productprice.toLocaleString('en-IN')}</span>
             </div>
              
           </div>

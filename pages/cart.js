@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import CartItems from "components/ecommerce/CartItems";
 import CartTotal from "components/ecommerce/CartTotal";
 import Head from "next/head";
-import axios from "axios";
-import AppURL from "@/pages/api/AppUrl"; // Import your API URLs
+import AppURL from "@/pages/api/AppUrl";  
 
 const Cart = () => {
   const [cartData, setCartData] = useState([]);
@@ -17,16 +16,16 @@ const Cart = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    setIsLoggedIn(!!token); // Check if the user is logged in
-    fetchCartData(token); // Fetch cart data
+    setIsLoggedIn(!!token); 
+    fetchCartData(token); 
   }, []);
 
   const fetchCartData = async (token) => {
     let cartItems = [];
     if (token) {
-      // If the user is logged in, fetch the cart from the API
+       
       try {
-        const response = await axios.get(AppURL.UserGetCartItems, {
+        const response = await fetch(AppURL.UserGetCartItems, {
           headers: { Authorization: `Bearer ${token}` },
         });
         cartItems = response.data.data || [];
@@ -34,13 +33,13 @@ const Cart = () => {
         console.error("Failed to fetch cart from API:", error);
       }
     } else {
-      // If the user is not logged in, fetch the cart from localStorage
+      
       cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     }
 
-    // Ensure cartItems is always an array
+    
     if (!Array.isArray(cartItems)) {
-      cartItems = Object.values(cartItems); // Convert objects to array if needed
+      cartItems = Object.values(cartItems);  
     }
 
     setCartData(cartItems);
