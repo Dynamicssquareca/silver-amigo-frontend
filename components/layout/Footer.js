@@ -118,7 +118,9 @@ const Footer = () => {
                                     <li>
                                         <a href="/contact-us">Contact Us</a>
                                     </li>
-                                   
+                                    <li>
+                                        <a href="/track-order">Track Order</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div

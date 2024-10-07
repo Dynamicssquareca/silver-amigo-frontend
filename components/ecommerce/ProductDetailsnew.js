@@ -21,23 +21,72 @@ const ProductDetailsnew = ({productData,relatedProducts}) => {
   };
   
   const addToCart = (productId, quantity) => {
-     
-    fetch(AppURL.UserAddtoCart, {
+    let cartData = JSON.parse(localStorage.getItem('cart')) || {};
+    if (cartData[productId]) {
+      alert('Product already added to the cart.');
+    } else {
+      fetch(AppURL.UserAddtoCart, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            product_id: productId,
-            qty: quantity,
-             
+          product_id: productId,
+          qty: quantity,
         }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);  
-    });
-};
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message === 'Product successfully added into cart') {
+            cartData[productId] = data.data[productId];
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            const cartCount = Object.keys(cartData).length;
+            localStorage.setItem('cartcount', cartCount);
+            window.location.replace('/cart');
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  };
+
+
+  const buyNow = (productId, quantity) => {
+    let cartData = JSON.parse(localStorage.getItem('cart')) || {};
+    if (!cartData[productId]) {
+       
+      fetch(AppURL.UserAddtoCart, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          product_id: productId,
+          qty: quantity,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message === 'Product successfully added into cart') {
+            cartData[productId] = data.data[productId];
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            const cartCount = Object.keys(cartData).length;
+            localStorage.setItem('cartcount', cartCount);
+            window.location.replace('/checkout');
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    } else {
+      window.location.replace('/checkout');
+    }
+  };
  
   return (
     <section className="mb-50">
@@ -83,7 +132,7 @@ const ProductDetailsnew = ({productData,relatedProducts}) => {
                         className="btn btn-2"
                         type="button"
                         id="button-addon2"
-                        
+                        onClick={() => buyNow(productData.product_id, 1)}
                       >
                        Buy Now
                       </button>

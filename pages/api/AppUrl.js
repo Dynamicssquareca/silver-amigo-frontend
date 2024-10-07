@@ -16,11 +16,40 @@ export class AppURL  {
 
     static UserRegisteration = this.baseUrl+"/register";
     static UserLogin = this.baseUrl+"/login";
+    static UserForgotPassword = this.baseUrl+"/forgot-password";
     static UserDetails = this.baseUrl+"/user-details";
     static UserUpdateDetails = this.baseUrl+"/user-details-update";
     static UserLogout = this.baseUrl+"/user-logout";
-
     static UserAddtoCart = this.baseUrl+"/add-to-cart";
     static UserCart = this.baseUrl+"/cart";
+    static UserGetCartItems = this.baseUrl+"/cart-items";
+    static MergeGuestCart = this.baseUrl+"/merge-guest-cart";
+    static UserCheckout = this.baseUrl+"/checkout";
+    static UserVerifyPayment = this.baseUrl+"/verify-payment";
+    static UserAddAddress = this.baseUrl+"/add-address";
+    static UserGetAddress = this.baseUrl+"/get-addresses";
+    static UserUpdateAddress(addressId) {
+      return `${this.baseUrl}/update-address/${addressId}`;
+  }
+
+
+    static Countries = this.baseUrl+"/get-countries";
+    static GetStatesByCountry(countryId) {
+      return `${this.baseUrl}/get-states/${countryId}`;
+      }
+    static GetCitiesByState(stateId) {
+      return `${this.baseUrl}/get-cities/${stateId}`;
+      } 
+
+      static UserOrderSuccess(OrderId) {
+        return `${this.baseUrl}/order-success/${OrderId}`;
+    }
+    static UserOrders = this.baseUrl+"/my-orders";
+    static UserOrderDetails(OrderId) {
+      return `${this.baseUrl}/order-details/${OrderId}`;
+  }
+  static UserTrackOrder(OrderId) {
+    return `${this.baseUrl}/track-order/${OrderId}`;
+}
 }
 export default AppURL;

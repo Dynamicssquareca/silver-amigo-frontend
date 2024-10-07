@@ -12387,4 +12387,15 @@ padding:30px;
   color: 	#008000;
 }
 
+.add-new-add button {
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 40px;
+  color: #fff;
+  background-color: #f9acac;
+  border: 1px solid #f9acac;
+  border-radius: 0;
+  margin-top: 12px;
+}
+
 

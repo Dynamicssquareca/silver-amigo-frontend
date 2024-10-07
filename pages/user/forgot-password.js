@@ -1,19 +1,47 @@
-import React from 'react';
-import Breadcrumb from '../../components/layout/Breadcrumb';
+import React , { useState } from 'react';
 import BottomServiceList from '../../components/elements/BottomServiceList';
-import Link from 'next/link';
 import Head from "next/head";
+import AppURL from '../api/AppUrl';
 
 
 
-const Login = () => {
+const ForgotPassword = () => {
+    const API_URL = AppURL.UserForgotPassword;
+    const [email, setEmail] = useState('');
+    const [errors, setErrors] = useState({});
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const newErrors = {};
+        if (!email) newErrors.email = 'Email is required';
+        setErrors(newErrors);
+        if (Object.keys(newErrors).length > 0) return;
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email}),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+               
+            } else {
+                 
+            }
+        } catch (error) {
+            console.error('An error occurred', error);
+        }
+    };
     return (
         <div>
-               <Head>
-      <title>Forgot Password | JBA</title>
+    <Head>
+      <title>Forgot Password | Silver Amigo</title>
         <meta name="description" content="Loose Diamond Supplier, Manufacturer & Exporter from India" />
       </Head>
-            <Breadcrumb />
+             
             <section className='ptb-60'>
                 <div className='container'>
                    <div className='row g-0 bg0'>
@@ -21,12 +49,14 @@ const Login = () => {
                         <div className='jba-login-page'>
                             <div className='jab-log-form'>
                                 <h3>Enter Registered mail id</h3>
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                 <input
                                 type="email"
                                 placeholder="Email ID"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 />
-                                
+                               {errors.email && <p className='error'>{errors.email}</p>}
                                 <p><a href="/user/login/" className='forget'>Login</a></p>
                                  <button type="submit" className="btn btn-warning">Submit</button>
                                 </form>
@@ -49,4 +79,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default ForgotPassword;

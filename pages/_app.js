@@ -24,6 +24,38 @@ function MyApp({ Component, pageProps,menuItems }) {
       setProgress(1000)
     })
   })
+  useEffect(() => {
+    const checkAndMergeCart = async () => {
+        const token = localStorage.getItem('authToken');  
+        const cartData = JSON.parse(localStorage.getItem('cart')) || {};  
+        if (token && Object.keys(cartData).length > 0) {
+            try {
+                const response = await fetch(AppURL.MergeGuestCart, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ cartItems: cartData }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                     
+                    localStorage.removeItem('cart');
+                    localStorage.removeItem('cartcount');
+                } else {
+                    console.error('Cart merge failed:', data.message);
+                }
+            } catch (error) {
+                console.error('Error merging guest cart:', error);
+            }
+        }
+    };
+
+    checkAndMergeCart();
+}, []);
+
    
   return <>
   <LoadingBar

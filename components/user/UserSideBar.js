@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 import React from "react";
 import AppURL from "@/pages/api/AppUrl";
 import userAuth from "@/pages/hooks/userAuth";
@@ -76,23 +76,6 @@ const UserSideBar = () => {
               <span>My Orders</span>
             </a>
          
-        </li>
-        <li>
-         <a href="/user/track-order/">
-            
-              <img
-                src="/img/login/track-order-black.png/"
-                alt="track-order-black"
-                className="img-1"
-              />
-              <img
-                src="/img/login/track-order-blue.png/"
-                alt="track-order-blue"
-                className="img-2"
-              />
-              <span>Track Orders</span>
-            </a>
-           
         </li>
         <li>
           <a href="/user/address/">

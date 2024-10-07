@@ -4,7 +4,7 @@ import AppURL from "@/pages/api/AppUrl";
  
 const UserAccAddress = ({ onAddressSelect }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState("add");  
+  const [modalMode, setModalMode] = useState("add"); // 'add' or 'edit'
   const [currentAddress, setCurrentAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [countries, setCountries] = useState([]);
@@ -13,9 +13,15 @@ const UserAccAddress = ({ onAddressSelect }) => {
   const [countryMap, setCountryMap] = useState({});
   const [stateMap, setStateMap] = useState({});
   const [cityMap, setCityMap] = useState({});
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+
+  const handleAddressSelection = (addressId) => {
+    setSelectedAddressId(addressId);
+    onAddressSelect(addressId); 
+  };
   
   const fetchAddresses = async () => {
-    
+    console.log(selectedAddressId);
     try {
       const response = await fetch(AppURL.UserGetAddress, {
         headers: {
@@ -153,6 +159,16 @@ const response = await fetch(`${AppURL.UpdateAddress}/${address.id}`, {
           <div key={address.id} className="col-lg-6 mb-3">
                 <div className="address-list">
                   <div className="head">
+                    <input
+                      type="radio"
+                      name="addressSelection"
+                      value={address.id}
+                      checked={selectedAddressId === address.id}
+                      onChange={() => handleAddressSelection(
+                        address.id
+                        )}
+                      className="form-check-input"
+                    />
                     {address.address_type}{" "}
                     <a
                       href="#"

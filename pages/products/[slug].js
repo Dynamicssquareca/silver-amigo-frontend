@@ -16,7 +16,7 @@ const Slug = ({slug,productdetailsdata,productrelatedcategorydata,puritydata,att
     return (
         <>
            <Head>
-         <title>{product_name} | JBA</title>
+         <title>{product_name} | Silver Amigo</title>
          <meta name="description" content={meta_description} />
       </Head>
           <div className='page-header breadcrumb-wrap'>
