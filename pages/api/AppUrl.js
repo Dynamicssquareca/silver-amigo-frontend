@@ -13,10 +13,11 @@ export class AppURL  {
     static productdetails(category_name,slug){
       return `${this.baseUrl}/productdetails/${category_name}/${slug}`;
     }
-
+    
     static UserRegisteration = this.baseUrl+"/register";
     static UserLogin = this.baseUrl+"/login";
     static UserForgotPassword = this.baseUrl+"/forgot-password";
+    static UserResetPassword = this.baseUrl+"/reset-password";
     static UserDetails = this.baseUrl+"/user-details";
     static UserUpdateDetails = this.baseUrl+"/user-details-update";
     static UserLogout = this.baseUrl+"/user-logout";
@@ -51,5 +52,11 @@ export class AppURL  {
   static UserTrackOrder(OrderId) {
     return `${this.baseUrl}/track-order/${OrderId}`;
 }
+
+static TermsandConditions = this.baseUrl+"/terms-and-conditions";
+static PrivacyPolicy = this.baseUrl+"/privacy-policy";
+static ShippingPolicy = this.baseUrl+"/shipping-policy";
+static RefundPolicy = this.baseUrl+"/refund-policy";
+
 }
 export default AppURL;
