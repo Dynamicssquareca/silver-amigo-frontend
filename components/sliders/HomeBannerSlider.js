@@ -12,12 +12,12 @@ const HomeBannerSlider = ({banner}) => {
             <Swiper
              autoplay={{
                 delay: 5000,
-                disableOnInteraction: false,
+                disableOnInteraction: true,
               }}
                 slidesPerView={1}
                 spaceBetween={0}
                 
-                pagination={true}
+                pagination={false}
                 navigation={{
                     prevEl: ".custom_prev_i1",
                     nextEl: ".custom_next_i1",
@@ -27,10 +27,10 @@ const HomeBannerSlider = ({banner}) => {
                 {banner && banner.map((item, i) => (
                 <SwiperSlide key={i}>
                     <div className="single-hero-slider single-animation-wrap">
-                        <Link href="/products">
-                        <Image
-                        src={item.banner_url}
-                        alt="Jews By Annu |Jewelery"
+                        <Link href={item.link}>
+                        <img
+                        src={item.desktop_image_url}
+                        alt={item.alt_text}
                         width={1600}
                         height={503}
                       />
@@ -38,6 +38,7 @@ const HomeBannerSlider = ({banner}) => {
                     </div>
                 </SwiperSlide>
                  ))}
+                  
             </Swiper>
             
             <div className="slider-arrow hero-slider-1-arrow">

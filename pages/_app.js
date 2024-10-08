@@ -17,13 +17,45 @@ function MyApp({ Component, pageProps,menuItems }) {
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     router.events.on('routeChangeStart',()=>{
-      setProgress(4000)                              //top loadingbar
+      setProgress(4000)                           
     })
     
     router.events.on('routeChangeComplete',()=>{
       setProgress(1000)
     })
   })
+  useEffect(() => {
+    const checkAndMergeCart = async () => {
+        const token = localStorage.getItem('authToken');  
+        const cartData = JSON.parse(localStorage.getItem('cart')) || {};  
+        if (token && Object.keys(cartData).length > 0) {
+            try {
+                const response = await fetch(AppURL.MergeGuestCart, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ cartItems: cartData }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                     
+                    localStorage.removeItem('cart');
+                    localStorage.removeItem('cartcount');
+                } else {
+                    console.error('Cart merge failed:', data.message);
+                }
+            } catch (error) {
+                console.error('Error merging guest cart:', error);
+            }
+        }
+    };
+
+    checkAndMergeCart();
+}, []);
+
    
   return <>
   <LoadingBar
@@ -44,9 +76,9 @@ function MyApp({ Component, pageProps,menuItems }) {
 export default MyApp
 
 MyApp.getInitialProps = async () => {
-  const response = await fetch(AppURL.megamenu);
+  const response = await fetch(AppURL.collections);
   const menuItems = await response.json();
-  console.log(menuItems);
+   
   return {
     menuItems,
   };

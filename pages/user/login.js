@@ -1,65 +1,108 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Breadcrumb from '../../components/layout/Breadcrumb';
 import BottomServiceList from '../../components/elements/BottomServiceList';
-import Link from 'next/link';
-import Head from "next/head";
-
-
+import Head from 'next/head';
+import AppURL from '../api/AppUrl';
+import { useRouter } from 'next/router';
 
 const Login = () => {
+    const API_URL = AppURL.UserLogin;
+    const router = useRouter();
+   
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
+    const [loginError, setLoginError] = useState('');
+
+    useEffect(() => {
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            window.location.replace('/user/dashboard');
+        }
+    }, [router]);
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const newErrors = {};
+        if (!email) newErrors.email = 'Email is required';
+        if (!password) newErrors.password = 'Password is required';
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) return;
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem('authToken', data.data.access_token);
+                window.location.replace('/user/dashboard');
+            } else {
+                setLoginError(data.message || 'Login failed');
+            }
+        } catch (error) {
+            console.error('An error occurred', error);
+            setLoginError('An unexpected error occurred. Please try again.');
+        }
+    };
+
     return (
         <div>
-               <Head>
-      <title>Log in | JBA</title>
-        <meta name="description" content="Loose Diamond Supplier, Manufacturer & Exporter from India" />
-      </Head>
-            <Breadcrumb />
+            <Head>
+                <title>Log in | Silver Amigo</title>
+                <meta name="description" content="Silver Amigo dives into the spirit of everyday celebration, reflecting on the ethos of luxury through minimal gold jewelry." />
+            </Head>
+           
             <section className='ptb-60'>
                 <div className='container'>
-                   <div className='row g-0 bg0'>
-                   <div className='col-lg-6 pt-40'>
-                        <div className='jba-login-page'>
-                            {/* <div className='socail-log'>
-                                <h1>Login With</h1>
-                                <div className='social-ions-log-btn'>
-                                <button type="button" className="btn btn-warning btn-blue"><i className="bi bi-facebook"></i> Login with Facebook</button>
-                                <button type="button" className="btn btn-warning btn-white"><i className="bi bi-google"></i> Login with Google</button>
-                                </div>
-                            </div>
-                            <div className='jba-div'>
-                            Or 
-                            </div> */}
-                            <div className='jab-log-form'>
-                                <h3>Login with Detail</h3>
-                                <form>
-                                <input
-                                type="email"
-                                placeholder="Email ID"
-                                />
-                                 <input
-                                type="password"
-                                placeholder="Password"
-                                /> 
-                                <p><a href="/user/forgot-password/" className='forget'>Forgot Password</a></p>
-                                 <button type="submit" className="btn btn-warning">Login</button>
-                                </form>
-                                <div className='more-opt'>
-                                    <p>New to JewelsByAnu ?  <a href="/user/registration/">Create an Account</a></p>
+                    <div className='row g-0 bg0'>
+                        <div className='col-lg-6 pt-40'>
+                            <div className='jba-login-page'>
+                                <div className='jab-log-form'>
+                                    <h3>Login with Detail</h3>
+                                    <form onSubmit={handleSubmit}>
+                                        <input
+                                            type="email"
+                                            placeholder="Email ID"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                        {errors.email && <p className='error-msg'>{errors.email}</p>}
+                                        <input
+                                            type="password"
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        {errors.password && <p className='error-msg'>{errors.password}</p>}
+                                        {loginError && <p className='error-msg'>{loginError}</p>}
+                                        <p><a href="/user/forgot-password/" className='forget'>Forgot Password</a></p>
+                                        <button type="submit" className="btn btn-warning">Login</button>
+                                    </form>
+                                    <div className='more-opt'>
+                                        <p>New to Silver Amigo? <a href="/user/registration/">Create an Account</a></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className='col-lg-6'>
-                        <div className='jba-login-page-img'>
-                         <img src='/img/login/login-pic.png' alt='login-img' />
+                        <div className='col-lg-6'>
+                            <div className='jba-login-page-img'>
+                                <img src='/img/login/login-pic.png' alt='login-img' />
+                            </div>
                         </div>
                     </div>
-                   </div>
                 </div>
             </section>
             <BottomServiceList />
         </div>
     );
-}
+};
 
 export default Login;

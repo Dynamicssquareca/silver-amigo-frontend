@@ -1,16 +1,7 @@
 import React from "react";
-import { UncontrolledPopover, PopoverHeader, PopoverBody } from "reactstrap";
-import { useRouter } from 'next/router';
-
-const CartTotal = () => {
 
 
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push('/shipping/');
-  };
-
+const CartTotal = ({ subtotal, discount, shippingCost, total }) => {
 
   return (
     <div className="cart-total-price">
@@ -22,15 +13,15 @@ const CartTotal = () => {
                 <tbody>
                 <tr>
                     <th>Subtotal</th>
-                    <td>30,998</td>
+                    <td>{subtotal.toLocaleString()}</td>
                 </tr>
-                <tr>
+                {/* <tr>
                     <th>Total Discount</th>
-                    <td>-1500</td>
-                </tr>
+                    <td>-{discount.toLocaleString()}</td>
+                </tr> */}
                 <tr>
                     <th>Shipping(standard)</th>
-                    <td>FREE</td>
+                    <td>Free</td>
                 </tr>
                 </tbody>
                 
@@ -40,13 +31,13 @@ const CartTotal = () => {
             <tbody>
                 <tr>
                     <th>Total Cost</th>
-                    <td>₹ 29,498</td>
+                    <td>₹ {total.toLocaleString()}</td>
                 </tr>
                 </tbody>
             </table>
             <div className="check-out mt-50">
-            {/* <button onClick={handleClick} type="submit" className="btn btn-primary">Place Order</button> */}
-            <a href="/shipping/" type="submit" className="btn btn-primary">Place Order</a>
+    
+            <a href="/checkout/" type="submit" className="btn btn-primary">Place Order</a>
             </div>
         </div>
       </div>

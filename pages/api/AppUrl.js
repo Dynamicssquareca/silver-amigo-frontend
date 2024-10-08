@@ -1,21 +1,62 @@
 export class AppURL  {
-    static BaseURL = "https://api.jewelsbyanu.com/api"
-    static headermenu = this.BaseURL+"/all/categories";
-    static banner = this.BaseURL+"/all/banners";
-    static category = this.BaseURL+"/all/categories";
-    static featuredproduct = this.BaseURL+"/featured/product";
-    static newarrivalproduct = this.BaseURL+"/newarrival/product";
-    static productbycategory = this.BaseURL+"/category/";
-    static categoryfilterlistproduct = this.BaseURL+"/featured/product";
-    static productlistfilter = this.BaseURL+"/search/product";
-    static searchproduct = this.BaseURL+"/search/product";
-    static productdetails = this.BaseURL+"/product/details/";
-    static allpurity = this.BaseURL+"/all/purity";
-    static allattribute = this.BaseURL+"/all/attribute";
-    static bycategory = this.BaseURL+"/category/";
-    static categorybanner = this.BaseURL+"/category/banner/";
-    static bysubcategory = this.BaseURL+"/subcategory/";
-    static megamenu = this.BaseURL+"/megamenu/categories";
-    static bytesting = this.BaseURL+"/testing/";
+    static baseUrl = "https://testing.jewelsbyanu.com/silveramigoapi/backend/public/api"
+  
+
+    static allbanners = this.baseUrl+"/allbanners";
+    static collections = this.baseUrl+"/allcollections";
+    static productbycollection(slug) {
+        return `${this.baseUrl}/productbycollection/${slug}`;
+      }
+    static newarrivalproducts = this.baseUrl+"/newarrivalproducts";
+    static featuredproducts = this.baseUrl+"/featuredproducts";
+    static alltestimonials = this.baseUrl+"/alltestimonials";
+    static productdetails(category_name,slug){
+      return `${this.baseUrl}/productdetails/${category_name}/${slug}`;
+    }
+    
+    static UserRegisteration = this.baseUrl+"/register";
+    static UserLogin = this.baseUrl+"/login";
+    static UserForgotPassword = this.baseUrl+"/forgot-password";
+    static UserResetPassword = this.baseUrl+"/reset-password";
+    static UserDetails = this.baseUrl+"/user-details";
+    static UserUpdateDetails = this.baseUrl+"/user-details-update";
+    static UserLogout = this.baseUrl+"/user-logout";
+    static UserAddtoCart = this.baseUrl+"/add-to-cart";
+    static UserCart = this.baseUrl+"/cart";
+    static UserGetCartItems = this.baseUrl+"/cart-items";
+    static MergeGuestCart = this.baseUrl+"/merge-guest-cart";
+    static UserCheckout = this.baseUrl+"/checkout";
+    static UserVerifyPayment = this.baseUrl+"/verify-payment";
+    static UserAddAddress = this.baseUrl+"/add-address";
+    static UserGetAddress = this.baseUrl+"/get-addresses";
+    static UserUpdateAddress(addressId) {
+      return `${this.baseUrl}/update-address/${addressId}`;
+  }
+
+
+    static Countries = this.baseUrl+"/get-countries";
+    static GetStatesByCountry(countryId) {
+      return `${this.baseUrl}/get-states/${countryId}`;
+      }
+    static GetCitiesByState(stateId) {
+      return `${this.baseUrl}/get-cities/${stateId}`;
+      } 
+
+      static UserOrderSuccess(OrderId) {
+        return `${this.baseUrl}/order-success/${OrderId}`;
+    }
+    static UserOrders = this.baseUrl+"/my-orders";
+    static UserOrderDetails(OrderId) {
+      return `${this.baseUrl}/order-details/${OrderId}`;
+  }
+  static UserTrackOrder(OrderId) {
+    return `${this.baseUrl}/track-order/${OrderId}`;
+}
+
+static TermsandConditions = this.baseUrl+"/terms-and-conditions";
+static PrivacyPolicy = this.baseUrl+"/privacy-policy";
+static ShippingPolicy = this.baseUrl+"/shipping-policy";
+static RefundPolicy = this.baseUrl+"/refund-policy";
+
 }
 export default AppURL;

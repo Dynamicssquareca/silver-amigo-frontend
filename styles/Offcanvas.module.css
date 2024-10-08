@@ -1,0 +1,86 @@
+/* components/Offcanvas.module.css */
+.offcanvas {
+    position: fixed;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    z-index: 1040;
+  }
+  
+  /* Offcanvas from the left */
+  .left {
+    width: 300px; /* Fixed width for left Offcanvas */
+    height: 100%; /* Full height */
+    transform: translateX(-100%);
+    top: 0;
+    left: 0;
+  }
+  
+  /* Offcanvas from the right */
+  .right {
+    width: 300px; /* Fixed width for right Offcanvas */
+    height: 100%; /* Full height */
+    transform: translateX(100%);
+    top: 0;
+    right: 0;
+  }
+  
+  /* Offcanvas from the top */
+  .top {
+    width: 100%; /* Full width for top Offcanvas */
+    height: 300px; /* Fixed height for top Offcanvas */
+    transform: translateY(-100%);
+    left: 0;
+    top: 0;
+  }
+  
+  .show {
+    transform: translateX(0); /* For left and right */
+  }
+  
+  .show.top {
+    transform: translateY(0); /* For top */
+  }
+  
+  .show.bottom {
+    transform: translateY(0); /* For bottom */
+  }
+  
+  .offcanvasHeader {
+    /*display: flex; 
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* padding: 1rem; */
+    /* border-bottom: 1px solid #dee2e6; */
+    position: absolute;
+    right: 0;
+  }
+  
+  .offcanvasTitle {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  
+  .offcanvasBody {
+    padding: 1rem;
+    overflow-y: auto;
+  }
+  
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1030;
+  }
+  

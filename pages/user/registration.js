@@ -1,89 +1,177 @@
-import React from "react";
+import React, { useState } from "react";
 import Breadcrumb from "../../components/layout/Breadcrumb";
 import BottomServiceList from "../../components/elements/BottomServiceList";
-import Link from "next/link";
 import Head from "next/head";
-
+import AppURL from '../api/AppUrl';
+ 
 const Registration = () => {
+  const API_URL = AppURL.UserRegisteration;
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    password: "",
+    password_confirmation: "",
+  });
+ 
+  const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [apiError, setapiErrors] = useState('');
+ 
+  const validate = () => {
+    const errors = {};
+if (!formData.name) errors.name = "Name is required";
+if (!formData.email) {
+errors.email = "Email is required";
+} else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+errors.email = "Email address is invalid";
+    }
+    if (!formData.mobile) errors.mobile = "mobile number is required";
+    if (!formData.password) errors.password = "Password is required";
+    if (formData.password !== formData.password_confirmation) {
+      errors.password_confirmation = "Passwords do not match";
+    }
+    return errors;
+  };
+ 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length === 0) {
+      setLoading(true);
+      
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          mobile: formData.mobile,
+          password: formData.password,
+          password_confirmation:formData.password_confirmation,
+          }),
+        });
+ 
+        const data = await response.json();
+        setLoading(false);
+ 
+        if (response.ok) {
+          setSuccessMessage("Registration successful!");
+          localStorage.setItem('authToken', data.data.access_token);
+          window.location.replace('/user/dashboard');
+           
+        } else {
+          setapiErrors(data.message || "Registration failed");
+        }
+      } catch (error) {
+        setLoading(false);
+        setapiErrors({ apiError: "Something went wrong. Please try again." });
+      }
+    }
+  };
+ 
   return (
     <div>
-         <Head>
-      <title>New Registration | JBA</title>
-        <meta name="description" content="Loose Diamond Supplier, Manufacturer & Exporter from India" />
+      <Head>
+        <title>New Registration | JBA</title>
+        <meta
+          name="description"
+          content="Loose Diamond Supplier, Manufacturer & Exporter from India"
+        />
       </Head>
-      
-      <Breadcrumb />
-      <section className="ptb-60">
+       
+      <section className="pt-30">
         <div className="container">
           <div className="row g-0 bg0">
             <div className="col-lg-6">
               <div className="jba-login-page jba-registraion-page">
-                {/* <div className="socail-log">
-                  <h1>Continue With</h1>
-                  <div className="social-ions-log-btn">
-                    <button type="button" className="btn btn-warning btn-blue">
-                      <i className="bi bi-facebook"></i> Login with Facebook
-                    </button>
-                    <button type="button" className="btn btn-warning btn-white">
-                      <i className="bi bi-google"></i> Login with Google
-                    </button>
-                  </div>
-                </div>
-                <div className="jba-div">Or</div> */}
                 <div className="jab-log-form jab-regi-form">
                   <h3>
                     Create an account <br />
                     <span>
                       {" "}
                       Already have an account?{" "}
-                      <a href="/user/login/">
-                        Log in
-                      </a>
+                      <a href="/user/login/"> Log in </a>
                     </span>
                   </h3>
-                  <p></p>
-                  <form>
-                   
-                    
+                  <form onSubmit={handleSubmit}>
                     <div className="row">
-                        <div className="col-lg-6"> <input type="text" placeholder="Enter Your Name" /></div>
-                        <div className="col-lg-6"><input type="email" placeholder="Email ID" /></div>
+                      <div className="col-lg-12">
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Enter Your Name"
+                          value={formData.name}
+                          onChange={handleChange}
+                        />
+                        {errors.name &&
+                        <p className="error-msg">{errors.name}</p>}
+                      </div>
+                      <div className="col-lg-12">
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email ID"
+                          value={formData.email}
+                          onChange={handleChange}
+                        />
+                        {errors.email && (
+                        <p className="error-msg">{errors.email}</p>
+                        )}
+                      </div>
+                      <div className="col-lg-12">
+                        <input
+                          type="text"
+                          name="mobile"
+                          placeholder="Enter mobile no."
+                          value={formData.mobile}
+                          onChange={handleChange}
+                        />
+                        {errors.mobile && (
+                          <p className="error-msg">{errors.mobile}</p>
+                        )}
+                      </div>
                       <div className="col-lg-6">
                         <div className="con-pass">
-                          <input type="password" placeholder="Password" />
+                          <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                          />
+                          {errors.password && (
+                            <p className="error-msg">{errors.password}</p>
+                          )}
                         </div>
                       </div>
                       <div className="col-lg-6">
                         <div className="con-pass">
                           <input
                             type="password"
-                            placeholder="Conform Password"
+                            name="password_confirmation"
+                            placeholder="Confirm Password"
                             className="inner-1"
+                            value={formData.password_confirmation}
+                            onChange={handleChange}
                           />
+                          {errors.password_confirmation && (
+                            <p className="error-msg">{errors.password_confirmation}</p>
+                          )}
                         </div>
                       </div>
+                      {apiError && <p className='error-msg'>{apiError}</p>}
                     </div>
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <div className="con-pass">
-                          <input type="text" placeholder="Enter Captcha" />
-                        </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="con-pass">
-                          <input
-                            type="text"
-                            className="inner-2"
-                            placeholder="x7453b"
-                            readOnly
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* <p>
-                      <a className="forget">Forget Password</a>
-                    </p> */}
                     <button type="submit" className="btn btn-warning">
                       Signup
                     </button>
@@ -93,7 +181,10 @@ const Registration = () => {
             </div>
             <div className="col-lg-6">
               <div className="jba-login-page-img">
-                <img src="/img/login/login-pic.png" alt="login-img" />
+                <img
+                  src="/img/login/login-pic.png"
+                  alt="login-img"
+                />
               </div>
             </div>
           </div>
@@ -103,5 +194,5 @@ const Registration = () => {
     </div>
   );
 };
-
+ 
 export default Registration;

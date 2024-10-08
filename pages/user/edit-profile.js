@@ -3,12 +3,22 @@ import Link from "next/link";
 import React from "react";
 import UserSideBar from "../../components/user/UserSideBar";
 import UserProfileInfo from "../../components/user/UserProfileInfo";
+import userAuth from '../hooks/userAuth'; 
 
 const EditProfile = () => {
+  const { userData, loading } = userAuth();
+ 
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
+ 
+  if (!userData) {
+    return <div>No user data found.</div>;  
+  }
     return (
         <>
         <Head>
-        <title>Edit Profile | JBA</title>
+        <title>Edit Profile | Silver Amigo</title>
         <meta
           name="description"
           content="Loose Diamond Supplier, Manufacturer & Exporter from India"
@@ -36,11 +46,11 @@ const EditProfile = () => {
                                 </div>
                             </div>
                             <div className="col-xxl-4  col-xl-4 col-lg-5 col-md-4 ">
-                               <UserSideBar />
+                               <UserSideBar userData={userData}/>
 
                             </div>
                             <div className="col-lg-8  col-md-8">
-                             <UserProfileInfo />
+                             <UserProfileInfo userData={userData}/>
                             </div>
                         </div>
                     </div>

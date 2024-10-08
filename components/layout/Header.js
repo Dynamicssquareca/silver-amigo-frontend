@@ -1,12 +1,15 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import AppURL from "../../pages/api/AppUrl";
-import Search from "../ecommerce/Search";
-const Header = ({ toggleClick, categogry
-}) => {
-    const [isToggled, setToggled] = useState(false);
+import LogoutButton from "../user/UserLogout";
+import Offcanvas from "../ecommerce/Offcanvas";
+import OffcanvasContentTop from "../ecommerce/OffcanvasContentTop";
+import AppURL from "@/pages/api/AppUrl";
+
+const Header = ({ toggleClick, categogry }) => {
     const [scroll, setScroll] = useState(0);
-    const [data, setData] = useState();
+    const [token, setToken] = useState(null);
+    const [cartCount, setCartCount] = useState(0);
+
+    // Scroll detection
     useEffect(() => {
         document.addEventListener("scroll", () => {
             const scrollCheck = window.scrollY >= 100;
@@ -16,40 +19,78 @@ const Header = ({ toggleClick, categogry
         });
     });
 
+    // Check for authToken when the component loads
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const localToken = localStorage.getItem("authToken");
+            setToken(localToken);
+        }
+    }, []);
 
-    const handleToggle = () => setToggled(!isToggled);
+    // Fetch cart count based on login status
+    useEffect(() => {
+        fetchCartCount();
+    }, [token]); // Depend on token to check if user is logged in
+
+    const fetchCartCount = async () => {
+        const localToken = localStorage.getItem("authToken");
+
+        // If user is logged in, fetch cart count from API
+        if (localToken) {
+            try {
+                const response = await fetch(AppURL.UserGetCartItems, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${localToken}`,
+                        "Content-Type": "application/json",
+                    },
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    setCartCount(data.cartCount); 
+                } else {
+                    setCartCount(0);
+                }
+            } catch (error) {
+                console.error("Error fetching user cart count:", error);
+                setCartCount(0);
+            }
+        } else {
+           
+            const cartcount = localStorage.getItem("cartcount");
+            if (cartcount) {
+                setCartCount(cartcount);
+            } else {
+                setCartCount(0);
+            }
+        }
+    };
+
+    const [activeId, setActiveId] = useState(null);
+    const closeOffcanvas = () => setActiveId(null);
 
     return (
         <>
+            <Offcanvas
+                id="offcanvasTop"
+                activeId={activeId}
+                setActiveId={setActiveId}
+                position="top"
+            >
+                <OffcanvasContentTop closeOffcanvas={closeOffcanvas} />
+            </Offcanvas>
             <header className="header-area jba-header">
                 <div className="Jba-header-top  d-none d-lg-block">
                     <div className="container">
                         <div className="Jba-header-wrap">
-                            <div className="logo jba-logo-width">
-                                <a href="/">
-
-                                    <img
-                                        src="/img/themepic/jbalogo.png"
-                                        alt="logo"
-                                        width="180"
-                                        height="40"
-                                    />
-
-                                </a>
-                            </div>
                             <div className="jba-header-right">
-                                <div className="jba-search-head">
-                                    <Search />
-                                </div>
                                 <div className="jba-header-action-right">
                                     <div className="hotline d-none d-lg-flex">
-                                        <img
-                                            src="/img/themepic/icons/icon-headphone.svg"
-                                            alt="hotline"
-                                        />
-
                                         <p>
-                                            <a href="tel:+91 8059102341"> +91 805 910 2341</a><span>24/7 Support</span>
+                                            <a href="tel:+91 8059102341">
+                                                +91 805 910 2341
+                                            </a>
+                                            <span>24/7 Support</span>
                                         </p>
                                     </div>
                                 </div>
@@ -66,251 +107,88 @@ const Header = ({ toggleClick, categogry
                 >
                     <div className="container">
                         <div className="Jba-header-wrap header-space-between position-relative">
-                            <div className="logo jba-logo-width d-block d-lg-none">
+                            <div className="logo jba-logo-width d-block">
                                 <a href="/">
-
                                     <img
-                                        src="/img/themepic/jbalogo.png"
-                                        alt="logo"
+                                        src="/img/Silver-amigo-wb-logo.png"
+                                        alt="Silver-amigo-wb-logo"
                                     />
-
                                 </a>
                             </div>
-                            <div className="header-nav d-none d-lg-flex">
-                                <div className="jab-menu jab-menu-padding jab-menu-lh-2 d-none d-lg-block  font-heading">
-                                    <nav>
-                                        <ul>
-                                            <li className="position-static">
-                                                <Link href="/">Home</Link>
-                                            </li>
-
-                                            <li className="position-static">
-                                                <Link href="/products/">
-
-                                                    Shop All
-
-
-                                                </Link>
-                                            </li>
-
-                                            {categogry && categogry.map((item, i) => (
-
-                                                <li key={i}>
-
-                                                    <a href={`/category/${item.category_name}`.toLowerCase().split(" ").join("-")}> {item.category_name}    <i className="bi bi-chevron-down"></i></a>
-
-                                                    <ul className="sub-menu">
-
-                                                        {item.sub_categories && item.sub_categories.map((items, j) => (
-
-                                                            <li key={j}> <a href={`/subcategory/${items.subcategory_name}-${item.category_name}`.toLowerCase().split(" ").join("-")}>{items.subcategory_name} </a></li>
-
-                                                        ))}
-
-                                                    </ul>
-
-
-
-
-
-                                                </li>
-
-                                            ))}
-
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-
                             <div className="jba-header-action-right">
-                                    <div className="jab-header-pic">
-                                        <div className="jba-header-action-icon">
-                                            <a href="/wishlist/">
-                                                
-                                                    <img
-                                                        className="svgInject"
-                                                        alt="Evara"
-                                                        src="/img/themepic/icons/icon-compare.svg"
-                                                    />
-                                                    <span className="pro-count blue">
-                                                      2
-                                                    </span> 
-                                                 
-                                            </a>
-                                            <a href="/wishlist/">
-                                                <span className="lable">
-                                                    Wishlist
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div className="jba-header-action-icon">
-                                            <a href="/cart/" className="mini-cart-icon">
-                                                    <img
-                                                        alt="Evara"
-                                                        src="/img/themepic/icons/icon-cart.svg"
-                                                    />
-                                                    <span className="pro-count blue">
-                                                      5
-                                                    </span> 
-                                                </a>
-                                           
-                                            <a href="/cart/">
-                                                 
-                                                    <span className="lable">
-                                                        Cart
-                                                    </span>
-                                               
-                                            </a>
-                                        </div>
-
-                                        <div className="jba-header-action-icon">
-                                            <a href="/page-account"> 
-                                                <img
-                                                    className="svgInject"
-                                                    alt="Nest"
-                                                    src="/img/themepic/icons/icon-user.svg"
-                                                />
-                                            </a> 
-                                            <a href="/user/dashboard/"> 
-                                                <span className="lable">
-                                                    Account
-                                                </span>
-                                            </a> 
-                                            <div className="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
-                                                <ul>
-                                                    <li>
-                                                        <a href="/user/dashboard/">
-                                                            
-                                                                <i className="fi fi-rs-user mr-10"></i>
-                                                                Dashboard
-                                                            </a> 
-                                                    </li>
-                                                    <li>
-                                                        <a href="/user/login">
-                                                        <i className="fi fi-rs-location-alt mr-10"></i>
-                                                        Login
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="/login/"> 
-                                                            <i className="fi fi-rs-sign-out mr-10"></i>
-                                                            Sign out
-                                                        </a> 
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                <div className="header-nav d-none d-lg-flex">
+                                    <div className="jab-menu jab-menu-padding jab-menu-lh-2 d-none d-lg-block  font-heading">
+                                        <nav>
+                                            <ul>
+                                                {categogry &&
+                                                    categogry.map((item, i) => (
+                                                        <li key={i}>
+                                                            <a href={`/collections/${item.slug}`}>
+                                                                {item.name}
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </nav>
                                     </div>
                                 </div>
-                            <div className="jba-header-action-right d-block d-lg-none">
                                 <div className="jab-header-pic">
                                     <div className="jba-header-action-icon">
-                                        <Link href="">
-
+                                        <a href="/cart/" className="mini-cart-icon">
                                             <img
-                                                alt="Evara"
-                                                src="/img/themepic/icons/icon-compare.svg"
+                                                src="/img/themepic/icons/icon-cart.svg"
+                                                alt="Silver Amigo - Cart"
                                             />
                                             <span className="pro-count blue">
-                                                2
+                                                {cartCount}
                                             </span>
-
-                                        </Link>
+                                        </a>
                                     </div>
 
                                     <div className="jba-header-action-icon">
-                                        <Link href="" className="mini-cart-icon">
-
-                                            <img
-                                                alt="Evara"
-                                                src="/img/themepic/icons/icon-cart.svg"
-                                            />
-                                            <span className="pro-count blue">
-                                                3
-                                            </span>
-
-                                        </Link>
-                                        <div className="cart-dropdown-wrap cart-dropdown-hm2">
-                                            <ul>
-                                                <li>
-                                                    <div className="shopping-cart-img">
-                                                        <Link href="/shop-grid-right">
-
-                                                            <img
-                                                                alt="Evara"
-                                                                src="https://shop.jewelsbyanu.com/media/wysiwyg/smartwave/porto/homepage/Earrings.png"
-                                                            />
-
-                                                        </Link>
-                                                    </div>
-                                                    <div className="shopping-cart-title">
-                                                        <h4>
-                                                            <Link href="/shop-grid-right">
-                                                                Pearl Diamond Ring
-                                                            </Link>
-                                                        </h4>
-                                                        <h3>
-                                                            <span>1 × </span>
-                                                            ₹3000
-                                                        </h3>
-                                                    </div>
-                                                    <div className="shopping-cart-delete">
-                                                        <Link href="/#">
-
-                                                            <i className="fi-rs-cross-small"></i>
-
-                                                        </Link>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div className="shopping-cart-img">
-                                                        <Link href="/shop-grid-right">
-
-                                                            <img
-                                                                alt="Evara"
-                                                                src="https://shop.jewelsbyanu.com/media/wysiwyg/smartwave/porto/homepage/Earrings.png"
-                                                            />
-
-                                                        </Link>
-                                                    </div>
-                                                    <div className="shopping-cart-title">
-                                                        <h4>
-                                                            <Link href="/shop-grid-right">
-                                                                Pearl Diamond Ring
-                                                            </Link>
-                                                        </h4>
-                                                        <h3>
-                                                            <span>1 × </span>
-                                                            ₹3000
-                                                        </h3>
-                                                    </div>
-                                                    <div className="shopping-cart-delete">
-                                                        <Link href="/#">
-
-                                                            <i className="fi-rs-cross-small"></i>
-
-                                                        </Link>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <div className="shopping-cart-footer">
-                                                <div className="shopping-cart-total">
-                                                    <h4>
-                                                        Total
-                                                        <span>₹6000</span>
-                                                    </h4>
+                                        {token ? (
+                                            <>
+                                                <a href="/user/dashboard/">
+                                                    <img
+                                                        className="svgInject"
+                                                        alt="Account"
+                                                        src="/img/themepic/icons/icon-user.svg"
+                                                    />
+                                                    <span className="lable">
+                                                        Account
+                                                    </span>
+                                                </a>
+                                                <div className="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="/user/dashboard/">
+                                                                <i className="fi fi-rs-user mr-10"></i>{" "}
+                                                                Dashboard
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <LogoutButton />
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                                <div className="shopping-cart-button">
-                                                    <Link href="">
-                                                        View cart
-                                                    </Link>
-                                                    <Link href="">
-                                                        Checkout
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            </>
+                                        ) : (
+                                            <a href="/user/login">
+                                                <img
+                                                    className="svgInject"
+                                                    alt="Login"
+                                                    src="/img/themepic/icons/icon-user.svg"
+                                                />
+                                                <span className="lable">
+                                                    Login
+                                                </span>
+                                            </a>
+                                        )}
                                     </div>
+                                </div>
+                            </div>
+                            <div className="jba-header-action-right d-block d-lg-none">
+                                <div className="jab-header-pic">
                                     <div className="jba-header-action-icon d-block d-lg-none">
                                         <div
                                             className="burger-icon burger-icon-white"
@@ -330,6 +208,5 @@ const Header = ({ toggleClick, categogry
         </>
     );
 };
-
 
 export default Header;

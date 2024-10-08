@@ -1,23 +1,24 @@
 import Link from "next/link";
 import Image from 'next/image'
-function CategoryHome({homecategory}) {
+function CategoryHome({ homecategory }) {
   return (
     <>
       <div className="category-home-wraper">
-        {homecategory && homecategory.map((item,i)=>{
+         {homecategory && homecategory.map((item,i)=>{
      return <div className="pic" key={i}>
-       <Link href={`/category/${item.category_name}`.toLowerCase().split(" ").join("-")}>
+       <Link href={`/collections/${item.slug}`}>
        
-      <Image
-      src={item.category_image_url}
+      <img
+      src={item.image_url}
       alt="Picture of the author"
       width={309}
       height={309}
     />
+    <span>{item.name}</span>
       </Link>
      </div>
-    })}
-      
+    })} 
+        
       </div>
     </>
   );

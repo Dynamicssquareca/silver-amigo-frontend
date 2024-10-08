@@ -9,7 +9,7 @@ const MyAddress = () => {
   return (
     <>
       <Head>
-        <title>Cart Shipping | JBA</title>
+        <title>Address | Silver Amigo</title>
         <meta
           name="description"
           content="Loose Diamond Supplier, Manufacturer & Exporter from India"
