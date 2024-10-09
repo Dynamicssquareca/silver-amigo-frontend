@@ -42,7 +42,7 @@ const TermsAndConditions = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <h1 className="new-header">Terms and Conditions</h1>
+              <h1 className="new-header">asdkjasihq8sacjk</h1>
             </div>
             <div className="col-lg-12">
               <div className="inner-content-defalul">
