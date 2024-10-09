@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import SingleProductShop from "../../../components/ecommerce/SingleProductShop";
-import AppURL from "../../api/AppUrl";
+import SingleProductShop from "@/components/ecommerce/SingleProductShop";
+ 
  
 const Index = ({ category_name, data, error }) => {
   const resProducts = data || [];
