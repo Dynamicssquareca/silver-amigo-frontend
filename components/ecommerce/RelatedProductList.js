@@ -1,8 +1,7 @@
 import Link from "next/link";
 import React, { useState, useRef} from "react";
- import Image from "next/image";
+import Image from "next/image";
 const RelatedProductList = ({productName,productSlug,category_name,productPrice,sku,frontImg,backImg}) => {  
-  const imageBaseUrl = "http://127.0.0.1:8000/uploads/products/";  
   return (
     
     <>
@@ -17,14 +16,14 @@ const RelatedProductList = ({productName,productSlug,category_name,productPrice,
           <a href={`/collections/${category_name}/${productSlug}`}>
             <img
             className="default-img"
-            src={`${imageBaseUrl}${frontImg}`}
+            src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/products/${frontImg}`}
             alt={productName}
             width={365}
             height={365}
             />
             <img
             className="hover-img"
-            src={`${imageBaseUrl}${backImg}`}
+            src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/products/${backImg}`}
             alt={productName}
             width={365}
             height={365}

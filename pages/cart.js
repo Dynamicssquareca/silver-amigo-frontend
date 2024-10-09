@@ -22,13 +22,20 @@ const Cart = () => {
 
   const fetchCartData = async (token) => {
     let cartItems = [];
+    console.log(cartItems);
     if (token) {
        
       try {
         const response = await fetch(AppURL.UserGetCartItems, {
-          headers: { Authorization: `Bearer ${token}` },
+          method: "GET",
+          headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+          },
         });
-        cartItems = response.data.data || [];
+        const data = await response.json();
+        cartItems = data.data || [];
+        console.log(data.data);
       } catch (error) {
         console.error("Failed to fetch cart from API:", error);
       }
