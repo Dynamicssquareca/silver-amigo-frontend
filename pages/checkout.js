@@ -33,7 +33,7 @@ const Checkout = () => {
                         console.error("Failed to fetch cart items:", data.message);
                     }
                 } catch (error) {
-                    console.error("Error fetching cart items:", error);
+                   // console.error("Error fetching cart items:", error);
                 }
             } else if (loading) {
                 // Loading state, do nothing
