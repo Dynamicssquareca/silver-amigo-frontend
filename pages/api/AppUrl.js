@@ -1,5 +1,5 @@
 export class AppURL  {
-    static baseUrl = "https://testing.jewelsbyanu.com/silveramigoapi/backend/public/api"
+    static baseUrl = "https://api.silveramigo.com/api"
   
 
     static allbanners = this.baseUrl+"/allbanners";
@@ -13,7 +13,9 @@ export class AppURL  {
     static productdetails(category_name,slug){
       return `${this.baseUrl}/productdetails/${category_name}/${slug}`;
     }
-    
+    static productunderpricerange(slug){
+      return `${this.baseUrl}/product-price-range/${slug}`;
+    }
     static UserRegisteration = this.baseUrl+"/register";
     static UserLogin = this.baseUrl+"/login";
     static UserForgotPassword = this.baseUrl+"/forgot-password";
