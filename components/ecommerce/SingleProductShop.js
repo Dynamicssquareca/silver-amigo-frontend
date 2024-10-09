@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 const SingleProductShop = ({ productName, productSlug, productprice, frontImg, backImg,category_name }) => {
-  const imageBaseUrl = "http://127.0.0.1:8000/uploads/products/";
   return (
     <>
       <div className="product-cart-wrap mb-30">
@@ -11,14 +10,14 @@ const SingleProductShop = ({ productName, productSlug, productprice, frontImg, b
           <a href={`/collections/${category_name}/${productSlug}`}>
               <img
                 className="default-img"
-                src={`${imageBaseUrl}${frontImg}`}
+                src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/products/${frontImg}`}
                 alt={productName}
                 width={354}
                 height={354}
               />
               <img
                 className="hover-img"
-                src={`${imageBaseUrl}${backImg}`}
+                src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/products/${backImg}`}
                 alt={productName}
                 width={354}
                 height={354}

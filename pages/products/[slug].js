@@ -1,74 +1,149 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import ProductDetailsnew from '../../components/ecommerce/ProductDetailsnew';
-import SingleBanner from '../../components/elements/SingleBanner';
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-// import Breadcrumb from '../../components/layout/Breadcrumbjs';
-import AppURL from '../api/AppUrl';
-const Slug = ({slug,productdetailsdata,productrelatedcategorydata,puritydata,attributedata}) => {
-    const[productdetailData] = useState(productdetailsdata)
-    const[purityData] = useState(puritydata);
-    const[attributeData] = useState(attributedata) ;
-    const[product_name] = useState(productdetailsdata[0]['product_name']);
-    const[meta_description] = useState(productdetailData[0]['meta_description']);
-    const[productRelatedData] = useState(productrelatedcategorydata);
-    
+import SingleProductShop from "@/components/ecommerce/SingleProductShop";
+import AppURL from "@/pages/api/AppUrl";
+ 
+const Index = ({ slug, data, error }) => {
+  const resProducts = data || [];
+  const [sortedProducts, setSortedProducts] = useState(resProducts);
+ 
+  // Update sorted products when data changes
+  useEffect(() => {
+    setSortedProducts(resProducts);
+  }, [resProducts]);
+ 
+  // Sort products by price
+  const sortProducts = (order) => {
+    const sorted = [...resProducts].sort((a, b) => {
+      return order === "asc"
+        ? a.first_variant.sale_price - b.first_variant.sale_price
+        : b.first_variant.sale_price - a.first_variant.sale_price;
+    });
+    setSortedProducts(sorted);
+  };
+ 
+  // If error occurs or no products found
+  if (error || sortedProducts.length === 0) {
     return (
-        <>
-           <Head>
-         <title>{product_name} | Silver Amigo</title>
-         <meta name="description" content={meta_description} />
-      </Head>
-          <div className='page-header breadcrumb-wrap'>
-                <div className="container">
-                    <div className="breadcrumb">
-                        <Link href="/"> 
-                            Home
-                         
-                        </Link>
-                        <span>Product</span>
-                        <span>{product_name}</span>
-                    </div>
-                </div>
-            </div>
-            {productdetailData && productdetailData.length >= 0 && (
-              <ProductDetailsnew productData={productdetailData} relatedproduct={productRelatedData} purity={purityData} attribute={attributeData}/>
-            )}
-           
-            <SingleBanner />
-{/* <ProductMainDetails /> */}
-        </>
+      <>
+        <Head>
+          <title>Product not listed - Silver Amigo</title>
+        </Head>
+        <section className="pt-40">
+          <div className="container text-center">
+            <h5>Product not listed in this category</h5>
+            <p>
+              We couldn't find any products in this category. Please try another
+              category.
+            </p>
+          </div>
+        </section>
+      </>
     );
-}
-
-export default Slug;
-export async function getServerSideProps(context) {
-  try{
-    
-    let slug = context.query.slug;
-    const productdetailsres = await fetch(`${AppURL.productdetails}`+slug);
-    const purityres = await fetch(`${AppURL.allpurity}`);
-    const attributeres = await fetch(`${AppURL.allattribute}`);
-    const puritydata = await purityres.json();
-    const attributedata = await attributeres.json();
-    const productdetailsdata = await productdetailsres.json();
-    const productlength =productdetailsdata.length;
-    if(productlength >=1)
-    {
-    const productcategory = productdetailsdata[0]['product_category'];
-    const productrelatedcategoryres = await fetch(`${AppURL.bycategory}`+productcategory);
-    const productrelatedcategorydata = await productrelatedcategoryres.json();
-    return { props: { slug ,productdetailsdata,productrelatedcategorydata,puritydata,attributedata} };
+  }
+ 
+  return (
+    <>
+      <Head>
+        <title>{slug} Products - Silver Amigo</title>
+        <meta name="description" content={`Products under ${slug}`} />
+      </Head>
+ 
+      {/* Section for product headers */}
+      <section className="pt-40">
+        <div className="container">
+          <div className="product-headers">
+            <h1 className="header-h">{slug}</h1>
+          </div>
+        </div>
+      </section>
+ 
+      {/* Section for product listings */}
+      <section className="pb-60 pt-20">
+        <div className="container">
+          <div className="row flex-row-reverse">
+            <div className="col-xl-9 col-lg-8">
+              <div className="list-of-products-p">
+                <div className="row">
+                  {sortedProducts.map((item, i) => (
+                    <div className="col-xxl-3 col-md-6 col-sm-6 col-6" key={i}>
+                      <SingleProductShop
+                        productName={item.name}
+                        productSlug={item.first_variant.slug}
+                        productprice={item.first_variant.sale_price}
+                        sku={item.product_sku_id}
+                        frontImg={item.first_variant.images.split(",")[0]}
+                        backImg={item.first_variant.images.split(",")[1]}
+                        category_name={item.category.slug}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+ 
+            {/* Product Filter Section */}
+            <div className="col-xl-3 col-lg-4">
+              <div className="product-filter-wrapper sticky-top">
+                <div className="filter-head">
+                  <h3>Filter By</h3>
+                </div>
+                <div className="h-600">
+                  <div className="filter-list-sec">
+                    <h4>Sort By</h4>
+                    <div className="form-check jba-checkbox">
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sort"
+                          onChange={() => sortProducts("desc")}
+                          id="highLow"
+                        />
+                        <label className="form-check-label" htmlFor="highLow">
+                          Price High to Low
+                        </label>
+                      </div>
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sort"
+                          onChange={() => sortProducts("asc")}
+                          id="lowHigh"
+                        />
+                        <label className="form-check-label" htmlFor="lowHigh">
+                          Price Low to High
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+ 
+export default Index;
+ 
+// Fetch data from the server side
+export const getServerSideProps = async (context) => {
+  const { slug } = context.params;
+  try {
+    const res = await fetch(AppURL.productunderpricerange(slug));
+    const data = await res.json();
+ 
+    if (!data || data.error) {
+      return { props: { slug, data: null, error: true } };
     }
-  else{
-    return{
-      notFound:true,
-     };
+ 
+    return { props: { slug, data, error: false } };
+  } catch (err) {
+    console.error(err);
+    return { props: { slug, data: null, error: true } };
   }
-  }
-  catch (err) {
-    console.log(err);
-  }
-    
-    
-  }
+};

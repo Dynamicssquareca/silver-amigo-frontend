@@ -9,7 +9,7 @@ function CategoryHome({ homecategory }) {
        <Link href={`/collections/${item.slug}`}>
        
       <img
-      src={item.image_url}
+      src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/category/${item.image}`}
       alt="Picture of the author"
       width={309}
       height={309}

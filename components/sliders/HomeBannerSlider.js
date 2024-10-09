@@ -29,7 +29,7 @@ const HomeBannerSlider = ({banner}) => {
                     <div className="single-hero-slider single-animation-wrap">
                         <Link href={item.link}>
                         <img
-                        src={item.desktop_image_url}
+                        src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/sliders/${item.image}`}
                         alt={item.alt_text}
                         width={1600}
                         height={503}

@@ -5,7 +5,7 @@ import Image from "next/image";
 SwiperCore.use([Navigation]);
 
 const CustomerReview = ({reviewdata}) => {
-  const imageBaseUrl = "http://127.0.0.1:8000/uploads/testimonials/"; 
+   
   return (
     <>
       <Swiper
@@ -47,7 +47,7 @@ const CustomerReview = ({reviewdata}) => {
           <SwiperSlide key={i}> 
           <div className="customer-review-box d-flex">
             <div className="innner-bo">
-              <img src={`${imageBaseUrl}${item.profile_image}`} alt={item.name} width={80} height={80} />
+              <img src={`${process.env.NEXT_PUBLIC_BACKENDAPI_URL}uploads/testimonials/${item.profile_image}`} alt={item.name} width={80} height={80} />
               <span className="name">{item.name}</span>
               <div className="star-rate">
               {[...Array(5)].map((_, index) => (

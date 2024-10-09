@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 SwiperCore.use([Navigation, Thumbs]);
 
 const ThumbSlider = ({ imageOne,imageTwo,productName }) => {
+    console.log(imageOne);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     return (
