@@ -9,12 +9,15 @@ const ForgotPassword = () => {
     const API_URL = AppURL.UserForgotPassword;
     const [email, setEmail] = useState('');
     const [errors, setErrors] = useState({});
+    const [message, setMessage] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const handleSubmit = async (event) => {
         event.preventDefault();
         const newErrors = {};
         if (!email) newErrors.email = 'Email is required';
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) return;
+        setIsSubmitting(true);
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -26,13 +29,18 @@ const ForgotPassword = () => {
 
             const data = await response.json();
 
-            if (response.ok) {
-               
+            if (data) {
+                setMessage(data.message);
             } else {
+                setMessage("Something went wrong. Please try again.");
                  
             }
         } catch (error) {
             console.error('An error occurred', error);
+            setMessage('An error occurred. Please try again later.');
+        }
+        finally {
+            setIsSubmitting(false);
         }
     };
     return (
@@ -57,11 +65,14 @@ const ForgotPassword = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 />
                                {errors.email && <p className='error'>{errors.email}</p>}
+                               {message && <p className='message'>{message}</p>}
                                 <p><a href="/user/login/" className='forget'>Login</a></p>
-                                 <button type="submit" className="btn btn-warning">Submit</button>
+                                <button type="submit" className="btn btn-warning" disabled={isSubmitting}>
+                                 {isSubmitting ? 'Please wait...' : 'Submit'} 
+                                </button>
                                 </form>
                                 <div className='more-opt'>
-                                    <p>New to JewelsByAnu ?  <a href="/user/registration/">Create an Account</a></p>
+                                    <p>New to Silver Amigo ?  <a href="/user/registration/">Create an Account</a></p>
                                 </div>
                             </div>
                         </div>
