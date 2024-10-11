@@ -36,7 +36,7 @@ const CartItems = ({ item, updateQuantity,removeFromCart }) => {
           </a>
         </div>
         <button className="remove-item-btn" onClick={() => removeFromCart(item.product_id)}>
-            Remove
+        <i className="bi bi-trash"></i>
           </button>
         </div>
         
