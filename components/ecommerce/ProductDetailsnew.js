@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import RelatedProduct from "./RelatedProduct";
+
 import {
   Accordion,
   AccordionBody,
@@ -20,74 +21,55 @@ const ProductDetailsnew = ({productData,relatedProducts}) => {
     }
   };
   
-  const addToCart = (productId, quantity) => {
-    let cartData = JSON.parse(localStorage.getItem('cart')) || {};
-    if (cartData[productId]) {
+  const updateCartData = (productId, quantity, redirectToCheckout) => {
+    let cartData = JSON.parse(localStorage.getItem('cart')) || [];
+    const existingProductIndex = cartData.findIndex(item => item.product_id === productId);
+
+    if (existingProductIndex !== -1) {
       alert('Product already added to the cart.');
-    } else {
-      fetch(AppURL.UserAddtoCart, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: productId,
-          qty: quantity,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message === 'Product successfully added into cart') {
-            cartData[productId] = data.data[productId];
-            localStorage.setItem('cart', JSON.stringify(cartData));
-            const cartCount = Object.keys(cartData).length;
-            localStorage.setItem('cartcount', cartCount);
-            window.location.replace('/cart');
-          } else {
-            console.error(data.message);
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
+      if (redirectToCheckout) {
+        window.location.replace('/checkout');
+      }
+      return;
     }
-  };
 
-
-  const buyNow = (productId, quantity) => {
-    let cartData = JSON.parse(localStorage.getItem('cart')) || {};
-    if (!cartData[productId]) {
-       
-      fetch(AppURL.UserAddtoCart, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          product_id: productId,
-          qty: quantity,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message === 'Product successfully added into cart') {
-            cartData[productId] = data.data[productId];
-            localStorage.setItem('cart', JSON.stringify(cartData));
-            const cartCount = Object.keys(cartData).length;
-            localStorage.setItem('cartcount', cartCount);
+    fetch(AppURL.UserAddtoCart, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        product_id: productId,
+        qty: quantity,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'Product successfully added into cart') {
+          cartData.push({
+            product_id: productId,
+            qty: quantity,
+            ...data.data[productId]
+          });
+          localStorage.setItem('cart', JSON.stringify(cartData));
+          localStorage.setItem('cartcount', cartData.length);
+          if (redirectToCheckout) {
             window.location.replace('/checkout');
           } else {
-            console.error(data.message);
+            window.location.replace('/cart');
           }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    } else {
-      window.location.replace('/checkout');
-    }
+        } else {
+          console.error(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
- 
+
+  const addToCart = (productId) => updateCartData(productId, 1, false);
+  
+  const buyNow = (productId) => updateCartData(productId, 1, true);
   return (
     <section className="mb-50">
       <div className="container">

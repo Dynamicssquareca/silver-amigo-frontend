@@ -1,5 +1,5 @@
 export class AppURL  {
-    static baseUrl = "https://api.silveramigo.com/api"
+    static baseUrl = "http://127.0.0.1:8000/api"
   
 
     static allbanners = this.baseUrl+"/allbanners";
@@ -26,6 +26,10 @@ export class AppURL  {
     static UserAddtoCart = this.baseUrl+"/add-to-cart";
     static UserCart = this.baseUrl+"/cart";
     static UserGetCartItems = this.baseUrl+"/cart-items";
+    static UserRemoveCartItem(productid){
+      return `${this.baseUrl}/remove-cart-item/${productid}`
+    }
+    static UserUpdateCartItems = this.baseUrl+"/update-cart-items";
     static MergeGuestCart = this.baseUrl+"/merge-guest-cart";
     static UserCheckout = this.baseUrl+"/checkout";
     static UserVerifyPayment = this.baseUrl+"/verify-payment";

@@ -35,9 +35,10 @@ const Checkout = () => {
                 } catch (error) {
                     console.error("Error fetching cart items:", error);
                 }
-            } else if (loading) {
-                
-                // Loading state, do nothing
+            } else if (!userData) {
+                const guestCart = JSON.parse(localStorage.getItem("cart")) || {};
+                const guestCartItems = Object.keys(guestCart).map((key) => guestCart[key]);
+                setCartItems(guestCartItems);
             } else {
                  
             }
