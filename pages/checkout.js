@@ -39,8 +39,11 @@ const Checkout = () => {
                 const guestCart = JSON.parse(localStorage.getItem("cart")) || {};
                 const guestCartItems = Object.keys(guestCart).map((key) => guestCart[key]);
                 setCartItems(guestCartItems);
+            } else if (loading) {
+
+                // Loading state, do nothing
             } else {
-                 
+
             }
         };
 
@@ -188,10 +191,31 @@ const Checkout = () => {
                                     </div>
                                 </div>
                                 <div className="col-lg-5">
+                                {cartItems.map((item, index) => (
+                                    <div className="user-cart-left">
+                                        <div class="car-l">
+                                            <img src={item.image} alt={item.product_name} />
+                                        </div>
+                                        <div className="car-r">
+                                            <div className="item-title">
+                                               {item.product_name}
+                                            </div>
+                                            <div className="item-price">
+                                                ₹ {item.sale_price}
+                                            </div>
+                                            <div className="c-title">
+                                                Quantity: <span>{item.qty}</span>
+                                            </div>
+                                             
+                                        </div>
+                                    </div>
+                                ))}
+                                    
                                     <ShippingTotal subtotal={subtotal} totalDiscount={totalDiscount} shipping={shipping} totalCost={totalCost} />
                                     {userData && (
                                         <CartPayment paymentType={paymentType} setPaymentType={setPaymentType} handleOrder={handleOrder} totalpay={totalCost} />
                                     )}
+                                   
                                 </div>
                             </div>
                         </div>

@@ -33,6 +33,7 @@ const CartPayment = ({ paymentType, setPaymentType, handleOrder,totalpay }) => {
                 Pay ₹ {totalpay.toLocaleString()}
                 </button>
             </div>
+           
         </div>
     );
 };
