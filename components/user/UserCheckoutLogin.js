@@ -55,11 +55,11 @@ const UserCheckoutLogin = () => {
     return (
         <div>
             
-            <section className='ptb-60'>
+            <section className='pt-ss'>
                 <div className='container'>
-                    <div className='row g-0 bg0'>
-                        <div className='col-lg-12 pt-40'>
-                            <div className='jba-login-page'>
+                    <div className='row g-0'>
+                        <div className='col-lg-12'>
+                            <div className='jba-login-page jba-login-page-cent'>
                                 <div className='jab-log-form'>
                                     <h3>Login with Detail</h3>
                                     <form onSubmit={handleSubmit}>

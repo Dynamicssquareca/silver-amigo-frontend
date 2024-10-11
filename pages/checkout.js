@@ -39,8 +39,11 @@ const Checkout = () => {
                 const guestCart = JSON.parse(localStorage.getItem("cart")) || {};
                 const guestCartItems = Object.keys(guestCart).map((key) => guestCart[key]);
                 setCartItems(guestCartItems);
+            } else if (loading) {
+
+                // Loading state, do nothing
             } else {
-                 
+
             }
         };
 
@@ -188,10 +191,49 @@ const Checkout = () => {
                                     </div>
                                 </div>
                                 <div className="col-lg-5">
+                                    <div className="user-cart-left">
+                                        <div class="car-l">
+                                            <img src="https://www.minimallyyours.com/uploads/products/172493686064.png" alt="" />
+                                        </div>
+                                        <div className="car-r">
+                                            <div className="item-title">
+                                                Gem-adorned reversible gold ring
+                                            </div>
+                                            <div className="item-price">
+                                                ₹ 30450
+                                            </div>
+                                            <div className="c-title">
+                                                Quantity: <span>1</span>
+                                            </div>
+                                            <div className="d-date">
+                                                Delivery By - Oct 18, 2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="user-cart-left">
+                                        <div class="car-l">
+                                            <img src="https://api.silveramigo.com/uploads/products/172676393762.webp" alt="" />
+                                        </div>
+                                        <div className="car-r">
+                                            <div className="item-title">
+                                                Gem-adorned reversible gold ring
+                                            </div>
+                                            <div className="item-price">
+                                                ₹ 30450
+                                            </div>
+                                            <div className="c-title">
+                                                Quantity: <span>1</span>
+                                            </div>
+                                            <div className="d-date">
+                                                Delivery By - Oct 18, 2024
+                                            </div>
+                                        </div>
+                                    </div>
                                     <ShippingTotal subtotal={subtotal} totalDiscount={totalDiscount} shipping={shipping} totalCost={totalCost} />
                                     {userData && (
                                         <CartPayment paymentType={paymentType} setPaymentType={setPaymentType} handleOrder={handleOrder} totalpay={totalCost} />
                                     )}
+                                   
                                 </div>
                             </div>
                         </div>
