@@ -1,6 +1,6 @@
 
 import React from "react";
-const CartItems = ({ item, updateQuantity }) => {
+const CartItems = ({ item, updateQuantity,removeFromCart }) => {
   const { product_name, image, sale_price, offer_price,category,qty, delivery_date,slug } = item;
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -35,7 +35,9 @@ const CartItems = ({ item, updateQuantity }) => {
             <span>+</span>
           </a>
         </div>
-          
+        <button className="remove-item-btn" onClick={() => removeFromCart(item.product_id)}>
+            Remove
+          </button>
         </div>
         
       </div>
