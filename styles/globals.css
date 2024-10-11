@@ -468,8 +468,8 @@ button.submit, button[type='submit'] {
   padding: 8px 40px;
   color: #ffffff;
   border: none;
-  background-color: #f9acac;
-  border: 1px solid #f9acac;
+  background-color: #333333;
+  border: 1px solid #333333;
   border-radius: 0px;
 }
 
@@ -1572,7 +1572,7 @@ table .product-thumbnail img {
 /*COMPONENTS -> BANNERS*/
 .banner-left-icon {
   position: relative;
-  background: #9bdbd6;
+  background: #787878;
   padding: 20px;
   border-radius: 10px;
   margin-bottom:15px
@@ -1590,7 +1590,7 @@ table .product-thumbnail img {
   height: 60px;
   margin-right: 20px;
   transition-duration: 0.3s;
-  background: #6abbc1;
+  background: #333333;
   border-radius: 50%;
   -webkit-transition-duration: 0.3s;
           transition-duration: 0.3s;
@@ -2181,7 +2181,7 @@ table .product-thumbnail img {
 .product-cart-wrap .product-content-wrap .product-price span {
   font-size: 18px;
   font-weight: bold;
-  color: #d66c6c;
+  color: #333333;
 }
 
 .product-cart-wrap .product-content-wrap .product-price span.new-price {
@@ -5755,7 +5755,7 @@ h6.post-title {
 }
 
 .jba-header .hotline p a{
-  color: #000000!important;
+  color: #fff!important;
 }
 
 .jba-header .main-categori-wrap > a span {
@@ -9696,8 +9696,8 @@ footer .hotline img {
   color:#d87575
 }
 .bg0{
-  background: rgb(249,172,172);
-  background: linear-gradient(155deg, rgba(249,172,172,1) 33%, rgba(244,213,210,1) 100%);
+  /* background: rgb(249,172,172);
+  background: linear-gradient(155deg, rgba(249,172,172,1) 33%, rgba(244,213,210,1) 100%); */
 }
 /*log in page*/
 .jba-login-page{
@@ -9755,7 +9755,7 @@ margin-right:5px
   position:relative
 }
 .jab-log-form input{
-width:260px;
+width:360px;
 display:block;
 margin-bottom:20px;
 height:44px;
@@ -9770,8 +9770,8 @@ padding-left: 15px
 }
 .jab-log-form h3{
   font-size: 24px;
-  font-weight: bold;
-  color:#fff;
+  font-weight: 500;
+  color:#333333;
   margin-bottom: 37px;
 }
 .jab-log-form h3 span{font-size: 16px;}
@@ -9780,25 +9780,33 @@ padding-left: 15px
 }
 .jab-log-form p .forget{
   font-size:14px;
-  color:#fff;
+  color:#333333;
   display:block;
   margin-bottom: 20px;
-  font-weight:600
+  font-weight:600;
+
 }
 .jab-log-form .btn{
-  background-color: #d66c6c;
+  background-color: #333333;
     margin-bottom: 15px;
+    border-color:#333333
 }
 .jab-log-form .more-opt p{
   font-size: 14px;
-  color:#fff
+  color:#333333
 }
 .jab-log-form .more-opt p a{
-  color:#d66c6c;
+  color:#333333;
   font-weight:600
 }
 .jab-log-form .more-opt p a:hover,.jab-log-form p .forget:hover,.jab-log-form h3 span a:hover{
   color:#000
+}
+.jba-login-page-cent{
+  padding: 0;
+}
+.jba-login-page-cent .jab-log-form input{
+  width: 320px;
 }
 .jba-login-page-img img{
   margin-bottom:-7px;
@@ -9872,23 +9880,22 @@ padding-left: 15px
   padding:30px 30px 20px 0px
 }
 .prodect-filter-wrper{
-  border: 1px solid #f4d5d2;
-  border: 1px solid #f4d5d2;
+  border: 1px solid #e3e3e3;
     padding: 30px;
 }
 .fliter-head{
-  background-color: #f4d5d2;
+  background-color: #4b4b4b;
     padding: 10px 30px;
     margin: -30px -30px 30px -31px;
 }
 .fliter-head h3{font-size: 18px;
-  font-weight: 600;color: #4b4b4b;}
+  font-weight: 500;color: #ffffff;}
 .filter-list-sec{
   margin-bottom:30px
 }
 .filter-list-sec h4{
   font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
     color: #4b4b4b;
     margin-bottom: 23px;
 }
@@ -9985,13 +9992,13 @@ margin-bottom:40px
 }
 .jba-single-dec .heading h1{
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 500;
   color: #4b4b4b;
   
 }
 .jba-single-dec span{
   font-size: 14px;
-  color: #f9acac;
+  color: #6d6d6d;
   display: block;
   margin-bottom: 10px;
 }
@@ -10074,9 +10081,9 @@ margin-bottom:40px
     margin-bottom:30px
   }
   .jab-product-sigle-price .orginal-price{
-    font-size: 32px;
+    font-size: 28px;
   font-weight: bold;
-  color: #6abbc1;
+  color: #333333;
   display: inline-block;
   margin-right: 20px;
   }
@@ -10103,25 +10110,28 @@ margin-bottom:40px
     border:none
   }
   .add-t-cart .btn-1 {
-    background-color:#f4d5d2;
+    background-color:transparent;
     font-size: 18px;
     font-weight: 500;
     color: #4b4b4b;
     margin-right: 20px;
+    border: 2px solid #333333;
   }
   .add-t-cart .btn-2 {
-    background-color:#d66c6c;
+    background-color:#333333;
     font-size: 18px;
     font-weight: 500;
     color: #fff;
+    border: 2px solid transparent;
   }
   .add-t-cart .btn-1:hover{
-    background-color:#d66c6c;
+    background-color:#333333;
     color:#fff
   }
   .add-t-cart .btn-2:hover{
-    background-color:#f4d5d2;
+    background-color:transparent;
     color: #4b4b4b;
+    border: 2px solid #333333;
   }
   .jba-our-exp{
     display:flex;
@@ -10177,7 +10187,7 @@ margin-bottom:40px
   }
   .jab-accordion .accordion-item .accordion-button:not(.collapsed){
     box-shadow:none;
-    color:#d66c6c
+    color:#373737
   }
   .jab-accordion .accordion-item .accordion-button:focus{
 box-shadow:none
@@ -10187,7 +10197,7 @@ box-shadow:none
     align-items: center;
 }
 .jba-discount-info-box .jba-discount-info{
-  background-color: #fef3f3;
+  background-color: #f9f9f9;
   padding:15px 20px;
   margin-right:20px;
   width: 250px;
@@ -10329,7 +10339,7 @@ box-shadow:none
   font-size: 18px;
   display:block;
   margin-bottom: 10px;
-  color:#6abbc1;
+  color:#333333;
   font-weight: 600;
 }
 .jba-cart-product .product-dec .old-p{
@@ -10379,7 +10389,7 @@ box-shadow:none
   width: 30px;
   height: 30px;
   margin: 0;
-  background: #f7d7d6;
+  background: #c5c5c5;
   text-decoration: none;
   text-align: center;
   line-height: 30px;
@@ -10397,20 +10407,20 @@ box-shadow:none
   margin: 0;
   padding: 0;
   text-align: center;
-  border-top: 2px solid #f7d7d6;
-  border-bottom: 2px solid #f7d7d6;
-  border-left: 1px solid #f7d7d6;
-  border-right: 2px solid #f7d7d6;
+  border-top: 2px solid #c5c5c5;
+  border-bottom: 2px solid #c5c5c5;
+  border-left: 1px solid #c5c5c5;
+  border-right: 2px solid #c5c5c5;
   background: #fff;
   color: #8184a1;
 }
 .quantity__minus:link,
 .quantity__plus:link {
- color: #d66c6c;
+ color: #000;
 } 
 .quantity__minus:visited,
 .quantity__plus:visited {
-  color: #d66c6c;
+  color: #000;
 }
 .deliver-date{
   position: absolute;
@@ -10704,7 +10714,7 @@ text-align:right
 .price-tab .total-price tr>td{
   font-size: 18px;
   font-weight: 600;
-  color: #6abbc1;
+  color: #333333;
 }
 .price-tab .check-out {
   text-align:right
@@ -10712,7 +10722,9 @@ text-align:right
 
 
 .price-tab .check-out .btn ,.price-btn .btn{
-background-color:#d66c6c
+  background-color: #333333;
+  border-radius: 0;
+  padding: 0.6rem 1.5rem;
 }
 .cart-righ-b{
   border-right:1px solid #a5a9ae;
@@ -11073,7 +11085,7 @@ font-size: 14px;
   margin-top: 8px;
 }
 .check-out .btn{
-  background: #d66c6c;
+  background: #333333;
 }
 .btn-primary{
   border: transparent;
@@ -12303,6 +12315,55 @@ padding:30px;
 .widget-about .text-heading span b{
   font-weight:600
 }
+
+.user-cart-left{
+  display: flex;
+    gap: 20px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 15px;
+}
+/*--------- Cart Page Wrapper Start ---------*/
+
+.user-cart-left{
+  display: flex;
+
+  gap:20px;
+  background-color: #f5f5f5;
+  padding:20px;
+  position: relative;
+  margin-bottom:15px
+}
+.user-cart-left .car-l{
+  flex: 20%;
+  max-width: 20%;
+}
+.user-cart-left .car-r{
+  flex: 75%;
+  max-width: 75%;
+}
+.user-cart-left .car-r .item-price {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.78;
+  color: #333333;
+  padding-bottom: 10px;
+}
+.cart-calculator-wrapper .cart-calculate-items {
+  font-weight: 500;
+}
+.d-date {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #000;
+}
+.btn-check{
+
+}
 @media (max-width:1440px){
   .stripe-bg ul li .stripe-list p{
 
@@ -12392,10 +12453,14 @@ padding:30px;
   font-weight: 500;
   padding: 8px 40px;
   color: #fff;
-  background-color: #f9acac;
-  border: 1px solid #f9acac;
+  background-color: #333333;
+  border: 1px solid #333333;
   border-radius: 0;
   margin-top: 12px;
 }
+
+
+
+
 
 
