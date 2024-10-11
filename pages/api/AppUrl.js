@@ -1,5 +1,5 @@
 export class AppURL  {
-    static baseUrl = "http://127.0.0.1:8000/api"
+    static baseUrl = "https://api.silveramigo.com/api"
   
 
     static allbanners = this.baseUrl+"/allbanners";
