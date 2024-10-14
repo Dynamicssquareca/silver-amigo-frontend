@@ -45,7 +45,7 @@ const Index = ({ category_name, data, error }) => {
           <div className="product-headers">
             <h5>{sortedProducts[0].category.name}</h5>
             {sortedProducts.length > 0 && (
-              <div dangerouslySetInnerHTML={{ __html: sortedProducts[0].category.description }} />
+              <div dangerouslySetInnerHTML={{ __html: sortedProducts[0].category.meta_description }} />
             )}
             <h1 className="header-h">{category_name}</h1>
           </div>
@@ -73,6 +73,7 @@ const Index = ({ category_name, data, error }) => {
                 </div>
               </div>
             </div>
+           
             <div className="col-xl-3 col-lg-4">
               <div className="prodect-filter-wrper sticky-top">
                 <div className="fliter-head">
@@ -107,6 +108,8 @@ const Index = ({ category_name, data, error }) => {
                 </div>
               </div>
             </div>
+            <strong className="text-center pt-40">Konw more about {sortedProducts[0].category.name}</strong>
+            <div dangerouslySetInnerHTML={{ __html: sortedProducts[0].category.description }} />
           </div>
         </div>
       </section>
