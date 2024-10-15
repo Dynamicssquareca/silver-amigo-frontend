@@ -3,6 +3,7 @@ import LogoutButton from "../user/UserLogout";
 import Offcanvas from "../ecommerce/Offcanvas";
 import OffcanvasContentTop from "../ecommerce/OffcanvasContentTop";
 import AppURL from "@/pages/api/AppUrl";
+import Search from "../ecommerce/Search";
 
 const Header = ({ toggleClick, categogry }) => {
     const [scroll, setScroll] = useState(0);
@@ -132,13 +133,18 @@ const Header = ({ toggleClick, categogry }) => {
                                         </nav>
                                     </div>
                                 </div>
-                                <div className="jab-header-pic">
+                                <div className="jab-header-pic jab-header-pic-nee">
+                                <div className="jba-header-action-icon">
+                                    <Search />
+                                        
+                                    </div>
                                     <div className="jba-header-action-icon">
                                         <a href="/cart/" className="mini-cart-icon">
-                                            <img
+                                            {/* <img
                                                 src="/img/themepic/icons/icon-cart.svg"
                                                 alt="Silver Amigo - Cart"
-                                            />
+                                            /> */}
+                                            <i className="bi bi-cart2 bi-one"></i>
                                             <span className="pro-count blue">
                                                 {cartCount}
                                             </span>
@@ -174,14 +180,15 @@ const Header = ({ toggleClick, categogry }) => {
                                             </>
                                         ) : (
                                             <a href="/user/login">
-                                                <img
+                                                {/* <img
                                                     className="svgInject"
                                                     alt="Login"
                                                     src="/img/themepic/icons/icon-user.svg"
-                                                />
-                                                <span className="lable">
+                                                /> */}
+                                                <i className="bi bi-person bi-three"></i>
+                                                {/* <span className="lable">
                                                     Login
-                                                </span>
+                                                </span> */}
                                             </a>
                                         )}
                                     </div>
