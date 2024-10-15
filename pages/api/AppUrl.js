@@ -63,6 +63,9 @@ static TermsandConditions = this.baseUrl+"/terms-and-conditions";
 static PrivacyPolicy = this.baseUrl+"/privacy-policy";
 static ShippingPolicy = this.baseUrl+"/shipping-policy";
 static RefundPolicy = this.baseUrl+"/refund-policy";
+static SearchProduct(q) {
+  return `${this.baseUrl}/search-query/${q}`;
+}
 
 }
 export default AppURL;
