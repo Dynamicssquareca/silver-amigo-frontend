@@ -26,6 +26,7 @@ const OrderProduct = ({ products }) => {
             <span className="p-price">
                {Math.floor(product.amount).toLocaleString('en-IN')}
             </span>
+            <span className="qty">Quantity: {product.qty}</span>
           </div>
         </div>
       ))}

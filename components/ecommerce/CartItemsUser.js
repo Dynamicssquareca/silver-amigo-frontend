@@ -11,7 +11,7 @@ const CartItemsUser = ({ order }) => {
  
     if (Array.isArray(order)) {
   
-        return order.map((item, index) => (
+        return order.slice(0,1).map((item, index) => (
             <div key={index} className="jba-cart-product">
                 <div className="p-pic">
                     
