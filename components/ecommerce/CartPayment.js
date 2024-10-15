@@ -4,7 +4,7 @@ const CartPayment = ({ paymentType, setPaymentType, handleOrder,totalpay }) => {
     return (
         <div className="cart-payment">
             <h3>Select Payment Method</h3>
-            <div className="form-check">
+            {/* <div className="form-check">
                 <input
                     className="form-check-input"
                     type="radio"
@@ -15,7 +15,7 @@ const CartPayment = ({ paymentType, setPaymentType, handleOrder,totalpay }) => {
                     onChange={() => setPaymentType("1")}
                 />
                 <label className="form-check-label" htmlFor="razorpayOption">RazorPay</label>
-            </div>
+            </div> */}
             <div className="form-check">
                 <input
                     className="form-check-input"
