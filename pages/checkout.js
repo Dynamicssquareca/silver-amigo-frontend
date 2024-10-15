@@ -10,7 +10,7 @@ import useAuth from "@/pages/hooks/userAuthCheckout";
 const Checkout = () => {
     const [cartItems, setCartItems] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null);
-    const [paymentType, setPaymentType] = useState("1");
+    const [paymentType, setPaymentType] = useState("2");
     const { userData, loading } = useAuth();
 
     useEffect(() => {
@@ -61,7 +61,7 @@ const Checkout = () => {
             totalDiscount += discountAmount * item.qty;
         });
 
-        const totalCost = subtotal; // or subtotal - totalDiscount if you want to apply discounts
+        const totalCost = subtotal; 
         return { subtotal, totalDiscount, shipping: "FREE", totalCost };
     };
 
