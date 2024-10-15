@@ -1,5 +1,5 @@
 
-const OrderProductDetail = ({ items, address,payment_type }) => {
+const OrderProductDetail = ({ items, address,payment_type,subtotal }) => {
   if (!items || !Array.isArray(items) || items.length === 0) {
     return <div>No item details available.</div>;
   }
@@ -16,13 +16,15 @@ const OrderProductDetail = ({ items, address,payment_type }) => {
   
   return (
     <div>
-      <div className="jba-cart-product jba-cart-product-user">
+      {items.map((item, index) => (
+      <div key={index} className="jba-cart-product jba-cart-product-user">
         <div className="p-pic">
           <img src={item.product_image} alt={item.product_name} />
         </div>
         <div className="product-dec">
           <h3>{item.product_name || "Product Name"}</h3>
           <span className="sku">SKU : {item.product_sku_code || "N/A"}</span>
+          <span className="sku">Quantity : {item.qty || "N/A"}</span>
           <span className="p-price">
              {Math.floor(item.amount).toLocaleString('en-IN') || "0.00"}
           </span>
@@ -32,6 +34,7 @@ const OrderProductDetail = ({ items, address,payment_type }) => {
           <span>Delivery by- {formatDate(item.created_at)}</span>
         </div>
       </div>
+       ))}
       <div className="cust-rev">
         <div className="usr-address">
           <h3>Delivery Address</h3>
@@ -53,7 +56,7 @@ const OrderProductDetail = ({ items, address,payment_type }) => {
               <tbody>
                 <tr>
                   <td>Subtotal</td>
-                  <td className="text-right"> {Math.floor(item.sub_total).toLocaleString('en-IN') || "0.00"}</td>
+                  <td className="text-right"> {Math.floor(subtotal).toLocaleString('en-IN') || "0.00"}</td>
                 </tr>
                 <tr>
                   <td>Shipping</td>
@@ -61,7 +64,7 @@ const OrderProductDetail = ({ items, address,payment_type }) => {
                 </tr>
                 <tr>
                   <td>Total Cost</td>
-                  <td className="text-right"> {Math.floor(item.sub_total).toLocaleString('en-IN') || "0.00"}</td>
+                  <td className="text-right"> {Math.floor(subtotal).toLocaleString('en-IN') || "0.00"}</td>
                 </tr>
                 <tr>
                   <td>Payment Method</td>
