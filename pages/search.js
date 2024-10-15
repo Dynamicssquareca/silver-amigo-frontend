@@ -1,299 +1,146 @@
-import React, {useEffect, useState } from "react";
-import axios from "axios";
-import { RiCloseCircleLine } from "react-icons/ri";
-import SingleProductShop from "../components/ecommerce/SingleProductShop";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import ProductFilters from "./products/ProductFilters";
-import AppURL from "./api/AppUrl";
-const Index = (response={data}) => {
-  const router =useRouter();
-  const [categoriesFilter, setCategoriesFilter] = useState(null);
-  const [resProducts, setProducts] = useState(null);
-  const [selectedCategoryFilterItem, setSelectedCategoryFilterItem] = useState([]);
-  const [volume, setVolume] = useState([0,0]);
-  const volumeHandler = (value) => {
-    setVolume(value);
-  };
-  const [featured, setFeatured] = useState([]);
-  const [pricehighlow, setPriceHighLow] = useState([]);
-  const [pricelowhigh, setPriceLowHigh] = useState([]);
-  const [newest, setNewest] = useState([]);
-  const FeaturedHandler = (e) => {
-    const { name } = e.target
-    if (featured.includes(name)) {
-      const newArr = featured.filter((like) => like !== name);
-      setFeatured(newArr);
-    } else {
-      setFeatured((p) => [...p, name]);
-    }
-  };
-  const HighLowHandler = (e) => {
-    const { name } = e.target
-    if (pricehighlow.includes(name)) {
-      const newArr = pricehighlow.filter((like) => like !== name);
-      setPriceHighLow(newArr);
-    } else {
-      setPriceHighLow((p) => [...p, name]);
-    }
-  };
-  const LowHighHandler = (e) => {
-    const { name } = e.target
-    if (pricelowhigh.includes(name)) {
-      const newArr = pricelowhigh.filter((like) => like !== name);
-      setPriceLowHigh(newArr);
-    } else {
-      setPriceLowHigh((p) => [...p, name]);
-    }
-  };
-  const NewestHandler = (e) => {
-    const { name } = e.target;
-    if (newest.includes(name)) {
-      const newArr = newest.filter((like) => like !== name);
-      setNewest(newArr);
-    } else {
-      setNewest((p) => [...p, name]);
-    }
-  };
-  const categoryHandler = (e) => {
-    const { name } = e.target;
-    const filterCat =
-      categoriesFilter &&
-      categoriesFilter.length > 0 &&
-      categoriesFilter.map((item) => {
-        if (item.category_name === name) {
-          return {
-            ...item,
-            selected: !item.selected,
-          };
-        } else {
-          return {
-            ...item,
-          };
-        }
-      });
-    setCategoriesFilter(filterCat);
-    if (selectedCategoryFilterItem.includes(name)) {
-      const newArr = selectedCategoryFilterItem.filter((like) => like !== name);
-      setSelectedCategoryFilterItem(newArr);
-    } else {
-      setSelectedCategoryFilterItem((p) => [...p, name]);
-    }
-  };
+import SingleProductShop from "@/components/ecommerce/SingleProductShop";
+import AppURL from "@/pages/api/AppUrl";
+ 
+const Index = ({ slug, data, error }) => {
+  const resProducts = data || [];
+  const [sortedProducts, setSortedProducts] = useState(resProducts);
+ 
+  // Update sorted products when data changes
   useEffect(() => {
-    setCategoriesFilter(
-      response.data &&
-        response.data.categories.length > 0 &&
-        response.data.categories.map((item) => {
-          return {
-            ...item,
-            selected: false,
-          };
-        })
+    setSortedProducts(resProducts);
+  }, [resProducts]);
+ 
+  // Sort products by price
+  const sortProducts = (order) => {
+    const sorted = [...resProducts].sort((a, b) => {
+      return order === "asc"
+        ? a.first_variant.sale_price - b.first_variant.sale_price
+        : b.first_variant.sale_price - a.first_variant.sale_price;
+    });
+    setSortedProducts(sorted);
+  };
+ 
+  // If error occurs or no products found
+  if (error || sortedProducts.length === 0) {
+    return (
+      <>
+        <Head>
+          <title>Product not listed - Silver Amigo</title>
+        </Head>
+        <section className="pt-40">
+          <div className="container text-center">
+            <h5>Product not listed in this category</h5>
+            <p>
+              We couldn't find any products in this category. Please try another
+              category.
+            </p>
+          </div>
+        </section>
+      </>
     );
-    const min = response.data &&
-        response.data.all_products &&
-        Math.min(
-            ...response.data.all_products.map((item) => parseInt(item.product_price))
-        );
-    const max =  response.data &&
-        response.data.all_products &&
-        Math.max(
-            ...response.data.all_products.map((item) => parseInt(item.product_price))
-        );
-    const volumeArr = [min,max];
-    setVolume(volumeArr);
-      },[response.data.products]);
-      useEffect(() => {
-        if (response.data) {
-          const min =
-        response.data &&
-        Math.min(
-          ...response.data.all_products.map((item) => parseInt(item.product_price))
-        );
-      const max =
-        response.data &&
-        Math.max(
-          ...response.data.all_products.map((item) => parseInt(item.product_price))
-        );
-          const check =  selectedCategoryFilterItem.length > 0 ||
-          (volume[0] && volume[0] !== min) ||
-        (volume[1] && volume[1] !== max)||
-        featured.length > 0 ||
-        pricehighlow.length > 0 ||
-        pricelowhigh.length > 0 ||
-        newest.length > 0;
-          if (check) {
-          const categoryQuery =
-          selectedCategoryFilterItem.length > 0
-            ? selectedCategoryFilterItem.map((value) => {
-                return `categories[]=${value}`;
-              })
-            : [];
-            const categoryString =
-            categoryQuery.length > 0
-              ? categoryQuery.map((value) => value + "&").join("")
-              : "";
-              const feturedproduct =
-              featured.length > 0 ?
-                featured.map((value) => {
-                  return `featuredlist=${value}`;
-                })
-                : [];
-            const pricehigh =
-              pricehighlow.length > 0
-                ? pricehighlow.map((value) => {
-                  return `pricehightolow=${value}`;
-                })
-                : [];
-            const pricelow =
-              pricelowhigh.length > 0
-                ? pricelowhigh.map((value) => {
-                  return `pricelowtohigh=${value}`;
-                })
-                : [];
-            const newestproducts =
-              newest.length > 0
-                ? newest.map((value) => {
-                  return `productnew=${value}`;
-                })
-                : [];
-              axios.get(`${AppURL.searchproduct}?${
-                  categoryString && categoryString
-                  }${feturedproduct && feturedproduct}${
-                     pricehigh && pricehigh
-                  }${pricelow && pricelow}${
-                  newestproducts && newestproducts
-                 }`
-              )
-              .then((res) => {
-                res.data && res.data.products.length > 0
-              ? setProducts(res.data.products)
-              : setProducts(response.data.all_products);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          }
-          else {
-            setProducts(response.data.all_products);
-          }
-        }
-        else {
-          return;
-        }
-
-      },
-      [selectedCategoryFilterItem,
-        featured,
-        pricehighlow,
-        pricelowhigh,
-        newest,
-        response.data.all_products]);
-    
+  }
+ 
   return (
     <>
-       <Head>
-      <title>Search for {router.query.q}</title>
-        <meta name="description" content="Loose Diamond Supplier, Manufacturer & Exporter from India" />
+      <Head>
+        <title>{slug} Products - Silver Amigo</title>
+        <meta name="description" content={`Products under ${slug}`} />
       </Head>
+ 
+      {/* Section for product headers */}
       <section className="pt-40">
         <div className="container">
-          <div className="product-header" style={{
-                    background: `url('/img/banner/product-header-bg.jpg') no-repeat center top`,
-                    backgroundSize: "cover",
-                  }}>
-            <div className="row">
-              <div className="col-lg-8">
-                <h1 className="header-h">Search for {router.query.q}</h1>
-              </div>
-            </div>
+          <div className="product-headers">
+            <h1 className="header-h">{slug}</h1>
           </div>
         </div>
       </section>
-
-      <section className="pb">
-        <div className="container">
-          <div className="filter-bg">
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="jab-tags-filter">
-                  
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+ 
+      {/* Section for product listings */}
       <section className="pb-60 pt-20">
         <div className="container">
           <div className="row flex-row-reverse">
             <div className="col-xl-9 col-lg-8">
-                <div className="list-of-products-p ">
-                    <div className="row">
-                    {resProducts && resProducts.length>=0 && (
-                             resProducts.map((productItem,i)=>(
-                        <div className="col-lg-4" key={i}>
-                              <SingleProductShop productName={productItem.product_name} productSlug={productItem.product_slug} sku={productItem.product_sku_id} productPrice={productItem.product_price} productFrontImage={productItem.product_front_image_url} productBackImage={productItem.product_back_image_url}/>
-                        </div>
-                         ))
-                         )}
+              <div className="list-of-products-p">
+                <div className="row">
+                  {sortedProducts.map((item, i) => (
+                    <div className="col-xxl-3 col-md-6 col-sm-6 col-6" key={i}>
+                      <SingleProductShop
+                        productName={item.name}
+                        productSlug={item.first_variant.slug}
+                        productprice={item.first_variant.sale_price}
+                        sku={item.product_sku_id}
+                        frontImg={item.first_variant.images.split(",")[0]}
+                        backImg={item.first_variant.images.split(",")[1]}
+                        category_name={item.category.slug}
+                      />
                     </div>
+                  ))}
                 </div>
+              </div>
             </div>
+ 
+            {/* Product Filter Section */}
             <div className="col-xl-3 col-lg-4">
-              <ProductFilters categories={categoriesFilter} 
-              categoryHandler={categoryHandler}
-              FeaturedHandler={FeaturedHandler}
-              HighLowHandler={HighLowHandler}
-              LowHighHandler={LowHighHandler}
-              NewestHandler={NewestHandler}
-              
-               volume={volume}
-                 priceMax={
-                    resProducts &&
-                    Math.max(
-                      ...resProducts.map((item) =>
-                        parseInt(item.product_price)
-                      )
-                    )
-                  }
-                  priceMin={
-                    resProducts &&
-                    Math.min(
-                      ...resProducts.map((item) =>
-                        parseInt(item.product_price)
-                      )
-                    )
-                  }
-                  volumeHandler={(value) => volumeHandler(value)}/>
+              <div className="product-filter-wrapper sticky-top">
+                <div className="h-600">
+                  <div className="filter-list-sec">
+                    <h4>Sort By</h4>
+                    <div className="form-check jba-checkbox">
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sort"
+                          onChange={() => sortProducts("desc")}
+                          id="highLow"
+                        />
+                        <label className="form-check-label" htmlFor="highLow">
+                          Price High to Low
+                        </label>
+                      </div>
+                      <div>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="sort"
+                          onChange={() => sortProducts("asc")}
+                          id="lowHigh"
+                        />
+                        <label className="form-check-label" htmlFor="lowHigh">
+                          Price Low to High
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
-      
     </>
   );
 };
-
+ 
 export default Index;
+ 
+// Fetch data from the server side
 export const getServerSideProps = async (context) => {
-    try {
-        const search = context.query.q;
-      const res = await fetch(`${AppURL.searchproduct}?search_key=${search}`);
-      const data = await res.json();
-      return {
-        props: {
-          data
-        },
-      };
-    } catch (err) {
-      console.log(err);
-      return {
-        props: {
-          data: false,
-        },
-      };
+    const search = context.query.q;
+  try {
+    const res = await fetch(AppURL.SearchProduct(search));
+    const data = await res.json();
+ 
+    if (!data || data.error) {
+      return { props: { search, data: null, error: true } };
     }
-  };
+ 
+    return { props: { search, data, error: false } };
+  } catch (err) {
+    console.error(err);
+    return { props: { search, data: null, error: true } };
+  }
+};
