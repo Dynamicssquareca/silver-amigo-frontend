@@ -98,7 +98,7 @@ const ProductDetailsnew = ({productData,relatedProducts}) => {
                       <span className="orginal-price">₹ {productData.sale_price.toLocaleString('en-IN')}</span>
                     </div>
                     <div className="add-t-cart">
-                      <a href="#">
+                    
                       <button
                         className="btn btn-1"
                         type="button"
@@ -109,7 +109,7 @@ const ProductDetailsnew = ({productData,relatedProducts}) => {
                       >
                         Add to Cart
                       </button>
-                      </a>
+                      
                       <button
                         className="btn btn-2"
                         type="button"
