@@ -154,20 +154,57 @@ export default function Home({ bannerdata, homecategorydata, featuredproductdata
     </div>
   )
 }
-export const getServerSideProps = async (context) => {
+// export const getServerSideProps = async (context) => {
+//   try {
+//     const bannerres = await fetch(AppURL.allbanners);
+//     const bannerdata = await bannerres.json();
+//     const homecategoryresponse = await fetch(AppURL.collections);
+//     const fetauredproductres = await fetch(AppURL.featuredproducts);
+//     const newarrivalproductresponse = await fetch(AppURL.newarrivalproducts);
+//     const testimonialresponse = await fetch(AppURL.alltestimonials);
+//     const homecategorydata = await homecategoryresponse.json();
+//     const featuredproductdata = await fetauredproductres.json();
+//     const newarrivalproductdata = await newarrivalproductresponse.json();
+//     const testimonialdata = await testimonialresponse.json();
+//     return {
+//       props: { bannerdata, homecategorydata, featuredproductdata, newarrivalproductdata,testimonialdata },
+//     };
+//   } catch (err) {
+//     console.log(err);
+//     return {
+//       props: {
+//         data: false,
+//       },
+//     };
+//   }
+// };
+
+export const getStaticProps = async () => {
   try {
     const bannerres = await fetch(AppURL.allbanners);
     const bannerdata = await bannerres.json();
+
     const homecategoryresponse = await fetch(AppURL.collections);
-    const fetauredproductres = await fetch(AppURL.featuredproducts);
-    const newarrivalproductresponse = await fetch(AppURL.newarrivalproducts);
-    const testimonialresponse = await fetch(AppURL.alltestimonials);
     const homecategorydata = await homecategoryresponse.json();
-    const featuredproductdata = await fetauredproductres.json();
+
+    const featuredproductres = await fetch(AppURL.featuredproducts);
+    const featuredproductdata = await featuredproductres.json();
+
+    const newarrivalproductresponse = await fetch(AppURL.newarrivalproducts);
     const newarrivalproductdata = await newarrivalproductresponse.json();
+
+    const testimonialresponse = await fetch(AppURL.alltestimonials);
     const testimonialdata = await testimonialresponse.json();
+
     return {
-      props: { bannerdata, homecategorydata, featuredproductdata, newarrivalproductdata,testimonialdata },
+      props: {
+        bannerdata,
+        homecategorydata,
+        featuredproductdata,
+        newarrivalproductdata,
+        testimonialdata,
+      },
+      revalidate: 60, 
     };
   } catch (err) {
     console.log(err);
