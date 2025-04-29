@@ -42,7 +42,7 @@ const MobileMenu = ({ isToggled, toggleClick, categogry }) => {
                             <Link href="/">
 
                                 <img
-                                    src="/img/themepic/jbalogo.png"
+                                    src="/img/Silver-amigo-wb-logo.png"
                                     alt="logo"
                                 />
 
