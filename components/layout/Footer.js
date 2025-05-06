@@ -23,7 +23,7 @@ const Footer = () => {
                                         <span><b>EMail:</b> info@silveramigo.com</span>
                                           </p>
                                     
-                                    <div className="jab-mobile-social-icon">
+                                    {/* <div className="jab-mobile-social-icon">
                             
                                 <a href="#" target="_blank">
                                     <img
@@ -51,7 +51,7 @@ const Footer = () => {
                                     />
                                 </a>
                                 
-                            </div>
+                            </div> */}
                                 </div>
                             </div>
                             <div
