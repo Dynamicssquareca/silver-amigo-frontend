@@ -29,7 +29,7 @@ const CartPayment = ({ paymentType, setPaymentType, handleOrder,totalpay }) => {
                 <label className="form-check-label" htmlFor="codOption">Cash On Delivery</label>
             </div>
             <div className="check-out mt-50 price-btn">
-                <button type="button" className="btn btn-primary" onClick={handleOrder}>
+                <button type="button" className="btn btn-primary" onClick={() => handleOrder(paymentType === "2")}>
                 Pay ₹ {totalpay.toLocaleString()}
                 </button>
             </div>
