@@ -29,21 +29,14 @@ const Checkout = () => {
                     const data = await response.json();
                     if (data.status === 1) {
                         setCartItems(data.data);
-                    } else {
-                        console.error("Failed to fetch cart items:", data.message);
                     }
                 } catch (error) {
                     console.error("Error fetching cart items:", error);
                 }
             } else if (!userData) {
                 const guestCart = JSON.parse(localStorage.getItem("cart")) || {};
-                const guestCartItems = Object.keys(guestCart).map((key) => guestCart[key]);
+                const guestCartItems = Object.values(guestCart);
                 setCartItems(guestCartItems);
-            } else if (loading) {
-
-                // Loading state, do nothing
-            } else {
-
             }
         };
 
@@ -61,61 +54,43 @@ const Checkout = () => {
             totalDiscount += discountAmount * item.qty;
         });
 
-        const totalCost = subtotal; 
-        return { subtotal, totalDiscount, shipping: "FREE", totalCost };
+        return { subtotal, totalDiscount, shipping: "FREE", totalCost: subtotal };
     };
 
-    const handleOrder = async (isCod = false) => {
-        if (!selectedAddress) {
-            alert("Please select an address before proceeding.");
-            return;
-        }
+    const placeOrder = async (token, totalCost, paymentType) => {
+        try {
+            const response = await fetch(AppURL.UserCheckout, {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    amount: Math.floor(totalCost) * 100,
+                    address_id: selectedAddress,
+                    payment_type: paymentType,
+                }),
+            });
 
-        const token = localStorage.getItem("authToken");
-        if (token) {
-            const { totalCost } = calculateTotals(cartItems);
-            const paymentData = {
-                amount: Math.floor(totalCost) * 100,
-                address_id: selectedAddress,
-                payment_type: isCod ? 2 : paymentType,
-            };
-
-            try {
-                const response = await fetch(AppURL.UserCheckout, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(paymentData),
-                });
-
-                const data = await response.json();
-                if (data.status === 1) {
-                    if (!isCod && paymentType === "1") {
-                        initiateRazorpayPayment(data, totalCost, token);
-                    } else {
-                        window.location.replace(`/order-success?orderId=${data.order}`);
-                    }
-                } else {
-                    console.error("Failed to create order:", data.message);
-                }
-            } catch (error) {
-                console.error("Error creating order:", error);
+            const data = await response.json();
+            if (data.status === 1) {
+                window.location.replace(`/order-success?orderId=${data.order}`);
+            } else {
+                alert("Failed to place order: " + data.message);
             }
-        } else {
-            alert("User not authenticated.");
+        } catch (error) {
+            console.error("Order placement error:", error);
         }
     };
 
-    const initiateRazorpayPayment = (data, totalCost, token) => {
+    const initiateRazorpayPayment = async (razorpayOrderId, totalCost, token) => {
         const options = {
             key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
             amount: Math.floor(totalCost) * 100,
             currency: "INR",
             name: "Silver Amigo",
             description: "Payment for Cart Items",
-            order_id: data.paymentorderId,
+            order_id: razorpayOrderId,
             handler: async function (response) {
                 try {
                     const verifyResponse = await fetch(AppURL.UserVerifyPayment, {
@@ -129,34 +104,74 @@ const Checkout = () => {
                             order_id: response.razorpay_order_id,
                             signature: response.razorpay_signature,
                             amount: Math.floor(totalCost) * 100,
-                            OrderId: data.order,
                         }),
                     });
+
                     const verifyData = await verifyResponse.json();
                     if (verifyData.status === 1) {
-                        window.location.replace(`/order-success?orderId=${data.order}`);
+                        await placeOrder(token, totalCost, 1);
                     } else {
-                        alert("Payment verification failed. Please try again.");
+                        alert("Payment verification failed.");
                     }
                 } catch (error) {
+                    console.error("Verification failed:", error);
                     alert("Error verifying payment. Please contact support.");
                 }
             },
             prefill: {
-                name: userData.name,
-                email: userData.email,
-                contact: userData.phone,
+                name: userData?.name || "",
+                email: userData?.email || "",
+                contact: userData?.phone || "",
             },
             theme: { color: "#3399cc" },
         };
 
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+        const rzp = new window.Razorpay(options);
+        rzp.open();
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const handleOrder = async () => {
+        if (!selectedAddress) {
+            alert("Please select an address before proceeding.");
+            return;
+        }
+
+        const token = localStorage.getItem("authToken");
+        if (!token) {
+            alert("User not authenticated.");
+            return;
+        }
+
+        const { totalCost } = calculateTotals(cartItems);
+
+        if (paymentType === "1") {
+            // Razorpay - first create Razorpay order
+            try {
+                const res = await fetch(AppURL.CreateRazorpayOrder, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ amount: Math.floor(totalCost) * 100 }),
+                });
+
+                const data = await res.json();
+                if (data.status === 1) {
+                    initiateRazorpayPayment(data.order_id, totalCost, token);
+                } else {
+                    alert("Failed to initiate payment: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error initializing Razorpay:", error);
+            }
+        } else {
+            // COD
+            await placeOrder(token, totalCost, 2);
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
 
     const { subtotal, totalDiscount, shipping, totalCost } = calculateTotals(cartItems);
 
@@ -191,31 +206,34 @@ const Checkout = () => {
                                     </div>
                                 </div>
                                 <div className="col-lg-5">
-                                {cartItems.map((item, index) => (
-                                    <div className="user-cart-left">
-                                        <div class="car-l">
-                                            <img src={item.image} alt={item.product_name} />
+                                    {cartItems.map((item, index) => (
+                                        <div className="user-cart-left" key={index}>
+                                            <div className="car-l">
+                                                <img src={item.image} alt={item.product_name} />
+                                            </div>
+                                            <div className="car-r">
+                                                <div className="item-title">{item.product_name}</div>
+                                                <div className="item-price">₹ {item.sale_price}</div>
+                                                <div className="c-title">
+                                                    Quantity: <span>{item.qty}</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="car-r">
-                                            <div className="item-title">
-                                               {item.product_name}
-                                            </div>
-                                            <div className="item-price">
-                                                ₹ {item.sale_price}
-                                            </div>
-                                            <div className="c-title">
-                                                Quantity: <span>{item.qty}</span>
-                                            </div>
-                                             
-                                        </div>
-                                    </div>
-                                ))}
-                                    
-                                    <ShippingTotal subtotal={subtotal} totalDiscount={totalDiscount} shipping={shipping} totalCost={totalCost} />
+                                    ))}
+                                    <ShippingTotal
+                                        subtotal={subtotal}
+                                        totalDiscount={totalDiscount}
+                                        shipping={shipping}
+                                        totalCost={totalCost}
+                                    />
                                     {userData && (
-                                        <CartPayment paymentType={paymentType} setPaymentType={setPaymentType} handleOrder={handleOrder} totalpay={totalCost} />
+                                        <CartPayment
+                                            paymentType={paymentType}
+                                            setPaymentType={setPaymentType}
+                                            handleOrder={handleOrder}
+                                            totalpay={totalCost}
+                                        />
                                     )}
-                                   
                                 </div>
                             </div>
                         </div>
