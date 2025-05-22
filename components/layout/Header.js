@@ -4,6 +4,7 @@ import Offcanvas from "../ecommerce/Offcanvas";
 import OffcanvasContentTop from "../ecommerce/OffcanvasContentTop";
 import AppURL from "@/pages/api/AppUrl";
 import Search from "../ecommerce/Search";
+import Image from "next/image";
 
 const Header = ({ toggleClick, categogry }) => {
     const [scroll, setScroll] = useState(0);
@@ -83,7 +84,12 @@ const Header = ({ toggleClick, categogry }) => {
             <header className="header-area jba-header">
                 <div className="Jba-header-top  d-none d-lg-block">
                     <div className="container">
-                        <div className="Jba-header-wrap">
+                        <div className="row justify-content-center">
+                            <div className="col-lg-6">
+                                <p>Get <span>FREE</span> Shipping on all Orders</p>
+                            </div>
+                        </div>
+                        {/* <div className="Jba-header-wrap">
                             <div className="jba-header-right">
                                 <div className="jba-header-action-right">
                                     <div className="hotline d-none d-lg-flex">
@@ -96,7 +102,7 @@ const Header = ({ toggleClick, categogry }) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div
@@ -110,9 +116,10 @@ const Header = ({ toggleClick, categogry }) => {
                         <div className="Jba-header-wrap header-space-between position-relative">
                             <div className="logo jba-logo-width d-block">
                                 <a href="/">
-                                    <img
-                                        src="/img/Silver-amigo-wb-logo.png"
+                                    <Image
+                                        src="/img/silver-amigo-bb.png"
                                         alt="Silver-amigo-wb-logo"
+                                        width={222} height={42}
                                     />
                                 </a>
                             </div>
