@@ -1,19 +1,38 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import SwiperCore, { FreeMode, Navigation, Thumbs } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { Swiper, SwiperSlide } from "swiper/react";
 
-SwiperCore.use([Navigation, Thumbs]);
+SwiperCore.use([FreeMode, Navigation, Thumbs]);
 
 const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const zoomContainerRefs = [useRef(null), useRef(null)];
   const zoomImgRefs = [useRef(null), useRef(null)];
 
-  const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
+  const mainSwiperRef = useRef(null);
+  const thumbsSwiperRef = useRef(null);
+  const [thumbsReady, setThumbsReady] = useState(false);
+
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 768);
+  }, []);
+
+  useEffect(() => {
+    if (
+      mainSwiperRef.current &&
+      thumbsSwiperRef.current &&
+      !thumbsSwiperRef.current.destroyed
+    ) {
+      mainSwiperRef.current.thumbs.swiper = thumbsSwiperRef.current;
+      mainSwiperRef.current.thumbs.init();
+      mainSwiperRef.current.thumbs.update();
+      setThumbsReady(true);
+    }
+  }, []);
 
   const handleMouseMove = (e) => {
     if (!isDesktop) return;
@@ -30,7 +49,7 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
 
   const handleMouseEnter = () => {
     if (isDesktop && zoomImgRefs[activeIndex]?.current) {
-      zoomImgRefs[activeIndex].current.style.transform = "scale(1.5)";
+      zoomImgRefs[activeIndex].current.style.transform = "scale(2)";
     }
   };
 
@@ -40,64 +59,57 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
     }
   };
 
+  const images = [imageOne, imageTwo].filter((img) => img?.trim());
+
   return (
     <div>
       <Swiper
-        style={{
-          "--swiper-navigation-color": "#fff",
-          "--swiper-pagination-color": "#fff",
-        }}
+        onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         spaceBetween={10}
         navigation={true}
-        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
-        {...(thumbsSwiper ? { thumbs: { swiper: thumbsSwiper } } : {})}
+        thumbs={{ swiper: thumbsReady ? thumbsSwiperRef.current : null }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2 bordr-slide"
+        className="mySwiper2"
       >
-        {[imageOne, imageTwo].map(
-          (image, index) =>
-            image && (
-              <SwiperSlide key={index}>
-                <div
-                  className="position-relative overflow-hidden"
-                  style={{ width: "504px", height: "504px" }}
-                  ref={zoomContainerRefs[index]}
-                  onMouseMove={handleMouseMove}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <img
-                    ref={zoomImgRefs[index]}
-                    src={image}
-                    alt={productName}
-                    width={504}
-                    height={504}
-                    className="img-fluid"
-                    style={{ transition: "transform 0.3s ease" }}
-                  />
-                </div>
-              </SwiperSlide>
-            )
-        )}
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <div
+              ref={zoomContainerRefs[index]}
+              className="position-relative overflow-hidden"
+              style={{ width: "504px", height: "504px" }}
+              onMouseMove={handleMouseMove}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <img
+                ref={zoomImgRefs[index]}
+                src={image}
+                alt={productName}
+                width={504}
+                height={504}
+                className="img-fluid"
+                style={{ transition: "transform 0.3s ease" }}
+              />
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
 
       <Swiper
-        onSwiper={setThumbsSwiper}
+        onSwiper={(swiper) => (thumbsSwiperRef.current = swiper)}
         spaceBetween={10}
         slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        className="mySwiper thum-pic"
+        watchSlidesProgress
+        freeMode
         modules={[FreeMode, Navigation, Thumbs]}
+        className="mySwiper mt-3"
       >
-        <SwiperSlide>
-          <img src={imageOne} alt="img" className="img-fluid" />
-        </SwiperSlide>
-        {imageTwo && (
-          <SwiperSlide>
-            <img src={imageTwo} alt="img" className="img-fluid" />
+        {images.map((img, index) => (
+          <SwiperSlide key={index}>
+            <img src={img} alt={`Thumbnail ${index + 1}`} className="img-fluid" />
           </SwiperSlide>
-        )}
+        ))}
       </Swiper>
     </div>
   );
