@@ -1,14 +1,43 @@
-import { useState } from "react";
-import Image from "next/image";
-import SwiperCore, { Navigation, Thumbs } from "swiper";
+import { useState, useRef } from "react";
+import SwiperCore, { FreeMode, Navigation, Thumbs } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 SwiperCore.use([Navigation, Thumbs]);
 
-const ThumbSlider = ({ imageOne,imageTwo,productName }) => {
-    console.log(imageOne);
+const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+    // Refs for zoom
+    const zoomImgRef = useRef(null);
+    const zoomContainerRef = useRef(null);
+
+    // Zoom event handlers
+    const handleMouseMove = (e) => {
+        const container = zoomContainerRef.current;
+        const img = zoomImgRef.current;
+        if (!container || !img) return;
+
+        const rect = container.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+        img.style.transformOrigin = `${x}% ${y}%`;
+    };
+
+    const handleMouseEnter = () => {
+        if (zoomImgRef.current) {
+            zoomImgRef.current.style.transform = "scale(1.5)";
+        }
+    };
+
+    const handleMouseLeave = () => {
+        if (zoomImgRef.current) {
+            zoomImgRef.current.style.transform = "scale(1)";
+        }
+    };
 
     return (
         <div>
@@ -17,55 +46,63 @@ const ThumbSlider = ({ imageOne,imageTwo,productName }) => {
                     "--swiper-navigation-color": "#fff",
                     "--swiper-pagination-color": "#fff",
                 }}
-                
                 spaceBetween={10}
                 navigation={true}
-                
-                className="mySwiper2"
+                {...(thumbsSwiper ? { thumbs: { swiper: thumbsSwiper } } : {})}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper2 bordr-slide"
             >
-           
-                    <SwiperSlide>
-                    <img
-                    src={imageOne}
-                    alt={productName}
-                    width={504}
-                    height={504}
-                    />
-                         
-                    </SwiperSlide>
-                    {imageTwo.length >=0 &&  (
-                      <SwiperSlide>
+                <SwiperSlide>
+                    <div
+                        className="position-relative overflow-hidden"
+                        style={{ width: "504px", height: "504px" }}
+                        ref={zoomContainerRef}
+                        onMouseMove={handleMouseMove}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                    >
                         <img
-                        src={imageTwo}
-                        alt={productName}
-                        width={504}
-                        height={504}
-                     />
-                         
-                      </SwiperSlide>
-                    )}
-                   
+                            ref={zoomImgRef}
+                            src={imageOne}
+                            alt={productName}
+                            width={504}
+                            height={504}
+                            className="img-fluid"
+                            style={{ transition: "transform 0.3s ease" }}
+                        />
+                    </div>
+                </SwiperSlide>
+
+                {imageTwo && (
+                    <SwiperSlide>
+                        <img
+                            src={imageTwo}
+                            alt={productName}
+                            width={504}
+                            height={504}
+                            className="img-fluid"
+                        />
+                    </SwiperSlide>
+                )}
             </Swiper>
+
             <Swiper
                 onSwiper={setThumbsSwiper}
-                
                 spaceBetween={10}
                 slidesPerView={4}
                 freeMode={true}
                 watchSlidesProgress={true}
-                className="mySwiper"
+                className="mySwiper thum-pic"
+                modules={[FreeMode, Navigation, Thumbs]}
             >
-             
+                <SwiperSlide>
+                    <img src={imageOne} alt="img" className="img-fluid" />
+                </SwiperSlide>
+                {imageTwo && (
                     <SwiperSlide>
-                        <img src={imageOne} alt="img" />
+                        <img src={imageTwo} alt="img" className="img-fluid" />
                     </SwiperSlide>
-                    {imageTwo.length >=0 && (
-                        <SwiperSlide>
-                        <img src={imageTwo} alt="img" />
-                       </SwiperSlide>
-                    )}
-                    
-         
+                )}
             </Swiper>
         </div>
     );
