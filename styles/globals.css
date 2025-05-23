@@ -3440,8 +3440,17 @@ table .product-thumbnail img {
 }
 .detail-gallery .product-image-slider .swiper-slide {
   padding-left: 15px;
+  cursor: pointer;
+  
 }
-
+.detail-gallery .bordr-slide{
+ border: 1px solid #ececec;
+}
+.thum-pic .swiper-slide{
+      margin-right: 0 !important;
+      border: 1px solid #ececec;
+      border-top-color:transparent
+}
 .detail-gallery .product-image-slider.slider-nav-thumbnails {
   background: none;
   border-radius: 0;
