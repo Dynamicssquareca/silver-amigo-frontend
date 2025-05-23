@@ -155,7 +155,7 @@ const Checkout = () => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return  <div className="leadong-p"><div className="padd"><p>Loading...</p></div></div>;
     }
 
     const { subtotal, totalDiscount, shipping, totalCost } = calculateTotals(cartItems);

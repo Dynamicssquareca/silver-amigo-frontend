@@ -159,7 +159,8 @@ const response = await fetch(`${AppURL.UpdateAddress}/${address.id}`, {
           <div key={address.id} className="col-lg-6 mb-3">
                 <div className="address-list">
                   <div className="head">
-                    <input
+                   <div>
+                     <input
                       type="radio"
                       name="addressSelection"
                       value={address.id}
@@ -168,8 +169,9 @@ const response = await fetch(`${AppURL.UpdateAddress}/${address.id}`, {
                         address.id
                         )}
                       className="form-check-input"
-                    />
-                    {address.address_type}{" "}
+                    /> {address.address_type}{" "}
+                   
+                    </div>
                     <a
                       href="#"
                       onClick={() =>

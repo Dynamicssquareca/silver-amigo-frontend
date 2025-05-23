@@ -174,7 +174,7 @@ const Cart = () => {
                   <div className="cart-right-b">
                     <h1 className="heading-cart">Your Cart</h1>
                     {loading ? (
-                      <p>Loading...</p> 
+                      <div className="leadong-p"><div className="padd"><p>Loading...</p></div></div>
                     ) : cartData.length > 0 ? (
                       cartData.map((item, index) => (
                         <CartItems key={index} item={item} updateQuantity={updateQuantity} removeFromCart={removeFromCart}/>
@@ -196,6 +196,7 @@ const Cart = () => {
           </div>
         </div>
       </section>
+       
     </>
   );
 };
