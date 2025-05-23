@@ -2,22 +2,24 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import SingleProductShop from "../../../components/ecommerce/SingleProductShop";
 import AppURL from "../../api/AppUrl";
- 
+
 const Index = ({ category_name, data, error }) => {
   const resProducts = data || [];
   const [sortedProducts, setSortedProducts] = useState(resProducts);
- 
+
   useEffect(() => {
     setSortedProducts(resProducts);
   }, [resProducts]);
- 
+
   const sortProducts = (order) => {
     const sorted = [...resProducts].sort((a, b) => {
-      return order === 'asc' ? a.first_variant.sale_price - b.first_variant.sale_price : b.first_variant.sale_price - a.first_variant.sale_price;
+      return order === 'asc'
+        ? a.first_variant.sale_price - b.first_variant.sale_price
+        : b.first_variant.sale_price - a.first_variant.sale_price;
     });
     setSortedProducts(sorted);
   };
- 
+
   if (error || sortedProducts.length === 0) {
     return (
       <>
@@ -33,13 +35,14 @@ const Index = ({ category_name, data, error }) => {
       </>
     );
   }
- 
+
   return (
     <>
       <Head>
         <title>{sortedProducts[0].category.name} - Silver Amigo</title>
         <meta name="description" content={sortedProducts[0].category.meta_description} />
       </Head>
+
       <section className="pt-40">
         <div className="container">
           <div className="product-headers">
@@ -51,6 +54,7 @@ const Index = ({ category_name, data, error }) => {
           </div>
         </div>
       </section>
+
       <section className="pb-60 pt-20">
         <div className="container">
           <div className="row flex-row-reverse">
@@ -73,7 +77,7 @@ const Index = ({ category_name, data, error }) => {
                 </div>
               </div>
             </div>
-           
+
             <div className="col-xl-3 col-lg-4">
               <div className="prodect-filter-wrper sticky-top">
                 <div className="fliter-head">
@@ -108,7 +112,10 @@ const Index = ({ category_name, data, error }) => {
                 </div>
               </div>
             </div>
-            <strong className="text-center pt-40">Konw more about {sortedProducts[0].category.name}</strong>
+
+            <strong className="text-center pt-40">
+              Know more about {sortedProducts[0].category.name}
+            </strong>
             <div dangerouslySetInnerHTML={{ __html: sortedProducts[0].category.description }} />
           </div>
         </div>
@@ -116,33 +123,54 @@ const Index = ({ category_name, data, error }) => {
     </>
   );
 };
- 
+
 export default Index;
- 
- 
+
 export const getStaticPaths = async () => {
-  // Fetch all category names to generate paths
-  const res = await fetch(AppURL.collections);
-  const categories = await res.json();
+  try {
+    const res = await fetch(AppURL.collections);
+    const categories = await res.json();
 
-  const paths = categories.map((cat) => ({
-    params: { category_name: cat.slug }
-  }));
+    const paths = categories.map((cat) => ({
+      params: { category_name: cat.slug },
+    }));
 
-  return { paths, fallback: 'blocking' };
+    return {
+      paths,
+      fallback: 'blocking',  
+    };
+  } catch (error) {
+    console.error('Error fetching collections for paths:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
 };
 
 export const getStaticProps = async (context) => {
   const { category_name } = context.params;
+
   try {
     const res = await fetch(AppURL.productbycollection(category_name));
     const data = await res.json();
+
     if (!data || data.error) {
-      return { props: { category_name, data: null, error: true } };
+      return {
+        props: { category_name, data: null, error: true },
+        revalidate: 300,  
+      };
     }
-    return { props: { category_name, data, error: false } };
-  } catch (err) {
-    console.log(err);
-    return { props: { category_name, data: null, error: true } };
+
+    return {
+      props: { category_name, data, error: false },
+      revalidate: 300,  
+    };
+  } catch (error) {
+    console.error('Error fetching products by collection:', error);
+    return {
+      props: { category_name, data: null, error: true },
+      revalidate: 300,  
+    };
   }
 };

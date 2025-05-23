@@ -48,13 +48,13 @@ export default Slug;
 
     return {
       paths,
-      fallback: 'blocking', // good for SEO + allows ISR
+      fallback: 'blocking',  
     };
   } catch (err) {
     console.error('Error in getStaticPaths:', err);
     return {
       paths: [],
-      fallback: 'blocking', // allow SSR on-demand if error
+      fallback: 'blocking', 
     };
   }
 }
