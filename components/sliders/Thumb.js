@@ -9,16 +9,16 @@ SwiperCore.use([Navigation, Thumbs]);
 
 const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const zoomImgRef = useRef(null);
-  const zoomContainerRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const zoomContainerRefs = [useRef(null), useRef(null)];
+  const zoomImgRefs = [useRef(null), useRef(null)];
 
   const isDesktop = typeof window !== "undefined" && window.innerWidth >= 768;
 
   const handleMouseMove = (e) => {
     if (!isDesktop) return;
-
-    const container = zoomContainerRef.current;
-    const img = zoomImgRef.current;
+    const container = zoomContainerRefs[activeIndex]?.current;
+    const img = zoomImgRefs[activeIndex]?.current;
     if (!container || !img) return;
 
     const rect = container.getBoundingClientRect();
@@ -29,14 +29,14 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
   };
 
   const handleMouseEnter = () => {
-    if (isDesktop && zoomImgRef.current) {
-      zoomImgRef.current.style.transform = "scale(2)";
+    if (isDesktop && zoomImgRefs[activeIndex]?.current) {
+      zoomImgRefs[activeIndex].current.style.transform = "scale(1.3)";
     }
   };
 
   const handleMouseLeave = () => {
-    if (zoomImgRef.current) {
-      zoomImgRef.current.style.transform = "scale(1)";
+    if (zoomImgRefs[activeIndex]?.current) {
+      zoomImgRefs[activeIndex].current.style.transform = "scale(1)";
     }
   };
 
@@ -49,41 +49,35 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
         }}
         spaceBetween={10}
         navigation={true}
+        onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
         {...(thumbsSwiper ? { thumbs: { swiper: thumbsSwiper } } : {})}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2 bordr-slide"
       >
-        <SwiperSlide>
-          <div
-            className="position-relative overflow-hidden"
-            style={{ width: "504px", height: "504px" }}
-            ref={zoomContainerRef}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <img
-              ref={zoomImgRef}
-              src={imageOne}
-              alt={productName}
-              width={504}
-              height={504}
-              className="img-fluid"
-              style={{ transition: "transform 0.3s ease" }}
-            />
-          </div>
-        </SwiperSlide>
-
-        {imageTwo && (
-          <SwiperSlide>
-            <img
-              src={imageTwo}
-              alt={productName}
-              width={504}
-              height={504}
-              className="img-fluid"
-            />
-          </SwiperSlide>
+        {[imageOne, imageTwo].map(
+          (image, index) =>
+            image && (
+              <SwiperSlide key={index}>
+                <div
+                  className="position-relative overflow-hidden"
+                  style={{ width: "504px", height: "504px" }}
+                  ref={zoomContainerRefs[index]}
+                  onMouseMove={handleMouseMove}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <img
+                    ref={zoomImgRefs[index]}
+                    src={image}
+                    alt={productName}
+                    width={504}
+                    height={504}
+                    className="img-fluid"
+                    style={{ transition: "transform 0.3s ease" }}
+                  />
+                </div>
+              </SwiperSlide>
+            )
         )}
       </Swiper>
 
