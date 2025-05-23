@@ -36,11 +36,12 @@ const ReturnOrder = () => {
                                     <h1>My Account</h1>
                                 </div>
                             </div>
-                            <div className="col-xxl-4  col-xl-4 col-lg-5 col-md-4 ">
-                                <UserSideBar />
-                            </div>
-                            <div className="col-lg-8  col-md-8">
+                         
+                            <div className="col-lg-8  col-md-8 col-sm-12 order-md-2">
                            <UserSingleReturn />
+                            </div>
+                               <div className="col-lg-4 col-md-4 col-sm-12 order-md-1">
+                                <UserSideBar />
                             </div>
                         </div>
                     </div>
