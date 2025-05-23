@@ -3443,6 +3443,9 @@ table .product-thumbnail img {
   cursor: pointer;
   
 }
+.mm-swpier-c .swiper-button-next, .mm-swpier-c .swiper-button-prev{
+color: #9fa7c3;
+}
 .thum-pic .swiper-slide-thumb-active{
   border-bottom-color: #282828 !important;
 }
