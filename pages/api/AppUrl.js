@@ -7,6 +7,8 @@ export class AppURL  {
     static productbycollection(slug) {
         return `${this.baseUrl}/productbycollection/${slug}`;
       }
+
+    static products = this.baseUrl+"/allproductlist";
     static newarrivalproducts = this.baseUrl+"/newarrivalproducts";
     static featuredproducts = this.baseUrl+"/featuredproducts";
     static alltestimonials = this.baseUrl+"/alltestimonials";

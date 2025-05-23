@@ -120,7 +120,19 @@ const Index = ({ category_name, data, error }) => {
 export default Index;
  
  
-export const getServerSideProps = async (context) => {
+export const getStaticPaths = async () => {
+  // Fetch all category names to generate paths
+  const res = await fetch(AppURL.collections);
+  const categories = await res.json();
+
+  const paths = categories.map((cat) => ({
+    params: { category_name: cat.slug }
+  }));
+
+  return { paths, fallback: 'blocking' };
+};
+
+export const getStaticProps = async (context) => {
   const { category_name } = context.params;
   try {
     const res = await fetch(AppURL.productbycollection(category_name));
