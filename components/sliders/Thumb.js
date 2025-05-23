@@ -77,7 +77,6 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
             <div
               ref={zoomContainerRefs[index]}
               className="position-relative overflow-hidden"
-              style={{ width: "504px", height: "504px" }}
               onMouseMove={handleMouseMove}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
