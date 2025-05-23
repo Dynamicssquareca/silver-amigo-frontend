@@ -112,7 +112,7 @@ const Header = ({ toggleClick, categogry }) => {
                             : "header-bottom header-bottom-bg-color sticky-bar"
                     }
                 >
-                    <div className="container">
+                    <div className="container-fluid">
                         <div className="Jba-header-wrap header-space-between position-relative">
                             <div className="logo jba-logo-width d-block">
                                 <a href="/">
@@ -123,8 +123,8 @@ const Header = ({ toggleClick, categogry }) => {
                                     />
                                 </a>
                             </div>
-                            <div className="jba-header-action-right">
-                                <div className="header-nav d-none d-lg-flex">
+                            <div className="jba-header-action-right jba-header-action-right-mob">
+                                <div className="header-nav d-none d-lg-block d-flex">
                                     <div className="jab-menu jab-menu-padding jab-menu-lh-2 d-none d-lg-block  font-heading">
                                         <nav>
                                             <ul>
@@ -162,14 +162,10 @@ const Header = ({ toggleClick, categogry }) => {
                                         {token ? (
                                             <>
                                                 <a href="/user/dashboard/">
-                                                    <img
-                                                        className="svgInject"
-                                                        alt="Account"
-                                                        src="/img/themepic/icons/icon-user.svg"
-                                                    />
-                                                    <span className="lable">
+                                                     <i className="bi bi-person bi-three mr-10"></i>
+                                                    {/* <span className="lable">
                                                         Account
-                                                    </span>
+                                                    </span> */}
                                                 </a>
                                                 <div className="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                                                     <ul>
@@ -201,9 +197,10 @@ const Header = ({ toggleClick, categogry }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="jba-header-action-right d-block d-lg-none">
+                            <div className="jba-header-action-mobile d-block d-lg-none-c">
                                 <div className="jab-header-pic">
-                                    <div className="jba-header-action-icon d-block d-lg-none">
+                                    <div className="jba-header-action-icon d-block d-lg-none-c">
+                                       
                                         <div
                                             className="burger-icon burger-icon-white"
                                             onClick={toggleClick}

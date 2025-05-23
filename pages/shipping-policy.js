@@ -54,7 +54,7 @@ const ShippingPolicy = () => {
                     }}
                   />
                 ) : (
-                  <p>Loading...</p>
+                   <div className="leadong-p"><div className="padd"><p>Loading...</p></div></div>
                 )}
               </div>
             </div>
