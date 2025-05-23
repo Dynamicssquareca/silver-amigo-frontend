@@ -13242,6 +13242,9 @@ user-list-account ul li.active a span {
 }
 
 @media (max-width: 768px) {
+      .bg-gray {
+        padding: 15px 0px;
+    }
   .jba-login-page {
     padding: 0px 10px;
 }
