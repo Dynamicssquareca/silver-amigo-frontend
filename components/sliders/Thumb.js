@@ -62,7 +62,7 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
   const images = [imageOne, imageTwo].filter((img) => img?.trim());
 
   return (
-    <div>
+    <div className="mm-swpier-c">
       <Swiper
         onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
         onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
