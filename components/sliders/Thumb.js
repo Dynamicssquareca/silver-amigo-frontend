@@ -49,7 +49,7 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
 
   const handleMouseEnter = () => {
     if (isDesktop && zoomImgRefs[activeIndex]?.current) {
-      zoomImgRefs[activeIndex].current.style.transform = "scale(2)";
+      zoomImgRefs[activeIndex].current.style.transform = "scale(1.5)";
     }
   };
 
@@ -70,7 +70,7 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
         navigation={true}
         thumbs={{ swiper: thumbsReady ? thumbsSwiperRef.current : null }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper2"
+        className="mySwiper2 bordr-slide"
       >
         {images.map((image, index) => (
           <SwiperSlide key={index}>
@@ -103,7 +103,7 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
         watchSlidesProgress
         freeMode
         modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper mt-3"
+        className="mySwiper thum-pic"
       >
         {images.map((img, index) => (
           <SwiperSlide key={index}>
