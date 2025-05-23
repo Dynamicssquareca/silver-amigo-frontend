@@ -30,7 +30,7 @@ const ThumbSlider = ({ imageOne, imageTwo, productName }) => {
 
   const handleMouseEnter = () => {
     if (isDesktop && zoomImgRefs[activeIndex]?.current) {
-      zoomImgRefs[activeIndex].current.style.transform = "scale(1.3)";
+      zoomImgRefs[activeIndex].current.style.transform = "scale(1.5)";
     }
   };
 
