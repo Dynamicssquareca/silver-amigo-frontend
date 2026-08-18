@@ -153,14 +153,34 @@ export const getStaticProps = async (context) => {
 
   try {
     const res = await fetch(AppURL.productbycollection(category_name));
-    const data = await res.json();
+    const rawData = await res.json();
 
-    if (!data || data.error) {
+    if (!rawData || rawData.error || !Array.isArray(rawData)) {
       return {
         props: { category_name, data: null, error: true },
         revalidate: 300,  
       };
     }
+
+    // Filter out unneeded fields to prevent large-page-data warnings
+    const data = rawData.map(item => {
+      const imagesList = item.first_variant?.images ? item.first_variant.images.split(',') : [];
+      return {
+        name: item.name || '',
+        product_sku_id: item.product_sku_id || '',
+        category: { 
+          slug: item.category?.slug || '',
+          name: item.category?.name || '',
+          meta_description: item.category?.meta_description || '',
+          description: item.category?.description || '',
+        },
+        first_variant: item.first_variant ? {
+          slug: item.first_variant.slug || '',
+          sale_price: item.first_variant.sale_price || 0,
+          images: imagesList.slice(0, 2).join(',') // Only keep front and back images
+        } : null
+      };
+    });
 
     return {
       props: { category_name, data, error: false },

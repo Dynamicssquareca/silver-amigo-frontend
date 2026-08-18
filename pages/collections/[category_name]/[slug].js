@@ -10,7 +10,7 @@ const Slug = ({ category_name, slug, product, relatedProducts }) => {
     return (
         <>
             <Head>
-                <title>{name} | Silver Amigo</title>
+                <title>{`${name} | Silver Amigo`}</title>
                 <meta name="description" content={meta_description} />
             </Head>
 
@@ -73,7 +73,39 @@ export async function getStaticProps({ params }) {
         const res = await fetch(AppURL.productdetails(category_name, slug));
         if (!res.ok) throw new Error('Failed to fetch product details');
 
-        const { product, relatedProducts } = await res.json();
+        let { product, relatedProducts } = await res.json();
+
+        // Filter the main product data to only include used fields
+        if (product) {
+            const productImages = product.images ? product.images.split(',') : [];
+            product = {
+                name: product.name || 'Product',
+                meta_description: product.meta_description || 'Product details page',
+                images: productImages.slice(0, 2).join(','),
+                sku_id: product.sku_id || '',
+                short_description: product.short_description || '',
+                sale_price: product.sale_price || 0,
+                product_id: product.product_id || ''
+            };
+        }
+
+        // Filter the related products to prevent large-page-data warnings
+        if (Array.isArray(relatedProducts)) {
+            relatedProducts = relatedProducts.slice(0, 15).map(item => {
+                const variants = Array.isArray(item.variants) && item.variants.length > 0 ? item.variants : [{}];
+                const variantImages = variants[0].images ? variants[0].images.split(',') : [];
+                return {
+                    name: item.name || '',
+                    sku_id: item.sku_id || '',
+                    category: { slug: item.category?.slug || '' },
+                    variants: [{
+                        slug: variants[0].slug || '',
+                        sale_price: variants[0].sale_price || 0,
+                        images: variantImages.slice(0, 2).join(',')
+                    }]
+                };
+            });
+        }
 
         return {
             props: { category_name, slug, product, relatedProducts },
