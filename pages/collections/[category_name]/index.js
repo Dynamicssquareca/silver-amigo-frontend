@@ -3,7 +3,7 @@ import Head from "next/head";
 import SingleProductShop from "../../../components/ecommerce/SingleProductShop";
 import AppURL from "../../api/AppUrl";
 
-const Index = ({ category_name, data, error }) => {
+const Index = ({ category_name, data, categoryDetails, error }) => {
   const resProducts = data || [];
   const [sortedProducts, setSortedProducts] = useState(resProducts);
 
@@ -39,16 +39,16 @@ const Index = ({ category_name, data, error }) => {
   return (
     <>
       <Head>
-        <title>{sortedProducts[0].category.name} - Silver Amigo</title>
-        <meta name="description" content={sortedProducts[0].category.meta_description} />
+        <title>{categoryDetails?.name || category_name} - Silver Amigo</title>
+        <meta name="description" content={categoryDetails?.meta_description || ''} />
       </Head>
 
       <section className="pt-40">
         <div className="container">
           <div className="product-headers">
-            <h5>{sortedProducts[0].category.name}</h5>
-            {sortedProducts.length > 0 && (
-              <div dangerouslySetInnerHTML={{ __html: sortedProducts[0].category.meta_description }} />
+            <h5>{categoryDetails?.name || category_name}</h5>
+            {categoryDetails?.meta_description && (
+              <div dangerouslySetInnerHTML={{ __html: categoryDetails.meta_description }} />
             )}
             <h1 className="header-h">{category_name}</h1>
           </div>
@@ -114,9 +114,11 @@ const Index = ({ category_name, data, error }) => {
             </div>
 
             <strong className="text-center pt-40">
-              Know more about {sortedProducts[0].category.name}
+              Know more about {categoryDetails?.name || category_name}
             </strong>
-            <div dangerouslySetInnerHTML={{ __html: sortedProducts[0].category.description }} />
+            {categoryDetails?.description && (
+              <div dangerouslySetInnerHTML={{ __html: categoryDetails.description }} />
+            )}
           </div>
         </div>
       </section>
@@ -157,39 +159,46 @@ export const getStaticProps = async (context) => {
 
     if (!rawData || rawData.error || !Array.isArray(rawData)) {
       return {
-        props: { category_name, data: null, error: true },
+        props: { category_name, data: null, categoryDetails: null, error: true },
         revalidate: 300,  
+      };
+    }
+    
+    let categoryDetails = null;
+    if (rawData.length > 0 && rawData[0].category) {
+      categoryDetails = {
+        name: rawData[0].category.name || '',
+        meta_description: rawData[0].category.meta_description || '',
+        description: rawData[0].category.description || ''
       };
     }
 
     // Filter out unneeded fields to prevent large-page-data warnings
+    // CRITICAL: We only pass the slug here, avoiding duplicating the huge category description for every single product
     const data = rawData.map(item => {
       const imagesList = item.first_variant?.images ? item.first_variant.images.split(',') : [];
       return {
         name: item.name || '',
         product_sku_id: item.product_sku_id || '',
         category: { 
-          slug: item.category?.slug || '',
-          name: item.category?.name || '',
-          meta_description: item.category?.meta_description || '',
-          description: item.category?.description || '',
+          slug: item.category?.slug || ''
         },
         first_variant: item.first_variant ? {
           slug: item.first_variant.slug || '',
           sale_price: item.first_variant.sale_price || 0,
-          images: imagesList.slice(0, 2).join(',') // Only keep front and back images
+          images: imagesList.slice(0, 2).join(',')
         } : null
       };
     });
 
     return {
-      props: { category_name, data, error: false },
+      props: { category_name, data, categoryDetails, error: false },
       revalidate: 300,  
     };
   } catch (error) {
     console.error('Error fetching products by collection:', error);
     return {
-      props: { category_name, data: null, error: true },
+      props: { category_name, data: null, categoryDetails: null, error: true },
       revalidate: 300,  
     };
   }
