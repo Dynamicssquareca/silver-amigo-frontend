@@ -10,7 +10,7 @@ const nextConfig = {
      deviceSizes: [320, 420, 768, 1024, 1200, 1600, 1920],
   },
   env:{
-    NEXT_PUBLIC_BACKEND_URL:'https://api.jewelsbyanu.com'
+    NEXT_PUBLIC_BACKEND_URL:'https://api.silveramigo.com'
   }
 }
 
