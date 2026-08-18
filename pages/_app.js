@@ -76,10 +76,24 @@ function MyApp({ Component, pageProps,menuItems }) {
 export default MyApp
 
 MyApp.getInitialProps = async () => {
-  const response = await fetch(AppURL.collections);
-  const menuItems = await response.json();
-   
-  return {
-    menuItems,
-  };
+  try {
+    const response = await fetch(AppURL.collections);
+    const rawData = await response.json();
+    
+    // Filter the menu items to only include fields actually used by Header and MobileMenu
+    const menuItems = Array.isArray(rawData) ? rawData.map(item => ({
+      id: item.id || '',
+      slug: item.slug || '',
+      name: item.name || ''
+    })) : [];
+
+    return {
+      menuItems,
+    };
+  } catch (error) {
+    console.error('Error fetching menu items:', error);
+    return {
+      menuItems: [],
+    };
+  }
 };

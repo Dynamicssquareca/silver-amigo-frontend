@@ -39,12 +39,19 @@ export default Slug;
     const res = await fetch(AppURL.products); 
     const products = await res.json();
 
-    const paths = products.map((product) => ({
-      params: {
-        category_name: product.category.slug,
-        slug: product.first_variant.slug,
-      },
-    }));
+    let paths = [];
+    if (Array.isArray(products)) {
+      paths = products
+        .filter(product => product?.category?.slug && product?.first_variant?.slug)
+        .map((product) => ({
+          params: {
+            category_name: product.category.slug,
+            slug: product.first_variant.slug,
+          },
+        }));
+    } else {
+      console.error('getStaticPaths: Expected an array of products, but got:', typeof products);
+    }
 
     return {
       paths,
