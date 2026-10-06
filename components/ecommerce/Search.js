@@ -13,7 +13,7 @@ const Search = () => {
         <i className="bi bi-search bi-one-two"></i>
       </a>
 
-      <div className="offcanvas offcanvas-top offcanvas-height" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+      <div className="offcanvas offcanvas-top offcanvas-height" tabIndex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
         <div className="offcanvas-body">
           <div className="container">
             <div className="row justify-content-center">
