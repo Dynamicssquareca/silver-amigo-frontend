@@ -193,23 +193,23 @@ export const getStaticProps = async () => {
   try {
     const bannerres = await fetch(AppURL.allbanners);
     const rawBannerData = await bannerres.json();
-    const bannerdata = rawBannerData.slice(0, 10).map(item => ({
+    const bannerdata = Array.isArray(rawBannerData) ? rawBannerData.slice(0, 10).map(item => ({
       link: item.link || '',
       image: item.image || '',
       alt_text: item.alt_text || ''
-    }));
+    })) : [];
 
     const homecategoryresponse = await fetch(AppURL.collections);
     const rawCategoryData = await homecategoryresponse.json();
-    const homecategorydata = rawCategoryData.slice(0, 15).map(item => ({
+    const homecategorydata = Array.isArray(rawCategoryData) ? rawCategoryData.slice(0, 15).map(item => ({
       slug: item.slug || '',
       image: item.image || '',
       name: item.name || ''
-    }));
+    })) : [];
 
     const featuredproductres = await fetch(AppURL.featuredproducts);
     const rawFeaturedData = await featuredproductres.json();
-    const featuredproductdata = rawFeaturedData.slice(0, 20).map(item => {
+    const featuredproductdata = Array.isArray(rawFeaturedData) ? rawFeaturedData.slice(0, 20).map(item => {
       const imagesList = item.first_variant?.images ? item.first_variant.images.split(',') : [];
       return {
         name: item.name || '',
@@ -221,11 +221,11 @@ export const getStaticProps = async () => {
           images: imagesList.slice(0, 2).join(',') // Only keep front and back images
         } : null
       };
-    });
+    }) : [];
 
     const newarrivalproductresponse = await fetch(AppURL.newarrivalproducts);
     const rawNewArrivalData = await newarrivalproductresponse.json();
-    const newarrivalproductdata = rawNewArrivalData.slice(0, 20).map(item => {
+    const newarrivalproductdata = Array.isArray(rawNewArrivalData) ? rawNewArrivalData.slice(0, 20).map(item => {
       const imagesList = item.first_variant?.images ? item.first_variant.images.split(',') : [];
       return {
         name: item.name || '',
@@ -237,16 +237,16 @@ export const getStaticProps = async () => {
           images: imagesList.slice(0, 2).join(',') // Only keep front and back images
         } : null
       };
-    });
+    }) : [];
 
     const testimonialresponse = await fetch(AppURL.alltestimonials);
     const rawTestimonialData = await testimonialresponse.json();
-    const testimonialdata = rawTestimonialData.slice(0, 15).map(item => ({
+    const testimonialdata = Array.isArray(rawTestimonialData) ? rawTestimonialData.slice(0, 15).map(item => ({
       profile_image: item.profile_image || '',
       name: item.name || '',
       rating: item.rating || 0,
       description: item.description || ''
-    }));
+    })) : [];
 
     return {
       props: {
