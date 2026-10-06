@@ -158,10 +158,9 @@ export const getStaticProps = async (context) => {
     const rawData = await res.json();
 
     if (!rawData || rawData.error || !Array.isArray(rawData)) {
-      return {
-        props: { category_name, data: null, categoryDetails: null, error: true },
-        revalidate: 300,  
-      };
+      // Throwing an error prevents Next.js from replacing the currently working cached page
+      // with a broken/empty page during background revalidation (ISR).
+      throw new Error('Invalid data returned from API');
     }
     
     let categoryDetails = null;
@@ -197,9 +196,7 @@ export const getStaticProps = async (context) => {
     };
   } catch (error) {
     console.error('Error fetching products by collection:', error);
-    return {
-      props: { category_name, data: null, categoryDetails: null, error: true },
-      revalidate: 300,  
-    };
+    // Throw error so ISR aborts and serves the last known good static page
+    throw error;
   }
 }; 

@@ -113,6 +113,8 @@ export async function getStaticProps({ params }) {
         };
     } catch (error) {
         console.error('Error fetching product details:', error.message);
-        return { notFound: true };
+        // Throw the error so Next.js aborts revalidation and serves the last cached version.
+        // Returning { notFound: true } would replace the working product page with a 404 page!
+        throw error;
     }
 }

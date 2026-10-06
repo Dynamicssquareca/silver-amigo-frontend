@@ -259,11 +259,9 @@ export const getStaticProps = async () => {
       revalidate: 60,
     };
   } catch (err) {
-    console.log(err);
-    return {
-      props: {
-        data: false,
-      },
-    };
+    console.error("Error in getStaticProps during revalidation:", err);
+    // Throwing the error tells Next.js ISR that revalidation failed.
+    // Next.js will abort the update and continue serving the last known *good* static page.
+    throw err;
   }
 };
