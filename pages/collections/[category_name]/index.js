@@ -128,43 +128,22 @@ const Index = ({ category_name, data, categoryDetails, error }) => {
 
 export default Index;
 
-export const getStaticPaths = async () => {
-  try {
-    const res = await fetch(AppURL.collections);
-    const categories = await res.json();
-
-    const paths = categories.map((cat) => ({
-      params: { category_name: cat.slug },
-    }));
-
-    return {
-      paths,
-      fallback: 'blocking',  
-    };
-  } catch (error) {
-    console.error('Error fetching collections for paths:', error);
-    return {
-      paths: [],
-      fallback: 'blocking',
-    };
-  }
-};
-
-export const getStaticProps = async (context) => {
+export const getServerSideProps = async (context) => {
   const { category_name } = context.params;
 
   try {
     const res = await fetch(AppURL.productbycollection(category_name));
     
-    // If the API returns a 404, we safely return notFound instead of crashing the JSON parser
+    // Safely handle 404s instead of crashing the JSON parser
     if (res.status === 404) {
       return { notFound: true };
     }
     
-    // If the API throws a 500 error or is returning an HTML error page, throw an error
-    // so that ISR preserves the cache and Vercel knows the API is failing.
+    // If the API throws a 500 error or is returning an HTML error page, return an error state
     if (!res.ok) {
-      throw new Error(`API returned status ${res.status}`);
+      return {
+        props: { category_name, data: null, categoryDetails: null, error: true }
+      };
     }
 
     const text = await res.text();
@@ -172,11 +151,15 @@ export const getStaticProps = async (context) => {
     try {
       rawData = JSON.parse(text);
     } catch (e) {
-      throw new Error(`Failed to parse JSON response. API returned HTML or invalid data: ${text.substring(0, 100)}...`);
+      return {
+        props: { category_name, data: null, categoryDetails: null, error: true }
+      };
     }
 
     if (!rawData || rawData.error || !Array.isArray(rawData)) {
-      throw new Error('Invalid data returned from API');
+      return {
+        props: { category_name, data: null, categoryDetails: null, error: true }
+      };
     }
     
     let categoryDetails = null;
@@ -189,7 +172,6 @@ export const getStaticProps = async (context) => {
     }
 
     // Filter out unneeded fields to prevent large-page-data warnings
-    // CRITICAL: We only pass the slug here, avoiding duplicating the huge category description for every single product
     const data = rawData.map(item => {
       const imagesList = item.first_variant?.images ? item.first_variant.images.split(',') : [];
       return {
@@ -207,12 +189,12 @@ export const getStaticProps = async (context) => {
     });
 
     return {
-      props: { category_name, data, categoryDetails, error: false },
-      revalidate: 300,  
+      props: { category_name, data, categoryDetails, error: false }
     };
   } catch (error) {
     console.error('Error fetching products by collection:', error);
-    // Throw error so ISR aborts and serves the last known good static page
-    throw error;
+    return {
+      props: { category_name, data: null, categoryDetails: null, error: true }
+    };
   }
 }; 
