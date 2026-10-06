@@ -155,11 +155,27 @@ export const getStaticProps = async (context) => {
 
   try {
     const res = await fetch(AppURL.productbycollection(category_name));
-    const rawData = await res.json();
+    
+    // If the API returns a 404, we safely return notFound instead of crashing the JSON parser
+    if (res.status === 404) {
+      return { notFound: true };
+    }
+    
+    // If the API throws a 500 error or is returning an HTML error page, throw an error
+    // so that ISR preserves the cache and Vercel knows the API is failing.
+    if (!res.ok) {
+      throw new Error(`API returned status ${res.status}`);
+    }
+
+    const text = await res.text();
+    let rawData;
+    try {
+      rawData = JSON.parse(text);
+    } catch (e) {
+      throw new Error(`Failed to parse JSON response. API returned HTML or invalid data: ${text.substring(0, 100)}...`);
+    }
 
     if (!rawData || rawData.error || !Array.isArray(rawData)) {
-      // Throwing an error prevents Next.js from replacing the currently working cached page
-      // with a broken/empty page during background revalidation (ISR).
       throw new Error('Invalid data returned from API');
     }
     
